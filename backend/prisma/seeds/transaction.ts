@@ -18,10 +18,13 @@ export const createTransaction = async () => {
 
     const amount = randBetween(1000, 49999);
 
+    const start = dayjs().startOf('year').format('YYYY-MM-DD');
+    const end = dayjs().endOf('month').format('YYYY-MM-DD');
+
     const formData: CreateTransactionFormData = {
       creatorId: 1,
       amount,
-      paymentDate: randomDate('2023-08-01', '2023-10-31'),
+      paymentDate: randomDate(start, end),
       title: `取引 #${randBetween(1, 100)}`,
       memo: `備考`,
       status: `未精算`,
