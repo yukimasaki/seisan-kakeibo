@@ -1,0 +1,70 @@
+version: "3"
+
+networks:
+  reverse-proxy-network:
+    external: true
+
+volumes:
+  seisan-kakeibo-frontend_node_modules:
+  seisan-kakeibo-backend-postgres-data:
+    driver: local
+
+services:
+  # frontend
+  frontend:
+    container_name: seisan-kakeibo-frontend
+    networks:
+      default:
+      reverse-proxy-network:
+        aliases:
+          - seisan-kakeibo-frontend-container
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend
+    ports:
+      - 3002:3000
+    volumes:
+      - ./frontend:/work
+      - seisan-kakeibo-frontend_node_modules:/work/node_modules
+    tty: true
+    restart: always
+
+  # backend
+  backend-postgres:
+    container_name: seisan-kakeibo-backend-postgres
+    networks:
+      default:
+      reverse-proxy-network:
+        aliases:
+          - seisan-kakeibo-backend-postgres-container
+    image: postgres:15.3-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - seisan-kakeibo-backend-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5434:5432
+    tty: true
+    restart: always
+
+  backend:
+    container_name: seisan-kakeibo-backend
+    networks:
+      default:
+      reverse-proxy-network:
+        aliases:
+          - seisan-kakeibo-backend-container
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backend
+    ports:
+      # for NestJS
+      - 3003:3000
+      # for Prisma Studio
+      - 5555:5555
+    volumes:
+      - ./backend:/work
+    tty: true
+    restart: always

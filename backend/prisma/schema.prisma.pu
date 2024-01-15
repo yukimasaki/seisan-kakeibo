@@ -1,0 +1,87 @@
+@startuml schema.prisma
+
+!define Table(name, desc) entity name as "desc" << (T,#FFAAAA) >>
+!define Field(name, type) name : type
+
+Table(User, "User") {
+  + Field(id, Int)
+  --
+  Field(email, String)
+  Field(displayName, String)
+  Field(membership, String)
+}
+
+Table(Group, "Group") {
+  + Field(id, Int)
+  --
+  Field(uid, String)
+  Field(displayName, String)
+}
+
+Table(Member, "Member") {
+  + Field(userId, Int)
+  + Field(groupId, Int)
+}
+
+Table(Category, "Category") {
+  + Field(id, Int)
+  --
+  Field(icon, String)
+  Field(category, String)
+}
+
+Table(Transaction, "Transaction") {
+  + Field(id, Int)
+  --
+  Field(createdAt, DateTime)
+  Field(editedAt, DateTime)
+  Field(amount, Int)
+  Field(paymentDate, DateTime)
+  Field(title, String)
+  Field(memo, String)
+  Field(status, String)
+  Field(categoryId, Int)
+  - Field(creatorId, Int)
+  - Field(editorId, Int)
+  - Field(groupId, Int)
+}
+
+Table(Payment, "Payment") {
+  + Field(id, Int)
+  --
+  Field(actualPaymentAmount, Int)
+  Field(defaultPaymentAmount, Int)
+  Field(difference, Int)
+  Field(method, String)
+  Field(ratio, Float)
+  - Field(payerId, Int)
+  - Field(transactionId, Int)
+}
+
+Table(Balance, "Balance") {
+  + Field(id, Int)
+  --
+  Field(amount, Int)
+  Field(status, String)
+  - Field(lenderId, Int)
+  - Field(borrowerId, Int)
+  - Field(transactionId, Int)
+}
+
+Table(Schedule, "Schedule") {
+  + Field(id, Int)
+  ---
+  Field(schedule, String)
+  Field(enabled, Boolean)
+  - Field(transactionId, Int)
+}
+
+User ||-u-o{ Member
+Group ||-u-o{ Member
+Group ||-u-o{ Category
+Group ||-d-o{ Transaction
+Transaction ||-r-o{ Payment
+Transaction ||-r-o{ Balance
+Transaction ||-d-o{ Schedule
+
+@enduml
