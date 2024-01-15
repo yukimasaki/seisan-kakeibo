@@ -11,7 +11,10 @@ export const HeaderComponent = async () => {
   const user = session?.user;
 
   return (
-    <Navbar className="shadow">
+    <Navbar
+      className="shadow"
+      maxWidth="full"
+    >
       <NavbarBrand>
         <NavbarItem>
           <p className="font-bold text-inherit">
