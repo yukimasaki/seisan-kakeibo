@@ -3,9 +3,9 @@
 import { fetcher } from "@common/fetcher";
 import { AddButtonComponent } from "@components/button/add";
 import { FilterButtonComponent } from "@components/button/filter";
-import { GroupsIcon } from "@components/icon/groups";
+import { Icon } from "@components/icon/icon";
 import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
-import { Input, Listbox, ListboxItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, getKeyValue } from "@nextui-org/react";
+import { Input, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
 import dayjs from "dayjs";
 import useSWR from "swr";
 
@@ -240,7 +240,7 @@ export const TransactionOverviewComponent = () => {
                           <div className="flex flex-col">
                             <div className="flex gap-2">
                               {/* 孫1-1 */}
-                              <GroupsIcon />
+                              <Icon name="Groups" className="text-green-500" />
                               <span className="text-xs">{transaction.category.category}</span>
                             </div>
                           </div>
