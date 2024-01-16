@@ -3,11 +3,17 @@
 import { fetcher } from "@common/fetcher";
 import { AddButtonComponent } from "@components/button/add";
 import { FilterButtonComponent } from "@components/button/filter";
-import { Input } from "@nextui-org/react";
+import { Input, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, getKeyValue } from "@nextui-org/react";
 import dayjs from "dayjs";
 import useSWR from "swr";
 
 export const TransactionOverviewComponent = () => {
+  type Category = {
+    id: number;
+    icon: string;
+    category: string;
+  };
+
   type Transaction = {
     id: number;
     creatorId: number;
@@ -19,7 +25,31 @@ export const TransactionOverviewComponent = () => {
     status: string;
     categoryId: number;
     groupId: number;
+    category: Category;
   };
+
+  const columns = [
+    {
+      key: "category",
+      label: "カテゴリー",
+    },
+    {
+      key: "title",
+      label: "タイトル",
+    },
+    {
+      key: "amount",
+      label: "金額",
+    },
+    {
+      key: "paymentDate",
+      label: "支払日",
+    },
+    {
+      key: "status",
+      label: "ステータス",
+    },
+  ];
 
   const dayLabels = [
     {
@@ -63,6 +93,8 @@ export const TransactionOverviewComponent = () => {
   } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`, fetcher, {
     keepPreviousData: true,
   });
+
+  const loadingState = isLoading || transactions.length === 0 ? "loading" : "idle";
 
   // 現在時刻をストアに格納
   const currentYearMonth = dayjs();
@@ -192,7 +224,32 @@ export const TransactionOverviewComponent = () => {
           {/* カレンダー 終了 */}
 
           {/* 一覧 開始 */}
-          <div>test</div>
+          <Table
+            aria-label="Example table with dynamic content"
+            color={"default"}
+            selectionMode="single"
+            hideHeader
+            classNames={{
+              wrapper: "overflow-y-auto",
+            }}
+          >
+            <TableHeader columns={columns}>
+              {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+            </TableHeader>
+            <TableBody
+              items={transactions ?? []}
+              loadingState={loadingState}
+              loadingContent={<Spinner />}
+            >
+              {(item) => (
+                <TableRow key={item.id}>
+                  {(columnKey) => <TableCell >{
+                    columnKey === "category" ? getKeyValue(item.category, columnKey) : getKeyValue(item, columnKey)
+                  }</TableCell>}
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
           {/* 一覧 終了 */}
         </div>
       </div>
