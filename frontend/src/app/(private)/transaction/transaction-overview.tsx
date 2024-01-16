@@ -6,8 +6,9 @@ import { FilterButtonComponent } from "@components/button/filter";
 import { Icon } from "@components/icon/icon";
 import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
 import { Input, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
-import dayjs from "dayjs";
 import useSWR from "swr";
+import dayjs from "dayjs";
+import "dayjs/locale/ja";
 
 export const TransactionOverviewComponent = () => {
   type Category = {
@@ -29,29 +30,6 @@ export const TransactionOverviewComponent = () => {
     groupId: number;
     category: Category;
   };
-
-  const columns = [
-    {
-      key: "category",
-      label: "カテゴリー",
-    },
-    {
-      key: "title",
-      label: "タイトル",
-    },
-    {
-      key: "amount",
-      label: "金額",
-    },
-    {
-      key: "paymentDate",
-      label: "支払日",
-    },
-    {
-      key: "status",
-      label: "ステータス",
-    },
-  ];
 
   const dayLabels = [
     {
@@ -238,16 +216,25 @@ export const TransactionOverviewComponent = () => {
                         <div className="flex flex-row justify-between">
                           {/* 子1 */}
                           <div className="flex flex-col">
+                            {/* 孫1-1 */}
                             <div className="flex gap-2">
-                              {/* 孫1-1 */}
                               <Icon name="Groups" className="text-green-500" />
-                              <span className="text-xs">{transaction.category.category}</span>
+                              <span className="text-xs self-center">{transaction.category.category}</span>
+                            </div>
+                            {/* 孫1-2 */}
+                            <div className="flex gap-2">
+                              <span className="text-xs self-center">{dayjs(transaction.paymentDate).locale("ja").format("M/DD (dd)")}</span>
+                              <span className="text-xs self-center">{transaction.title}</span>
                             </div>
                           </div>
 
                           {/* 子2 */}
                           <div className="flex flex-col">
-                            child-2
+                            {/* 孫2-1 */}
+                            <div className="flex gap-2 space-x-0.5">
+                              <span className="text-xs self-center">{transaction.amount}</span>
+                              <span className="text-xs self-center">円</span>
+                            </div>
                           </div>
                         </div>
                       </ListboxItem>
