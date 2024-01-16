@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterIcon } from "@components/icon/filter";
+import { Icon } from "@components/icon/icon";
 import { Button } from "@nextui-org/react";
 
 export const FilterButtonComponent = () => {
@@ -11,7 +11,7 @@ export const FilterButtonComponent = () => {
         radius={"md"}
         isIconOnly
       >
-        <FilterIcon />
+        <Icon name="Filter" className="text-white" />
       </Button>
     </>
   );

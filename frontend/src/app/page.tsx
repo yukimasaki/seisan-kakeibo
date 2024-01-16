@@ -1,7 +1,7 @@
 "use server";
 
 import { HeaderComponent } from "@components/header";
-import { GroupsIcon } from "@components/icon/groups";
+import { Icon } from "@components/icon/icon";
 import { PageListComponent } from "@components/page-list";
 
 const HomePage = async () => {
@@ -11,27 +11,42 @@ const HomePage = async () => {
     {
       name: "Home",
       path: "/",
-      icon: GroupsIcon({ className: iconClasses }),
+      icon: Icon({
+        name: "Groups",
+        className: iconClasses,
+      }),
     },
     {
       name: "Profile",
       path: "/profile",
-      icon: GroupsIcon({ className: iconClasses }),
+      icon: Icon({
+        name: "Groups",
+        className: iconClasses,
+      }),
     },
     {
       name: "License",
       path: "/license",
-      icon: GroupsIcon({ className: iconClasses }),
+      icon: Icon({
+        name: "Groups",
+        className: iconClasses,
+      }),
     },
     {
       name: "Test 1",
       path: "/test1",
-      icon: GroupsIcon({ className: iconClasses }),
+      icon: Icon({
+        name: "Groups",
+        className: iconClasses,
+      }),
     },
     {
       name: "Transaction",
       path: "/transaction",
-      icon: GroupsIcon({ className: iconClasses }),
+      icon: Icon({
+        name: "Groups",
+        className: iconClasses,
+      }),
     },
   ];
 

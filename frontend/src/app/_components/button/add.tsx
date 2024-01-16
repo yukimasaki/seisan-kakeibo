@@ -1,6 +1,6 @@
 "use client";
 
-import { PlusIcon } from "@components/icon/plus";
+import { Icon } from "@components/icon/icon";
 import { Button } from "@nextui-org/react";
 
 export const AddButtonComponent = () => {
@@ -11,7 +11,7 @@ export const AddButtonComponent = () => {
         radius={"md"}
         isIconOnly
       >
-        <PlusIcon />
+        <Icon name="Add" className="text-white" />
       </Button>
     </>
   );
