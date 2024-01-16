@@ -9,6 +9,9 @@ import { Input, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
 import useSWR from "swr";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
+import { Key } from "react";
+import { useRouter } from "next/navigation";
+
 
 export const TransactionOverviewComponent = () => {
   type Category = {
@@ -30,6 +33,8 @@ export const TransactionOverviewComponent = () => {
     groupId: number;
     category: Category;
   };
+
+  const router = useRouter();
 
   const dayLabels = [
     {
@@ -151,6 +156,14 @@ export const TransactionOverviewComponent = () => {
     ...currentMonth,
   ];
 
+  const onListBoxItemClick = (
+    key: Key,
+  ) => {
+    // todo: transactionをグローバルStateに格納したい
+    const transaction = transactions.filter((transaction) => transaction.id === Number(key));
+    router.push("/transaction/detail");
+  }
+
   return (
     <>
       <div className="flex flex-col h-svh">
@@ -208,7 +221,10 @@ export const TransactionOverviewComponent = () => {
             {loadingState === "loading" && <Spinner />}
             {transactions &&
               <ListboxWrapperComponent>
-                <Listbox aria-label={"Transactions list"}>
+                <Listbox
+                  aria-label={"Transactions list"}
+                  onAction={(key) => { onListBoxItemClick(key) }}
+                >
                   {transactions.map((transaction) => {
                     return (
                       <ListboxItem key={transaction.id} textValue="Items">
