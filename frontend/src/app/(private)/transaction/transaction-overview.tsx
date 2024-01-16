@@ -3,7 +3,9 @@
 import { fetcher } from "@common/fetcher";
 import { AddButtonComponent } from "@components/button/add";
 import { FilterButtonComponent } from "@components/button/filter";
-import { Input, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, getKeyValue } from "@nextui-org/react";
+import { GroupsIcon } from "@components/icon/groups";
+import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
+import { Input, Listbox, ListboxItem, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, getKeyValue } from "@nextui-org/react";
 import dayjs from "dayjs";
 import useSWR from "swr";
 
@@ -224,33 +226,38 @@ export const TransactionOverviewComponent = () => {
           {/* カレンダー 終了 */}
 
           {/* 一覧 開始 */}
-          <Table
-            aria-label="Example table with dynamic content"
-            color={"default"}
-            selectionMode="single"
-            hideHeader
-            classNames={{
-              wrapper: "overflow-y-auto",
-            }}
-          >
-            <TableHeader columns={columns}>
-              {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-            </TableHeader>
-            <TableBody
-              items={transactions ?? []}
-              loadingState={loadingState}
-              loadingContent={<Spinner />}
-            >
-              {(item) => (
-                <TableRow key={item.id}>
-                  {(columnKey) => <TableCell >{
-                    columnKey === "category" ? getKeyValue(item.category, columnKey) : getKeyValue(item, columnKey)
-                  }</TableCell>}
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-          {/* 一覧 終了 */}
+          <div>
+            {loadingState === "loading" && <Spinner />}
+            {transactions &&
+              <ListboxWrapperComponent>
+                <Listbox aria-label={"Transactions list"}>
+                  {transactions.map((transaction) => {
+                    return (
+                      <ListboxItem key={transaction.id} textValue="Items">
+                        {/* 親 */}
+                        <div className="flex flex-row justify-between">
+                          {/* 子1 */}
+                          <div className="flex flex-col">
+                            <div className="flex gap-2">
+                              {/* 孫1-1 */}
+                              <GroupsIcon />
+                              <span className="text-xs">{transaction.category.category}</span>
+                            </div>
+                          </div>
+
+                          {/* 子2 */}
+                          <div className="flex flex-col">
+                            child-2
+                          </div>
+                        </div>
+                      </ListboxItem>
+                    );
+                  })}
+                </Listbox>
+              </ListboxWrapperComponent>
+            }
+            {/* 一覧 終了 */}
+          </div>
         </div>
       </div>
     </>
