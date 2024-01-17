@@ -1,11 +1,13 @@
 import Add from './svg/add.svg';
 import Filter from './svg/filter.svg';
 import Groups from './svg/groups.svg';
+import Back from './svg/back.svg';
 
 const icons = {
   Add,
   Filter,
   Groups,
+  Back,
 };
 
 type Name = keyof typeof icons;
