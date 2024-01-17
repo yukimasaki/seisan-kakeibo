@@ -2,7 +2,7 @@
 
 import { fetcher } from "@common/fetcher";
 import { Icon } from "@components/icon/icon";
-import { Card, CardHeader, CardBody, CardFooter, Button, Table, TableHeader, TableColumn, TableBody, Spinner, TableRow, TableCell, getKeyValue } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Button, Table, TableHeader, TableColumn, TableBody, Spinner, TableRow, TableCell } from "@nextui-org/react";
 import { Transaction } from "@type/transaction";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
