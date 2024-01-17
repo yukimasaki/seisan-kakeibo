@@ -117,6 +117,8 @@ export class TransactionService {
     return await this.prisma.transaction.findUnique({
       include: {
         category: true,
+        payments: true,
+        balances: true,
       },
       where: {
         id,
