@@ -139,9 +139,7 @@ export const TransactionOverviewComponent = () => {
   const onListBoxItemClick = (
     key: Key,
   ) => {
-    // todo: transactionをグローバルStateに格納したい
-    const transaction = transactions.find((transaction) => transaction.id === Number(key));
-    router.push("/transaction/detail");
+    router.push(`/transaction/${key}`);
   }
 
   return (
