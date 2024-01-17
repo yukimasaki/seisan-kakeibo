@@ -11,29 +11,10 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { Key } from "react";
 import { useRouter } from "next/navigation";
+import { Transaction } from "@type/transaction";
 
 
 export const TransactionOverviewComponent = () => {
-  type Category = {
-    id: number;
-    icon: string;
-    category: string;
-  };
-
-  type Transaction = {
-    id: number;
-    creatorId: number;
-    editorId: number;
-    amount: number;
-    paymentDate: Date;
-    title: string;
-    memo: string;
-    status: string;
-    categoryId: number;
-    groupId: number;
-    category: Category;
-  };
-
   const router = useRouter();
 
   const dayLabels = [
