@@ -13,7 +13,6 @@ import { Key } from "react";
 import { useRouter } from "next/navigation";
 import { Transaction } from "@type/transaction";
 
-
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
 
@@ -141,7 +140,7 @@ export const TransactionOverviewComponent = () => {
     key: Key,
   ) => {
     // todo: transactionをグローバルStateに格納したい
-    const transaction = transactions.filter((transaction) => transaction.id === Number(key));
+    const transaction = transactions.find((transaction) => transaction.id === Number(key));
     router.push("/transaction/detail");
   }
 
