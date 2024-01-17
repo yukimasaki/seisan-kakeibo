@@ -32,6 +32,9 @@
       "@type/*": [
         "./src/app/_types/*"
       ],
+      "@store/*": [
+        "./src/app/_store/*"
+      ],
     }
   },
   "include": [
