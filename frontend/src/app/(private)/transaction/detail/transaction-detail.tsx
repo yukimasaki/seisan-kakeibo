@@ -1,8 +1,8 @@
-const TransactionDetailComponent = () => {
+"use client";
+
+export const TransactionDetailComponent = () => {
   return (
     <>
     </>
   );
 };
-
-export default TransactionDetailComponent;

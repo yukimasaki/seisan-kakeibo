@@ -1,7 +1,7 @@
 "use server";
 
 import { HeaderComponent } from "@components/header";
-import TransactionDetailComponent from "./transaction-detail";
+import { TransactionDetailComponent } from "./transaction-detail";
 
 const TransactionDetailPage = () => {
   return (
