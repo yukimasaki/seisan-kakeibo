@@ -115,7 +115,12 @@ export class TransactionService {
 
   async findOne(id: number) {
     return await this.prisma.transaction.findUnique({
-      where: { id }
+      include: {
+        category: true,
+      },
+      where: {
+        id,
+      },
     });
   }
 
