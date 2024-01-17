@@ -1,4 +1,6 @@
+import { Balance } from "@type/balance";
 import { Category } from "@type/category";
+import { Payment } from "@type/payment";
 
 export type Transaction = {
   id: number;
@@ -12,4 +14,6 @@ export type Transaction = {
   categoryId: number;
   groupId: number;
   category: Category;
+  payments: Payment[],
+  balances: Balance[],
 };
