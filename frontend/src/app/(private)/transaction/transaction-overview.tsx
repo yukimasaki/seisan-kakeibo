@@ -72,6 +72,8 @@ export const TransactionOverviewComponent = () => {
     setFullTransactions(transactions);
   }, [onMonthChanged, isDateClicked]);
 
+  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
+
   const loadingState = isLoading ? "loading" : "idle";
 
   const currentYearMonth = dayjs();
@@ -160,6 +162,7 @@ export const TransactionOverviewComponent = () => {
     date: string,
   ) => {
     setIsDateClicked(true);
+    setSelectedDate(date);
     setStart(date);
     setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
   }
@@ -200,7 +203,7 @@ export const TransactionOverviewComponent = () => {
               {summaries.map((summary) => {
                 return (
                   <div
-                    className="flex flex-col h-12 mx-auto justify-center"
+                    className={`flex flex-col h-12 mx-auto justify-center min-w-full rounded-md ${selectedDate === summary.date ? "bg-blue-200" : ""}`}
                     key={summary.id}
                     onClick={() => onDateClick(summary.date)}
                   >
