@@ -18,7 +18,7 @@ export const HeaderComponent = async () => {
       <NavbarBrand>
         <NavbarItem>
           <p className="font-bold text-inherit">
-            <Link href="/">Next Keycloak</Link>
+            <Link href="/">Seisan家計簿</Link>
           </p>
         </NavbarItem>
       </NavbarBrand>
