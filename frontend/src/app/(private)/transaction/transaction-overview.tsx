@@ -9,7 +9,7 @@ import { Input, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
 import useSWR from "swr";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
-import { Key, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Transaction } from "@type/transaction";
 
@@ -62,6 +62,15 @@ export const TransactionOverviewComponent = () => {
   } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${start}&end=${end}`, fetcher, {
     keepPreviousData: true,
   });
+
+  const [fullTransactions, setFullTransactions] = useState(transactions);
+
+  const onMonthChanged = false;
+  const [isDateClicked, setIsDateClicked] = useState(false);
+
+  useEffect(() => {
+    setFullTransactions(transactions);
+  }, [onMonthChanged, isDateClicked]);
 
   const loadingState = isLoading ? "loading" : "idle";
 
@@ -122,7 +131,7 @@ export const TransactionOverviewComponent = () => {
   });
 
   // 当月のデータを生成
-  const amountsPerDay = reduceAmounts(transactions);
+  const amountsPerDay = reduceAmounts(fullTransactions || transactions);
   const currentMonth = Array.from({ length: endDate }, (_, index) => {
     const incrementalNumber = index + 1;
     const date = dayjs(startDate).add(index, 'day').format('YYYY-MM-DD');
@@ -150,6 +159,7 @@ export const TransactionOverviewComponent = () => {
   const onDateClick = (
     date: string,
   ) => {
+    setIsDateClicked(true);
     setStart(date);
     setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
   }
