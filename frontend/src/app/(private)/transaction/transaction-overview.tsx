@@ -65,12 +65,12 @@ export const TransactionOverviewComponent = () => {
 
   const [fullTransactions, setFullTransactions] = useState(transactions);
 
-  const onMonthChanged = false;
-  const [isDateClicked, setIsDateClicked] = useState(false);
+  const [isMonthChanged, setIsMonthChanged] = useState(false);
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
 
   useEffect(() => {
-    setFullTransactions(transactions);
-  }, [onMonthChanged, isDateClicked]);
+    if (isFirstLoading || isMonthChanged) setFullTransactions(transactions);
+  }, [transactions]);
 
   const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
 
@@ -161,7 +161,7 @@ export const TransactionOverviewComponent = () => {
   const onDateClick = (
     date: string,
   ) => {
-    setIsDateClicked(true);
+    setIsFirstLoading(false);
     setSelectedDate(date);
     setStart(date);
     setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
