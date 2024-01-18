@@ -9,9 +9,10 @@ import { Input, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
 import useSWR from "swr";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
-import { Key } from "react";
+import { Key, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Transaction } from "@type/transaction";
+
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
@@ -47,6 +48,9 @@ export const TransactionOverviewComponent = () => {
     },
   ];
 
+  const [start, setStart] = useState(dayjs().startOf("month").format("YYYY-MM-DD"));
+  const [end, setEnd] = useState(dayjs().endOf("month").format("YYYY-MM-DD"));
+
   const {
     data: transactions,
     error,
@@ -55,13 +59,12 @@ export const TransactionOverviewComponent = () => {
     data: Transaction[],
     error: any,
     isLoading: boolean,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`, fetcher, {
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${start}&end=${end}`, fetcher, {
     keepPreviousData: true,
   });
 
-  const loadingState = isLoading || transactions.length === 0 ? "loading" : "idle";
+  const loadingState = isLoading || transactions?.length === 0 ? "loading" : "idle";
 
-  // 現在時刻をストアに格納
   const currentYearMonth = dayjs();
 
   // 月初の日付
@@ -90,7 +93,8 @@ export const TransactionOverviewComponent = () => {
 
     const summaryMap: Map<string, number> = new Map();
     transactions.forEach(transaction => {
-      const paymentDateStr = dayjs(transaction.paymentDate).format('YYYY/MM/DD');
+      const paymentDateStr = dayjs(transaction.paymentDate).format('YYYY-MM-DD');
+
       const amount = transaction.amount;
 
       if (summaryMap.has(paymentDateStr)) {
@@ -121,7 +125,8 @@ export const TransactionOverviewComponent = () => {
   const amountsPerDay = reduceAmounts(transactions);
   const currentMonth = Array.from({ length: endDate }, (_, index) => {
     const incrementalNumber = index + 1;
-    const date = dayjs(startDate).add(index, 'day').format('YYYY/MM/DD');
+    const date = dayjs(startDate).add(index, 'day').format('YYYY-MM-DD');
+
     return {
       id: blank.length + incrementalNumber,
       label: incrementalNumber.toString(),
@@ -140,6 +145,13 @@ export const TransactionOverviewComponent = () => {
     key: Key,
   ) => {
     router.push(`/transaction/${key}`);
+  }
+
+  const onDateClick = (
+    date: string,
+  ) => {
+    setStart(date);
+    setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
   }
 
   return (
@@ -180,6 +192,7 @@ export const TransactionOverviewComponent = () => {
                   <div
                     className="flex flex-col h-12 mx-auto justify-center"
                     key={summary.id}
+                    onClick={() => onDateClick(summary.date)}
                   >
                     <div className={`top h-5 w-full text-sm text-center ${isToday(summary.date) ? "text-red-400" : ""}`}>
                       {summary.label}
