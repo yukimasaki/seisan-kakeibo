@@ -63,7 +63,7 @@ export const TransactionOverviewComponent = () => {
     keepPreviousData: true,
   });
 
-  const loadingState = isLoading || transactions?.length === 0 ? "loading" : "idle";
+  const loadingState = isLoading ? "loading" : "idle";
 
   const currentYearMonth = dayjs();
 
