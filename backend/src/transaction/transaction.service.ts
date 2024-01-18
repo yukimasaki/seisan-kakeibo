@@ -5,6 +5,7 @@ import { PrismaService } from '@@nest/common/prisma/prisma.service';
 import { CreatePaymentDto } from '@@nest/payment/dto/create-payment.dto';
 import { CreateBalanceDto } from '@@nest/balance/dto/create-balance.dto';
 import { TransactionResponse } from './entities/transaction.entity';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class TransactionService {
@@ -100,17 +101,23 @@ export class TransactionService {
     start: string,
     end: string,
   ) {
-    return await this.prisma.transaction.findMany({
+    const jst = -9;
+    const queryStart = dayjs(start).add(jst, "hour").toDate();
+    const queryEnd = dayjs(end).add(jst, "hour").toDate();
+
+    const transactions = await this.prisma.transaction.findMany({
       include: {
         category: true,
       },
       where: {
         paymentDate: {
-          gte: new Date(start),
-          lt: new Date(end),
+          gte: queryStart,
+          lt: queryEnd,
         },
       },
     });
+
+    return transactions;
   }
 
   async findOne(id: number) {
