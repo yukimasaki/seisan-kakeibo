@@ -203,7 +203,7 @@ export const TransactionOverviewComponent = () => {
               {summaries.map((summary) => {
                 return (
                   <div
-                    className={`flex flex-col h-12 mx-auto justify-center min-w-full rounded-md ${selectedDate === summary.date ? "bg-blue-200" : ""}`}
+                    className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${selectedDate === summary.date ? "bg-blue-100 shadow-sm" : ""}`}
                     key={summary.id}
                     onClick={() => onDateClick(summary.date)}
                   >
