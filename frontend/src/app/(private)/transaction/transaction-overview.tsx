@@ -70,7 +70,7 @@ export const TransactionOverviewComponent = () => {
 
   useEffect(() => {
     if (isFirstLoading || isMonthChanged) setFullTransactions(transactions);
-  }, [transactions]);
+  }, [isFirstLoading, isMonthChanged, transactions]);
 
   const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
 
