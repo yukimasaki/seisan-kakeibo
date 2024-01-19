@@ -10,6 +10,7 @@
     "deploy": "next build && pm2 startOrRestart ecosystem.config.cjs"
   },
   "dependencies": {
+    "@mui/x-date-pickers": "^6.19.0",
     "@nextui-org/react": "^2.2.9",
     "@svgr/webpack": "^8.1.0",
     "dayjs": "^1.11.10",
