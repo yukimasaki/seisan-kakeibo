@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { NextAuthProvider } from '@common/next-auth/provider'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,11 @@ export default function RootLayout({
   return (
     <NextAuthProvider>
       <html lang="ja">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <AppRouterCacheProvider>
+            {children}
+          </AppRouterCacheProvider>
+        </body>
       </html>
     </NextAuthProvider>
   )
