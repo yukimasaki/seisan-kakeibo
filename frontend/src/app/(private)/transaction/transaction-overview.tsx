@@ -5,14 +5,13 @@ import { AddButtonComponent } from "@components/button/add";
 import { FilterButtonComponent } from "@components/button/filter";
 import { Icon } from "@components/icon/icon";
 import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
-import { Input, Listbox, ListboxItem, Spinner } from "@nextui-org/react";
+import { Button, Input, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner, useDisclosure } from "@nextui-org/react";
 import useSWR from "swr";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { Key, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Transaction } from "@type/transaction";
-
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
@@ -48,8 +47,16 @@ export const TransactionOverviewComponent = () => {
     },
   ];
 
-  const [start, setStart] = useState(dayjs().startOf("month").format("YYYY-MM-DD"));
-  const [end, setEnd] = useState(dayjs().endOf("month").format("YYYY-MM-DD"));
+  const [currentYearMonth, setCurrentYearMonth] = useState(dayjs());
+  useEffect(() => {
+    setStart(currentYearMonth.startOf("month").format("YYYY-MM-DD"));
+    setEnd(currentYearMonth.endOf("month").format("YYYY-MM-DD"));
+    setSelectedYear(parseInt(currentYearMonth.format("YYYY")));
+    setSelectedMonth(parseInt(currentYearMonth.format("M")));
+  }, [currentYearMonth]);
+
+  const [start, setStart] = useState(currentYearMonth.startOf("month").format("YYYY-MM-DD"));
+  const [end, setEnd] = useState(currentYearMonth.endOf("month").format("YYYY-MM-DD"));
 
   const {
     data: transactions,
@@ -76,7 +83,6 @@ export const TransactionOverviewComponent = () => {
 
   const loadingState = isLoading ? "loading" : "idle";
 
-  const currentYearMonth = dayjs();
 
   // 月初の日付
   const startDate = currentYearMonth.startOf('month');
@@ -167,21 +173,93 @@ export const TransactionOverviewComponent = () => {
     setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
   }
 
+  const { isOpen: isYearMonthModalOpen, onOpen: onYearMonthModalOpen, onOpenChange } = useDisclosure();
+
+  const [selectedYear, setSelectedYear] = useState(parseInt(currentYearMonth.format("YYYY")));
+  const [selectedMonth, setSelectedMonth] = useState(parseInt(currentYearMonth.format("M")));
+  const monthsOfYear = Array.from({ length: 12 }, (_, idx) => ({
+    id: idx + 1,
+    value: idx + 1,
+  }));
+
+  useEffect(() => {
+    if (!isYearMonthModalOpen) setCurrentYearMonth(dayjs(`${selectedYear}-${selectedMonth}-01`));
+  }, [selectedYear, selectedMonth]);
+
   return (
     <>
       <div className="flex flex-col h-svh">
         <div className="flex-1 p-2 space-y-2">
           <div className="flex justify-between gap-2">
-            {/* todo: あとで年月ピッカーに置き換える */}
+            {/* 年月ピッカー ここから */}
             <Input
-              placeholder={"検索"}
+              placeholder={currentYearMonth.format("YYYY年M月")}
               type={"text"}
               size={"sm"}
               classNames={{
                 inputWrapper: "h-10"
               }}
+              onClick={onYearMonthModalOpen}
               isClearable
+              readOnly
             />
+            <Modal
+              isOpen={isYearMonthModalOpen}
+              onOpenChange={onOpenChange}
+              hideCloseButton
+              placement="center"
+              backdrop="blur"
+            >
+              <ModalContent>
+                {(onClose) => (
+                  <>
+                    <ModalHeader></ModalHeader>
+                    <ModalBody >
+                      <div className="flex flex-col space-y-4">
+                        <div className="flex flex-row justify-center items-center">
+                          <Button isIconOnly variant="light" onPress={() => setSelectedYear((prev) => prev - 1)}>
+                            <Icon name={"Back"} size={24} />
+                          </Button>
+                          <div className="px-4 text-lg">{selectedYear}年</div>
+                          <Button isIconOnly variant="light" onPress={() => setSelectedYear((prev) => prev + 1)}>
+                            <Icon name={"Forward"} size={24} />
+                          </Button>
+                        </div>
+
+                        <div className="grid grid-cols-4 gap-2">
+                          {monthsOfYear.map(month => (
+                            <Button
+                              key={month.id}
+                              value={month.value}
+                              onClick={() => {
+                                setSelectedMonth(month.value);
+                                onClose();
+                              }}
+                              variant="flat"
+                              color={month.value === selectedMonth ? "primary" : "default"}
+                            >
+                              {month.value}月
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button color={"danger"} variant="light" onPress={onClose}>閉じる</Button>
+                    </ModalFooter>
+                  </>
+                )}
+              </ModalContent>
+            </Modal>
+            <div className="flex flex-row gap-1">
+              <Button isIconOnly variant="flat" onPress={() => setCurrentYearMonth(currentYearMonth.subtract(1, "month"))}>
+                <Icon name={"Back"} size={24} />
+              </Button>
+              <Button isIconOnly variant="flat" onPress={() => setCurrentYearMonth(currentYearMonth.add(1, "month"))}>
+                <Icon name={"Forward"} size={24} />
+              </Button>
+            </div>
+            {/* 年月ピッカー ここまで */}
             <FilterButtonComponent />
             <AddButtonComponent />
           </div>
