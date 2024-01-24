@@ -4,9 +4,9 @@ import { Icon } from "@components/icon/icon";
 import { Button } from "@nextui-org/react";
 
 export const AddButtonComponent = ({
-  onClickFn,
+  onClick,
 }: {
-  onClickFn: () => void,
+  onClick: () => void,
 }) => {
   return (
     <>
@@ -14,7 +14,7 @@ export const AddButtonComponent = ({
         color={"primary"}
         radius={"md"}
         isIconOnly
-        onClick={onClickFn}
+        onClick={onClick}
       >
         <Icon name="Add" className="text-white" />
       </Button>
