@@ -14,9 +14,32 @@ import { useRouter } from "next/navigation";
 import { Transaction } from "@type/transaction";
 import useModalForm from "@hooks/useModalForm";
 import { CreateTransactionForm } from "./create-form";
+import { CalendarComponent } from "@components/calendar";
+import { useCalendar } from "@hooks/useCalendar";
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
+
+  const calendarStore = useCalendar();
+  const form = useModalForm();
+
+  const {
+    data: transactions,
+    error,
+    isLoading,
+  }: {
+    data: Transaction[],
+    error: any,
+    isLoading: boolean,
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}`, fetcher, {
+    keepPreviousData: true,
+  });
+
+  const [currentYearMonth, setCurrentYearMonth] = useState(dayjs());
+  const [fullTransactions, setFullTransactions] = useState(transactions);
+  const [isMonthChanged] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(parseInt(currentYearMonth.format("YYYY")));
+  const [selectedMonth, setSelectedMonth] = useState(parseInt(currentYearMonth.format("M")));
 
   const dayLabels = [
     {
@@ -49,42 +72,22 @@ export const TransactionOverviewComponent = () => {
     },
   ];
 
-  const [currentYearMonth, setCurrentYearMonth] = useState(dayjs());
   useEffect(() => {
-    setStart(currentYearMonth.startOf("month").format("YYYY-MM-DD"));
-    setEnd(currentYearMonth.endOf("month").format("YYYY-MM-DD"));
+    calendarStore.setStart(currentYearMonth.startOf("month").format("YYYY-MM-DD"));
+    calendarStore.setEnd(currentYearMonth.endOf("month").format("YYYY-MM-DD"));
     setSelectedYear(parseInt(currentYearMonth.format("YYYY")));
     setSelectedMonth(parseInt(currentYearMonth.format("M")));
   }, [currentYearMonth]);
 
-  const [start, setStart] = useState(currentYearMonth.startOf("month").format("YYYY-MM-DD"));
-  const [end, setEnd] = useState(currentYearMonth.endOf("month").format("YYYY-MM-DD"));
-
-  const {
-    data: transactions,
-    error,
-    isLoading,
-  }: {
-    data: Transaction[],
-    error: any,
-    isLoading: boolean,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${start}&end=${end}`, fetcher, {
-    keepPreviousData: true,
-  });
-
-  const [fullTransactions, setFullTransactions] = useState(transactions);
-
-  const [isMonthChanged, setIsMonthChanged] = useState(false);
-  const [isFirstLoading, setIsFirstLoading] = useState(true);
+  useEffect(() => {
+    if (calendarStore.isInit || isMonthChanged) setFullTransactions(transactions);
+  }, [calendarStore.isInit, isMonthChanged, transactions]);
 
   useEffect(() => {
-    if (isFirstLoading || isMonthChanged) setFullTransactions(transactions);
-  }, [isFirstLoading, isMonthChanged, transactions]);
-
-  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
+    if (!isYearMonthModalOpen) setCurrentYearMonth(dayjs(`${selectedYear}-${selectedMonth}-01`));
+  }, [selectedYear, selectedMonth]);
 
   const loadingState = isLoading ? "loading" : "idle";
-
 
   // 月初の日付
   const startDate = currentYearMonth.startOf('month');
@@ -92,17 +95,6 @@ export const TransactionOverviewComponent = () => {
   const endDate = currentYearMonth.endOf('month').get('date');
   // 月初の曜日
   const startWeekday = currentYearMonth.startOf('month').get('day');
-
-  // 渡された文字列が今日の日付か判定する関数
-  const isToday = (
-    date: string,
-  ) => {
-    const todayString = new Date().toDateString();
-    const dateString = new Date(date).toDateString();
-
-    if (todayString === dateString) return true;
-    return false;
-  };
 
   // 日ごとの金額を小計する関数
   const reduceAmounts = (
@@ -166,29 +158,12 @@ export const TransactionOverviewComponent = () => {
     router.push(`/transaction/${key}`);
   }
 
-  const onDateClick = (
-    date: string,
-  ) => {
-    setIsFirstLoading(false);
-    setSelectedDate(date);
-    setStart(date);
-    setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
-  }
-
   const { isOpen: isYearMonthModalOpen, onOpen: onYearMonthModalOpen, onOpenChange } = useDisclosure();
 
-  const [selectedYear, setSelectedYear] = useState(parseInt(currentYearMonth.format("YYYY")));
-  const [selectedMonth, setSelectedMonth] = useState(parseInt(currentYearMonth.format("M")));
   const monthsOfYear = Array.from({ length: 12 }, (_, idx) => ({
     id: idx + 1,
     value: idx + 1,
   }));
-
-  useEffect(() => {
-    if (!isYearMonthModalOpen) setCurrentYearMonth(dayjs(`${selectedYear}-${selectedMonth}-01`));
-  }, [selectedYear, selectedMonth]);
-
-  const form = useModalForm();
 
   return (
     <>
@@ -270,37 +245,10 @@ export const TransactionOverviewComponent = () => {
           <CreateTransactionForm />
 
           {/* カレンダー 開始 */}
-          <div className="rounded-md shadow lg:w-1/3">
-            <div className="grid grid-cols-7 gap-2 py-1 bg-gray-400 rounded-t-md">
-              {dayLabels.map((dayLabel) => {
-                return (
-                  <span
-                    key={dayLabel.key}
-                    className="self-center justify-self-center border-gray-300 text-gray-50 text-xs pt-0.5 px-2"              >
-                    {dayLabel.label}
-                  </span>
-                );
-              })}
-            </div>
-            <div className="grid grid-cols-7 gap-2">
-              {summaries.map((summary) => {
-                return (
-                  <div
-                    className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${selectedDate === summary.date ? "bg-blue-100 shadow-sm" : ""}`}
-                    key={summary.id}
-                    onClick={() => onDateClick(summary.date)}
-                  >
-                    <div className={`top h-5 w-full text-sm text-center ${isToday(summary.date) ? "text-red-400" : ""}`}>
-                      {summary.label}
-                    </div>
-                    <div className="bottom flex-grow h-7 py-1 w-full cursor-pointer text-center">
-                      <div className="text-xs text-gray-500">{summary.amount > 0 ? summary.amount.toLocaleString() : ""}</div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <CalendarComponent
+            dayLabels={dayLabels}
+            summaries={summaries}
+          />
           {/* カレンダー 終了 */}
 
           {/* 一覧 開始 */}
