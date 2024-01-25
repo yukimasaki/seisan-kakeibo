@@ -1,7 +1,7 @@
 "use client";
 
 import { useCalendar } from "@hooks/useCalendar";
-import { DayLabel, Summary } from "@type/calendar";
+import { DatePicker, DayLabel, Overview, Summary } from "@type/calendar";
 import dayjs from "dayjs";
 import { useState } from "react";
 
@@ -92,9 +92,11 @@ export const CalendarComponent = ({
                 <div className={`top h-5 w-full text-sm text-center ${isToday(summary.date) ? "text-red-400" : ""}`}>
                   {summary.label}
                 </div>
-                <div className="bottom flex-grow h-7 py-1 w-full cursor-pointer text-center">
-                  <div className="text-xs text-gray-500">{summary.amount > 0 ? summary.amount.toLocaleString() : ""}</div>
-                </div>
+                {summary.tag === "overview" && (
+                  <div className="bottom flex-grow h-7 py-1 w-full cursor-pointer text-center">
+                    <div className="text-xs text-gray-500">{summary.amount > 0 ? summary.amount.toLocaleString() : ""}</div>
+                  </div>
+                )}
               </div>
             );
           })}
