@@ -35,6 +35,9 @@
       "@hooks/*": [
         "./src/app/_hooks/*"
       ],
+      "@utils/*": [
+        "./src/app/_utils/*"
+      ],
     }
   },
   "include": [
