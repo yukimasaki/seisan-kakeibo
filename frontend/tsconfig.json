@@ -35,6 +35,9 @@
       "@store/*": [
         "./src/app/_store/*"
       ],
+      "@hooks/*": [
+        "./src/app/_hooks/*"
+      ],
     }
   },
   "include": [
