@@ -25,22 +25,6 @@ const HomePage = async () => {
       }),
     },
     {
-      name: "License",
-      path: "/license",
-      icon: Icon({
-        name: "Groups",
-        className: iconClasses,
-      }),
-    },
-    {
-      name: "Test 1",
-      path: "/test1",
-      icon: Icon({
-        name: "Groups",
-        className: iconClasses,
-      }),
-    },
-    {
       name: "Transaction",
       path: "/transaction",
       icon: Icon({
