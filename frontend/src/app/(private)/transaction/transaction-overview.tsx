@@ -16,6 +16,7 @@ import useModalForm from "@hooks/useModalForm";
 import { CreateTransactionForm } from "./create-form";
 import { CalendarComponent } from "@components/calendar";
 import { useCalendar } from "@hooks/useCalendar";
+import { Summary } from "@type/calendar";
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
@@ -91,9 +92,10 @@ export const TransactionOverviewComponent = () => {
 
   // カレンダーに表示する配列を生成
   // 月初までは全てのプロパティに空欄を格納
-  const blank = Array.from({ length: startWeekday }, (_, index) => {
+  const blank: Summary[] = Array.from({ length: startWeekday }, (_, index) => {
     const incrementalNumber = index + 1
     return {
+      tag: 'overview',
       id: incrementalNumber,
       label: '',
       date: '',
@@ -103,11 +105,12 @@ export const TransactionOverviewComponent = () => {
 
   // 当月のデータを生成
   const amountsPerDay = reduceAmounts(fullTransactions || transactions);
-  const currentMonth = Array.from({ length: endDate }, (_, index) => {
+  const currentMonth: Summary[] = Array.from({ length: endDate }, (_, index) => {
     const incrementalNumber = index + 1;
     const date = dayjs(startDate).add(index, 'day').format('YYYY-MM-DD');
 
     return {
+      tag: 'overview',
       id: blank.length + incrementalNumber,
       label: incrementalNumber.toString(),
       date,
@@ -116,7 +119,7 @@ export const TransactionOverviewComponent = () => {
   });
 
   // blankとcurrentMonthを1つの配列に結合
-  const summaries = [
+  const summaries: Summary[] = [
     ...blank,
     ...currentMonth,
   ];
