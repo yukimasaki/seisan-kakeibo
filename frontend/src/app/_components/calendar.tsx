@@ -5,11 +5,42 @@ import { DayLabel, Summary } from "@type/calendar";
 import dayjs from "dayjs";
 import { useState } from "react";
 
+const defaultDayLabels = [
+  {
+    key: "sunday",
+    label: "日",
+  },
+  {
+    key: "monday",
+    label: "月",
+  },
+  {
+    key: "tuesday",
+    label: "火",
+  },
+  {
+    key: "wednesday",
+    label: "水",
+  },
+  {
+    key: "thursday",
+    label: "木",
+  },
+  {
+    key: "friday",
+    label: "金",
+  },
+  {
+    key: "saturday",
+    label: "土",
+  },
+];
+
 export const CalendarComponent = ({
-  dayLabels,
+  dayLabels = defaultDayLabels,
   summaries,
 }: {
-  dayLabels: DayLabel[],
+  dayLabels?: DayLabel[],
   summaries: Summary[],
 }) => {
   const calendarStore = useCalendar();

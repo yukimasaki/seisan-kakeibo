@@ -41,37 +41,6 @@ export const TransactionOverviewComponent = () => {
   const [selectedYear, setSelectedYear] = useState(parseInt(currentYearMonth.format("YYYY")));
   const [selectedMonth, setSelectedMonth] = useState(parseInt(currentYearMonth.format("M")));
 
-  const dayLabels = [
-    {
-      key: "sunday",
-      label: "日",
-    },
-    {
-      key: "monday",
-      label: "月",
-    },
-    {
-      key: "tuesday",
-      label: "火",
-    },
-    {
-      key: "wednesday",
-      label: "水",
-    },
-    {
-      key: "thursday",
-      label: "木",
-    },
-    {
-      key: "friday",
-      label: "金",
-    },
-    {
-      key: "saturday",
-      label: "土",
-    },
-  ];
-
   useEffect(() => {
     calendarStore.setStart(currentYearMonth.startOf("month").format("YYYY-MM-DD"));
     calendarStore.setEnd(currentYearMonth.endOf("month").format("YYYY-MM-DD"));
@@ -246,7 +215,6 @@ export const TransactionOverviewComponent = () => {
 
           {/* カレンダー 開始 */}
           <CalendarComponent
-            dayLabels={dayLabels}
             summaries={summaries}
           />
           {/* カレンダー 終了 */}
