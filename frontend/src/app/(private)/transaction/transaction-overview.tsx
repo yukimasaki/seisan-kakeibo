@@ -17,6 +17,7 @@ import { CreateTransactionForm } from "./create-form";
 import { CalendarComponent } from "@components/calendar";
 import { useCalendar } from "@hooks/useCalendar";
 import { Summary } from "@type/calendar";
+import { createSummary } from "@utils/createSummary";
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
@@ -59,70 +60,8 @@ export const TransactionOverviewComponent = () => {
 
   const loadingState = isLoading ? "loading" : "idle";
 
-  // 月初の日付
-  const startDate = currentYearMonth.startOf('month');
-  // 月末の日付
-  const endDate = currentYearMonth.endOf('month').get('date');
-  // 月初の曜日
-  const startWeekday = currentYearMonth.startOf('month').get('day');
-
-  // 日ごとの金額を小計する関数
-  const reduceAmounts = (
-    transactions: Transaction[] | null,
-  ): Map<string, number> | null => {
-    if (!transactions) return null;
-
-    const summaryMap: Map<string, number> = new Map();
-    transactions.forEach(transaction => {
-      const paymentDateStr = dayjs(transaction.paymentDate).format('YYYY-MM-DD');
-
-      const amount = transaction.amount;
-
-      if (summaryMap.has(paymentDateStr)) {
-        // Map内に既に存在する日付の場合、金額を加算
-        summaryMap.set(paymentDateStr, (summaryMap.get(paymentDateStr) || 0) + amount);
-      } else {
-        // Map内に存在しない日付の場合、金額を初期化
-        summaryMap.set(paymentDateStr, amount);
-      }
-    });
-
-    return summaryMap;
-  };
-
-  // カレンダーに表示する配列を生成
-  // 月初までは全てのプロパティに空欄を格納
-  const blank: Summary[] = Array.from({ length: startWeekday }, (_, index) => {
-    const incrementalNumber = index + 1
-    return {
-      tag: 'overview',
-      id: incrementalNumber,
-      label: '',
-      date: '',
-      amount: 0,
-    }
-  });
-
-  // 当月のデータを生成
-  const amountsPerDay = reduceAmounts(fullTransactions || transactions);
-  const currentMonth: Summary[] = Array.from({ length: endDate }, (_, index) => {
-    const incrementalNumber = index + 1;
-    const date = dayjs(startDate).add(index, 'day').format('YYYY-MM-DD');
-
-    return {
-      tag: 'overview',
-      id: blank.length + incrementalNumber,
-      label: incrementalNumber.toString(),
-      date,
-      amount: amountsPerDay === null ? 0 : (amountsPerDay.get(date) || 0),
-    }
-  });
-
   // blankとcurrentMonthを1つの配列に結合
-  const summaries: Summary[] = [
-    ...blank,
-    ...currentMonth,
-  ];
+  const summaries: Summary[] = createSummary(fullTransactions || transactions, currentYearMonth);
 
   const onListBoxItemClick = (
     key: Key,
@@ -216,11 +155,9 @@ export const TransactionOverviewComponent = () => {
           </div>
           <CreateTransactionForm />
 
-          {/* カレンダー 開始 */}
           <CalendarComponent
             summaries={summaries}
           />
-          {/* カレンダー 終了 */}
 
           {/* 一覧 開始 */}
           <div>
