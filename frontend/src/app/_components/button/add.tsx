@@ -14,7 +14,7 @@ export const AddButtonComponent = ({
         color={"primary"}
         radius={"md"}
         isIconOnly
-        onClick={onClick}
+        onClick={() => onClick()}
       >
         <Icon name="Add" className="text-white" />
       </Button>

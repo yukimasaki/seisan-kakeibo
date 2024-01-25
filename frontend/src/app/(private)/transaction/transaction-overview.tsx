@@ -12,6 +12,8 @@ import "dayjs/locale/ja";
 import { Key, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Transaction } from "@type/transaction";
+import useModalForm from "@hooks/useModalForm";
+import { CreateTransactionForm } from "./create-form";
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
@@ -186,6 +188,8 @@ export const TransactionOverviewComponent = () => {
     if (!isYearMonthModalOpen) setCurrentYearMonth(dayjs(`${selectedYear}-${selectedMonth}-01`));
   }, [selectedYear, selectedMonth]);
 
+  const form = useModalForm();
+
   return (
     <>
       <div className="flex flex-col h-svh">
@@ -261,8 +265,9 @@ export const TransactionOverviewComponent = () => {
             </div>
             {/* 年月ピッカー ここまで */}
             <FilterButtonComponent />
-            <AddButtonComponent />
+            <AddButtonComponent onClick={() => form.onOpen()} />
           </div>
+          <CreateTransactionForm />
 
           {/* カレンダー 開始 */}
           <div className="rounded-md shadow lg:w-1/3">
