@@ -15,14 +15,14 @@ import { Transaction } from "@type/transaction";
 import useModalForm from "@hooks/useModalForm";
 import { CreateTransactionForm } from "./create-form";
 import { CalendarComponent } from "@components/calendar";
-import { useCalendar } from "@hooks/useCalendar";
+import { useOverviewCalendar } from "@hooks/useCalendar";
 import { Summary } from "@type/calendar";
 import { createSummary } from "@utils/createSummary";
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
 
-  const calendarStore = useCalendar();
+  const calendarStore = useOverviewCalendar();
   const form = useModalForm();
 
   const {
@@ -157,6 +157,7 @@ export const TransactionOverviewComponent = () => {
 
           <CalendarComponent
             summaries={summaries}
+            store={useOverviewCalendar}
           />
 
           {/* 一覧 開始 */}

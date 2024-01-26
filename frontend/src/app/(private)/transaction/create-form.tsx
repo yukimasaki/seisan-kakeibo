@@ -1,10 +1,16 @@
 "use client";
 
+import { CalendarComponent } from "@components/calendar";
+import { useDatePickerCalendar } from "@hooks/useCalendar";
 import useModalForm from "@hooks/useModalForm";
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { Summary } from "@type/calendar";
+import { createSummary } from "@utils/createSummary";
 
 export const CreateTransactionForm = () => {
   const form = useModalForm();
+
+  const summaries: Summary[] = createSummary();
 
   return (
     <Modal
@@ -34,6 +40,22 @@ export const CreateTransactionForm = () => {
                   label={"タイトル"}
                   size="sm"
                 />
+                <Popover placement={"top"}>
+                  <PopoverTrigger>
+                    <Input
+                      label={"支払日"}
+                      size="sm"
+                      readOnly
+                    />
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <CalendarComponent
+                      summaries={summaries}
+                      store={useDatePickerCalendar}
+                    />
+                  </PopoverContent>
+                </Popover>
+
               </div>
             </ModalBody>
             <ModalFooter>
