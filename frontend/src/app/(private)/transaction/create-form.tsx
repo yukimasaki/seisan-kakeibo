@@ -9,8 +9,11 @@ import { createSummary } from "@utils/createSummary";
 
 export const CreateTransactionForm = () => {
   const form = useModalForm();
+  const calendarStore = useDatePickerCalendar();
 
-  const summaries: Summary[] = createSummary();
+  const summaries: Summary[] = createSummary({
+    now: calendarStore.currentYearMonth,
+  });
 
   return (
     <Modal

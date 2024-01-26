@@ -23,10 +23,13 @@ const reduce = (
   return summaryMap;
 };
 
-export const createSummary = (
+export const createSummary = ({
+  transactions,
+  now,
+}: {
   transactions?: Transaction[],
   now?: dayjs.Dayjs,
-) => {
+}) => {
   const baseDate = now || dayjs();
   const startWeekday = baseDate.startOf("month").get("day");
   const startDate = baseDate.startOf("month");

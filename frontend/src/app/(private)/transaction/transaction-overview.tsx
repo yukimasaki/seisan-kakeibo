@@ -47,7 +47,10 @@ export const TransactionOverviewComponent = () => {
   const loadingState = isLoading ? "loading" : "idle";
 
   // blankとcurrentMonthを1つの配列に結合
-  const summaries: Summary[] = createSummary(fullTransactions || transactions, calendarStore.currentYearMonth);
+  const summaries: Summary[] = createSummary({
+    transactions: fullTransactions || transactions,
+    now: calendarStore.currentYearMonth
+  });
 
   const onListBoxItemClick = (
     key: Key,
