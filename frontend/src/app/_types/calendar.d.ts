@@ -29,6 +29,7 @@ export type CalendarStore = {
   currentYearMonth: dayjs.Dayjs;
   selectedYear: number;
   selectedMonth: number;
+  selectedDate: string;
   isYearMonthPickerOpen: boolean;
   setIsInit: (
     boolean: boolean,
@@ -48,4 +49,7 @@ export type CalendarStore = {
     month: number,
   ) => void;
   toggleIsYearMonthPickerOpen: () => void;
+  setSelectedDate: (
+    date: string,
+  ) => void;
 };

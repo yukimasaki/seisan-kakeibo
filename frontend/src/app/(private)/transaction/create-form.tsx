@@ -47,6 +47,7 @@ export const CreateTransactionForm = () => {
                   <PopoverTrigger>
                     <Input
                       label={"支払日"}
+                      value={calendarStore.selectedDate}
                       size="sm"
                       readOnly
                     />

@@ -18,6 +18,7 @@ const definition = (
   currentYearMonth: dayjs(),
   selectedYear: parseInt(dayjs().format("YYYY")),
   selectedMonth: parseInt(dayjs().format("M")),
+  selectedDate: dayjs().format("YYYY-MM-DD"),
   isYearMonthPickerOpen: false,
   setIsInit: (boolean) => set({
     isInit: boolean,
@@ -60,6 +61,9 @@ const definition = (
   toggleIsYearMonthPickerOpen: () => set((state) => ({
     isYearMonthPickerOpen: !state.isYearMonthPickerOpen,
   })),
+  setSelectedDate: (date) => set({
+    selectedDate: date,
+  }),
 } as CalendarStore);
 
 export const useOverviewCalendar = create<CalendarStore>(definition);

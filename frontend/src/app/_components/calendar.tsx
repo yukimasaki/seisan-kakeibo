@@ -4,7 +4,6 @@ import { Icon } from "@components/icon/icon";
 import { Button, Input, Popover, PopoverContent, PopoverTrigger, useDisclosure } from "@nextui-org/react";
 import { CalendarStore, DayLabel, Summary } from "@type/calendar";
 import dayjs from "dayjs";
-import { useState } from "react";
 import { StoreApi, UseBoundStore } from "zustand";
 
 const defaultDayLabels = [
@@ -53,7 +52,6 @@ export const CalendarComponent = ({
   store: UseBoundStore<StoreApi<CalendarStore>>,
 }) => {
   const calendarStore = store();
-  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
 
   // 渡された文字列が今日の日付か判定する関数
   const isToday = (
@@ -71,7 +69,7 @@ export const CalendarComponent = ({
     date: string,
   ) => {
     calendarStore.setIsInit(false);
-    setSelectedDate(date);
+    calendarStore.setSelectedDate(date);
     calendarStore.setStart(date);
     calendarStore.setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
   };
@@ -152,7 +150,7 @@ export const CalendarComponent = ({
           {summaries.map((summary) => {
             return (
               <div
-                className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${selectedDate === summary.date ? "bg-blue-100 shadow-sm" : ""}`}
+                className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${calendarStore.selectedDate === summary.date ? "bg-blue-100 shadow-sm" : ""}`}
                 key={summary.id}
                 onClick={() => onDateClick(summary.date)}
               >
