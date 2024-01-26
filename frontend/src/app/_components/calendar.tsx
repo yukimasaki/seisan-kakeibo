@@ -1,9 +1,10 @@
 "use client";
 
-import { useCalendar } from "@hooks/useCalendar";
-import { DatePicker, DayLabel, Overview, Summary } from "@type/calendar";
+import { CalendarStore } from "@hooks/useCalendar";
+import { DayLabel, Summary } from "@type/calendar";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { StoreApi, UseBoundStore } from "zustand";
 
 const defaultDayLabels = [
   {
@@ -39,11 +40,13 @@ const defaultDayLabels = [
 export const CalendarComponent = ({
   dayLabels = defaultDayLabels,
   summaries,
+  store,
 }: {
   dayLabels?: DayLabel[],
   summaries: Summary[],
+  store: UseBoundStore<StoreApi<CalendarStore>>,
 }) => {
-  const calendarStore = useCalendar();
+  const calendarStore = store();
   const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM-DD"));
 
   // 渡された文字列が今日の日付か判定する関数
