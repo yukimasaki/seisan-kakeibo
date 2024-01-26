@@ -1,20 +1,6 @@
+import { CalendarStore } from "@type/calendar";
 import dayjs from "dayjs";
 import { create } from "zustand";
-
-export type CalendarStore = {
-  isInit: boolean;
-  start: string;
-  end: string;
-  setIsInit: (
-    boolean: boolean,
-  ) => void;
-  setStart: (
-    date: string,
-  ) => void;
-  setEnd: (
-    date: string,
-  ) => void;
-};
 
 const definition = (
   set: (
@@ -29,6 +15,10 @@ const definition = (
   isInit: true,
   start: dayjs().startOf("month").format("YYYY-MM-DD"),
   end: dayjs().endOf("month").format("YYYY-MM-DD"),
+  currentYearMonth: dayjs(),
+  selectedYear: parseInt(dayjs().format("YYYY")),
+  selectedMonth: parseInt(dayjs().format("M")),
+  isYearMonthPickerOpen: false,
   setIsInit: (boolean) => set({
     isInit: boolean,
   }),
@@ -38,6 +28,38 @@ const definition = (
   setEnd: (date) => set({
     end: date,
   }),
+  setCurrentYearMonth: (date) => {
+    set({
+      // 主作用
+      currentYearMonth: date,
+
+      // 副作用
+      start: date.startOf("month").format("YYYY-MM-DD"),
+      end: date.endOf("month").format("YYYY-MM-DD"),
+      selectedYear: parseInt(date.format("YYYY")),
+      selectedMonth: parseInt(date.format("M")),
+    });
+  },
+  increaseYear: () => set((state) => ({
+    // 主作用
+    selectedYear: state.selectedYear + 1,
+  })),
+  decreaseYear: () => set((state) => ({
+    // 主作用
+    selectedYear: state.selectedYear - 1,
+  })),
+  setSelectedMonth: (month) => set((state) => ({
+    // 主作用
+    selectedMonth: month,
+
+    // 副作用
+    currentYearMonth: dayjs(`${state.selectedYear}-${month}-01`),
+    start: dayjs(`${state.selectedYear}-${month}-01`).startOf("month").format("YYYY-MM-DD"),
+    end: dayjs(`${state.selectedYear}-${month}-01`).endOf("month").format("YYYY-MM-DD"),
+  })),
+  toggleIsYearMonthPickerOpen: () => set((state) => ({
+    isYearMonthPickerOpen: !state.isYearMonthPickerOpen,
+  })),
 } as CalendarStore);
 
 export const useOverviewCalendar = create<CalendarStore>(definition);

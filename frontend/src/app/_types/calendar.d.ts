@@ -21,3 +21,31 @@ type DatePicker = {
   label: string;
   date: string;
 };
+
+export type CalendarStore = {
+  isInit: boolean;
+  start: string;
+  end: string;
+  currentYearMonth: dayjs.Dayjs;
+  selectedYear: number;
+  selectedMonth: number;
+  isYearMonthPickerOpen: boolean;
+  setIsInit: (
+    boolean: boolean,
+  ) => void;
+  setStart: (
+    date: string,
+  ) => void;
+  setEnd: (
+    date: string,
+  ) => void;
+  setCurrentYearMonth: (
+    date: dayjs.Dayjs,
+  ) => void;
+  increaseYear: () => void;
+  decreaseYear: () => void;
+  setSelectedMonth: (
+    month: number,
+  ) => void;
+  toggleIsYearMonthPickerOpen: () => void;
+};

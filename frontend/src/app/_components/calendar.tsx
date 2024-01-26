@@ -1,7 +1,8 @@
 "use client";
 
-import { CalendarStore } from "@hooks/useCalendar";
-import { DayLabel, Summary } from "@type/calendar";
+import { Icon } from "@components/icon/icon";
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
+import { CalendarStore, DayLabel, Summary } from "@type/calendar";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { StoreApi, UseBoundStore } from "zustand";
@@ -37,6 +38,11 @@ const defaultDayLabels = [
   },
 ];
 
+const monthsOfYear = Array.from({ length: 12 }, (_, idx) => ({
+  id: idx + 1,
+  value: idx + 1,
+}));
+
 export const CalendarComponent = ({
   dayLabels = defaultDayLabels,
   summaries,
@@ -70,8 +76,82 @@ export const CalendarComponent = ({
     calendarStore.setEnd(dayjs(date).add(1, "day").format("YYYY-MM-DD"));
   };
 
+  const { isOpen: isYearMonthPickerOpen, onOpen: onYearMonthModalOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
+      {/* 年月ピッカー ここから */}
+      <div className="flex justify-between gap-2">
+        <Input
+          placeholder={calendarStore.currentYearMonth.format("YYYY年M月")}
+          type={"text"}
+          size={"sm"}
+          classNames={{
+            inputWrapper: "h-10"
+          }}
+          onClick={onYearMonthModalOpen}
+          isClearable
+          readOnly
+        />
+        <Modal
+          isOpen={isYearMonthPickerOpen}
+          onOpenChange={onOpenChange}
+          hideCloseButton
+          placement="center"
+          backdrop="blur"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader></ModalHeader>
+                <ModalBody>
+                  <div className="flex flex-col space-y-4">
+                    <div className="flex flex-row justify-center items-center">
+                      <Button isIconOnly variant="light" onPress={() => calendarStore.decreaseYear()}>
+                        <Icon name={"Back"} size={24} />
+                      </Button>
+                      <div className="px-4 text-lg">{calendarStore.selectedYear}年</div>
+                      <Button isIconOnly variant="light" onPress={() => calendarStore.increaseYear()}>
+                        <Icon name={"Forward"} size={24} />
+                      </Button>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-2">
+                      {monthsOfYear.map(month => (
+                        <Button
+                          key={month.id}
+                          value={month.value}
+                          onClick={() => {
+                            calendarStore.setSelectedMonth(month.value);
+                            onClose();
+                          }}
+                          variant="flat"
+                          color={month.value === calendarStore.selectedMonth ? "primary" : "default"}
+                        >
+                          {month.value}月
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color={"danger"} variant="light" onPress={onClose}>閉じる</Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+        <div className="flex flex-row gap-1">
+          <Button isIconOnly variant="flat" onPress={() => calendarStore.setCurrentYearMonth(calendarStore.currentYearMonth.subtract(1, "month"))}>
+            <Icon name={"Back"} size={24} />
+          </Button>
+          <Button isIconOnly variant="flat" onPress={() => calendarStore.setCurrentYearMonth(calendarStore.currentYearMonth.add(1, "month"))}>
+            <Icon name={"Forward"} size={24} />
+          </Button>
+        </div>
+      </div>
+      {/* 年月ピッカー ここまで */}
+
       <div className="rounded-md shadow lg:w-1/3">
         <div className="grid grid-cols-7 gap-2 py-1 bg-gray-400 rounded-t-md">
           {dayLabels.map((dayLabel) => {
