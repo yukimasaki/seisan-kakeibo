@@ -1,16 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, BadRequestException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
+import { UtilityService } from '@@nest/common/services/utility.service';
 
 @Controller('users')
 @ApiTags('/users')
 @SummarizeApiResponse()
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly utilityService: UtilityService,
+  ) { }
+
+  @Get('/me')
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '単体取得API (自分)' })
+  @ApiResponse({
+    status: 200,
+    description: '自分のプロフィール情報を返却',
+    type: User,
+  })
+  findMyProfile(
+    @Request() req,
+  ) {
+    const authorizationHeader: string = req.headers.authorization;
+    if (!authorizationHeader) throw new BadRequestException;
+
+    const bearerToken: string = this.utilityService.getBearerToken(authorizationHeader);
+    return this.userService.findMyProfile(bearerToken);
+  }
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
