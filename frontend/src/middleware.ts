@@ -1,11 +1,26 @@
 import { withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/((?!register|api|login|welcome|test).*)"],
+  matcher: ["/((?!register|api|login|welcome|test|profile).*)"],
 }
 
 export default withAuth(
-  function middleware(req) {
+  async function middleware(req) {
+    // authorized === trueの場合に実行される処理
+    const token = req.nextauth.token;
+
+    const user = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
+      headers: {
+        "Authorization": `Bearer ${token?.accessToken}`,
+      },
+    });
+
+    const isUserNotCreated = user.status === 404 ? true : false;
+
+    if (isUserNotCreated) {
+      return NextResponse.redirect(new URL("/profile", req.url));
+    }
   },
   {
     callbacks: {
