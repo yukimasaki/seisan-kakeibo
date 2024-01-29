@@ -36,14 +36,24 @@ export class UserController {
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
-  @ApiOperation({ summary: '単体登録API' })
+  @ApiOperation({ summary: '単体作成・単体更新API' })
   @ApiResponse({
-    status: 201,
-    description: '登録したユーザー情報を返却',
+    status: 200,
+    description: '更新済みのプロフィール情報を返却',
     type: User,
   })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @ApiResponse({
+    status: 201,
+    description: '登録済みのプロフィール情報を返却',
+    type: User,
+  })
+  upsert(
+    @Body() upsertUserDto: CreateUserDto | UpdateUserDto,
+  ) {
+    if (!upsertUserDto.userName || !upsertUserDto.uuid) {
+      throw new BadRequestException;
+    }
+    return this.userService.upsert(upsertUserDto);
   }
 
   @Get()

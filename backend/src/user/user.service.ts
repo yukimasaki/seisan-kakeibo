@@ -38,6 +38,30 @@ export class UserService {
     });
   }
 
+  async upsert(
+    upsertUserDto: CreateUserDto | UpdateUserDto,
+  ) {
+    try {
+      const user: User = await this.prisma.user.upsert({
+        where: {
+          uuid: upsertUserDto.uuid,
+        },
+        update: {
+          userName: upsertUserDto.userName,
+        },
+        create: {
+          uuid: upsertUserDto.uuid,
+          email: upsertUserDto.email,
+          userName: upsertUserDto.userName,
+        },
+      });
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   async findAll(): Promise<UserResponse[] | null> {
     return await this.prisma.user.findMany();
   }

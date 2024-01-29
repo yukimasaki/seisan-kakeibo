@@ -1,5 +1,5 @@
 import { ApiProperty, OmitType } from "@nestjs/swagger";
-import { IsEmail, IsInt, IsPositive, IsString, MaxLength } from "class-validator";
+import { IsEmail, IsInt, IsPositive, IsString, IsUUID, MaxLength } from "class-validator";
 
 export class User {
   @ApiProperty({
@@ -9,6 +9,13 @@ export class User {
   @IsInt()
   @IsPositive()
   id: number;
+
+  @ApiProperty({
+    example: 'b3d7a9bc-bf21-49d3-a7f8-b15b85d69ea4',
+    description: 'Keycloak ユーザーID',
+  })
+  @IsUUID()
+  uuid: string;
 
   @ApiProperty({
     example: 'john@example.com',
