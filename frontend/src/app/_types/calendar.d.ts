@@ -1,3 +1,4 @@
+import { Transaction } from "@type/transaction";
 import dayjs from "dayjs";
 
 export type DayLabel = {
@@ -23,6 +24,7 @@ type DatePicker = {
 };
 
 export type CalendarStore = {
+  transactions: Transaction[] | null,
   isInit: boolean;
   start: string;
   end: string;
@@ -31,6 +33,9 @@ export type CalendarStore = {
   selectedMonth: number;
   selectedDate: string;
   isYearMonthPickerOpen: boolean;
+  setTransactions: (
+    transactions: Transaction[],
+  ) => void;
   setIsInit: (
     boolean: boolean,
   ) => void;

@@ -12,6 +12,7 @@ const definition = (
   ) => void,
   get: () => CalendarStore
 ) => ({
+  transactions: null,
   isInit: true,
   start: dayjs().startOf("month").format("YYYY-MM-DD"),
   end: dayjs().endOf("month").format("YYYY-MM-DD"),
@@ -20,6 +21,9 @@ const definition = (
   selectedMonth: parseInt(dayjs().format("M")),
   selectedDate: dayjs().format("YYYY-MM-DD"),
   isYearMonthPickerOpen: false,
+  setTransactions: (transactions) => set({
+    transactions,
+  }),
   setIsInit: (boolean) => set({
     isInit: boolean,
   }),
@@ -64,7 +68,7 @@ const definition = (
   setSelectedDate: (date) => set({
     selectedDate: date,
   }),
-} as CalendarStore);
+} satisfies CalendarStore);
 
 export const useOverviewCalendar = create<CalendarStore>(definition);
 export const useDatePickerCalendar = create<CalendarStore>(definition);

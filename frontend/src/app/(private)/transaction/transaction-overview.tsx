@@ -37,18 +37,17 @@ export const TransactionOverviewComponent = () => {
     keepPreviousData: true,
   });
 
-  const [fullTransactions, setFullTransactions] = useState(transactions);
   const [isMonthChanged] = useState(false);
 
   useEffect(() => {
-    if (calendarStore.isInit || isMonthChanged) setFullTransactions(transactions);
+    if (calendarStore.isInit || isMonthChanged) calendarStore.setTransactions(transactions);
   }, [calendarStore.isInit, isMonthChanged, transactions]);
 
   const loadingState = isLoading ? "loading" : "idle";
 
   // blankとcurrentMonthを1つの配列に結合
   const summaries: Summary[] = createSummary({
-    transactions: fullTransactions || transactions,
+    transactions: calendarStore.transactions ?? undefined,
     now: calendarStore.currentYearMonth
   });
 
