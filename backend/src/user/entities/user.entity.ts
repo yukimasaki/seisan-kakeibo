@@ -24,7 +24,7 @@ export class User {
   })
   @IsString()
   @MaxLength(255)
-  displayName: string;
+  userName: string;
 
   @ApiProperty({
     example: 'free',

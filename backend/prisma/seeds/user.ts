@@ -1,5 +1,3 @@
-import { CreateUserDto } from '@@nest/user/dto/create-user.dto';
-import { User } from '@@nest/user/entities/user.entity';
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
@@ -26,7 +24,7 @@ export const createUser = async () => {
     data: Array.from({ length: userCount }, (_, index) => ({
       uuid: uuid(),
       email: `user${index + 1}@example.com`,
-      displayName: `User ${index + 1}`,
+      userName: `User ${index + 1}`,
       membership: membership[Math.floor(Math.random() * membership.length)],
       hashedPassword: hash,
     })),
