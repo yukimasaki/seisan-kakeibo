@@ -15,7 +15,7 @@ model User {
   uuid           String        @unique @default("")
   email          String        @unique
   userName       String
-  membership     String
+  membership     String        @default("FREE")
   hashedPassword String        @default("")
   members        Member[]
   creators       Transaction[] @relation("creator")
