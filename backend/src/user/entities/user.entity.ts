@@ -47,6 +47,14 @@ export class User {
   })
   @IsString()
   hashedPassword: string;
+
+  @ApiProperty({
+    example: '1',
+    description: 'アクティブグループID',
+  })
+  @IsInt()
+  @IsPositive()
+  activeGroupId: number;
 }
 
 export class UserResponse extends User { }

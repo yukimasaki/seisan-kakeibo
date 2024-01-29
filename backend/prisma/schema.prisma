@@ -23,6 +23,8 @@ model User {
   payments       Payment[]
   lenders        Balance[]     @relation("lender")
   borrowers      Balance[]     @relation("borrower")
+  activeGroup    Group?        @relation(fields: [activeGroupId], references: [id])
+  activeGroupId  Int?
 }
 
 model Group {
@@ -32,6 +34,7 @@ model Group {
   members      Member[]
   categories   Category[]
   transactions Transaction[]
+  User         User[]
 }
 
 model Member {
