@@ -31,7 +31,7 @@ const executeSeed = async () => {
   try {
     console.log(`Seedを開始`);
     await cleanupDatabase();
-    await executeSeed();
+    // await executeSeed();
     console.log(`Seedに成功`);
   } catch (error) {
     console.log(`Seedに失敗`);
