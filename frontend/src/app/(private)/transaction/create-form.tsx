@@ -3,7 +3,7 @@
 import { CalendarComponent } from "@components/calendar";
 import { useDatePickerCalendar } from "@hooks/useCalendar";
 import useModalForm from "@hooks/useModalForm";
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Popover, PopoverContent, PopoverTrigger, Textarea } from "@nextui-org/react";
 import { Summary } from "@type/calendar";
 import { createSummary } from "@utils/createSummary";
 
@@ -39,10 +39,12 @@ export const CreateTransactionForm = () => {
                   label={"金額"}
                   size="sm"
                 />
+
                 <Input
                   label={"タイトル"}
                   size="sm"
                 />
+
                 <Popover placement={"top"}>
                   <PopoverTrigger>
                     <Input
@@ -50,6 +52,9 @@ export const CreateTransactionForm = () => {
                       value={calendarStore.selectedDate}
                       size="sm"
                       readOnly
+                      classNames={{
+                        input: "text-left",
+                      }}
                     />
                   </PopoverTrigger>
                   <PopoverContent>
