@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsPositive, IsString, Length, MaxLength } from "class-validator";
+import { IsInt, IsPositive, IsString, IsUUID, MaxLength } from "class-validator";
 
 export class Group {
   @ApiProperty({
@@ -11,12 +11,11 @@ export class Group {
   id: number;
 
   @ApiProperty({
-    example: 'c68e0836b2e04476a18eeb17a5c3385b',
-    description: 'Webアプリケーション用の固有ID。UUIDv4からハイフンを除いた文字列を使用。',
+    example: 'b3d7a9bc-bf21-49d3-a7f8-b15b85d69ea4',
+    description: 'Webアプリケーション用の固有ID (UUIDv4)',
   })
-  @IsString()
-  @Length(32)
-  uid: string;
+  @IsUUID()
+  uuid: string;
 
   @ApiProperty({
     example: 'グループA',
