@@ -25,6 +25,14 @@ const HomePage = async () => {
       }),
     },
     {
+      name: "Group",
+      path: "/group",
+      icon: Icon({
+        name: "Groups",
+        className: iconClasses,
+      }),
+    },
+    {
       name: "Transaction",
       path: "/transaction",
       icon: Icon({
