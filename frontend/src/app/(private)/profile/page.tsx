@@ -20,8 +20,8 @@ const ProfilePage = async () => {
   const data: User = await response.json();
   const user: User = {
     ...data,
-    uuid: session?.user.id || "",
-    email: session?.user.email || "",
+    uuid: data.uuid || session?.user.id || "",
+    email: data.email || session?.user.email || "",
   }
 
   return (
