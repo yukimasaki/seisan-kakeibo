@@ -3,8 +3,8 @@
 import { HeaderComponent } from "@components/header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
-import { ProfileFormComponent } from "@components/form/profile";
 import { User } from "@type/user";
+import { ProfileFormComponent } from "./profile-form";
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
