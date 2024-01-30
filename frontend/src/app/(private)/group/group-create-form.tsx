@@ -1,0 +1,58 @@
+"use client";
+
+import { Button, Input } from "@nextui-org/react";
+import { useFormState } from "react-dom";
+import { createGroup, validateOnBlurDisplayName } from "./group-server-action";
+import { useState } from "react";
+
+export const GroupFormComponent = ({
+}: {
+  }) => {
+  const [messageAfterSubmit, formAction] = useFormState(createGroup, {
+    ok: null,
+    message: null,
+  });
+
+  const [displayNameValidateState, displayNameValidateAction] = useFormState(validateOnBlurDisplayName, {
+    message: null,
+  });
+
+  const [displayName, setDisplayName] = useState<string>("");
+
+  return (
+    <div className="flex flex-col p-2 h-svh">
+      <div className="flex-1">
+        <Input
+          label={"グループ名"}
+          value={displayName}
+          type={"text"}
+          onChange={(e) => {
+            setDisplayName(e.target.value);
+            displayNameValidateAction(e.target.value);
+          }}
+          onBlur={(e) => {
+            if (!(e.target instanceof HTMLInputElement)) return;
+            displayNameValidateAction(e.target.value);
+          }}
+          onClear={() => setDisplayName("")}
+          isClearable
+        />
+        {
+          displayNameValidateState.message &&
+          <p className="text-red-500">{displayNameValidateState.message}</p>
+        }
+      </div>
+
+      <div className="flex ">
+        <Button
+          type="submit"
+          color="primary"
+          variant="flat"
+          isDisabled={!!displayNameValidateState.message}
+          className="w-full">
+          保存
+        </Button>
+      </div>
+    </div>
+  );
+};
