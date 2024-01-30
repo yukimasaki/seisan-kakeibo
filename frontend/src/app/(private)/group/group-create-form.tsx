@@ -20,10 +20,14 @@ export const GroupFormComponent = ({
   const [displayName, setDisplayName] = useState<string>("");
 
   return (
-    <div className="flex flex-col p-2 h-svh">
+    <form
+      action={formAction}
+      className="flex flex-col p-2 h-svh"
+    >
       <div className="flex-1">
         <Input
           label={"グループ名"}
+          name="displayName"
           value={displayName}
           type={"text"}
           onChange={(e) => {
@@ -42,17 +46,20 @@ export const GroupFormComponent = ({
           <p className="text-red-500">{displayNameValidateState.message}</p>
         }
       </div>
-
-      <div className="flex ">
+      <div className="flex flex-col">
         <Button
           type="submit"
           color="primary"
           variant="flat"
-          isDisabled={!!displayNameValidateState.message}
+          isDisabled={!!displayNameValidateState.message || !!messageAfterSubmit.ok}
           className="w-full">
           保存
         </Button>
+        {
+          messageAfterSubmit.message &&
+          <p className={messageAfterSubmit.ok ? "text-green-500" : "text-red-500"}>{messageAfterSubmit.message}</p>
+        }
       </div>
-    </div>
+    </form>
   );
 };

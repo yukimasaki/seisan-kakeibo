@@ -2,6 +2,7 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
+import { User } from "@type/user";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -24,22 +25,34 @@ export const createGroup = async (
 
   const displayName = formData.get("displayName");
 
-  const group = {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      "Authorization": `Bearer ${session?.user.accessToken}`,
+    },
+  });
+
+  const user: User = await response.json();
+
+  const createGroupAndMemberDto = {
     displayName,
+    userId: user.id,
   };
 
   try {
-    CreateGroupSchema.parse(group);
+    CreateGroupSchema.parse(createGroupAndMemberDto);
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`, {
       method: "POST",
-      body: JSON.stringify(group),
+      body: JSON.stringify(createGroupAndMemberDto),
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
       },
     });
   } catch (error) {
+    console.log(error);
+
     const result: ServerActionResult = {
       ok: false,
       message: `入力内容に誤りがあります`,
