@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { GroupService } from './group.service';
-import { CreateGroupDto } from './dto/create-group.dto';
+import { CreateGroupAndMemberDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Group } from './entities/group.entity';
@@ -20,8 +20,8 @@ export class GroupController {
     description: '登録後のグループ情報を返却する',
     type: Group,
   })
-  create(@Body() createGroupDto: CreateGroupDto) {
-    return this.groupService.create(createGroupDto);
+  create(@Body() createGroupAndMemberDto: CreateGroupAndMemberDto) {
+    return this.groupService.create(createGroupAndMemberDto);
   }
 
   @Get()
