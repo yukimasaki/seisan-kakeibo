@@ -92,7 +92,7 @@ export const TransactionDetailComponent = () => {
                     >
                       {(item) => (
                         <TableRow key={item.id}>
-                          <TableCell >{item.payer.displayName}</TableCell>
+                          <TableCell >{item.payer.userName}</TableCell>
                           <TableCell >{item.defaultPaymentAmount}円</TableCell>
                           <TableCell >{item.actualPaymentAmount}円</TableCell>
                         </TableRow>
