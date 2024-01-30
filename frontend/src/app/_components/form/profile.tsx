@@ -1,16 +1,16 @@
 "use client";
 
-import { Profile } from "@type/profile";
 import { upsertProfile, validateOnBlurEmail, validateOnBlurUserName } from "@components/action/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useFormState } from "react-dom";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
+import { User } from "@type/user";
 
 export const ProfileFormComponent = ({
-  profile,
+  user,
 }: {
-  profile: Profile,
+  user: User,
 }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
     ok: null,
@@ -25,9 +25,9 @@ export const ProfileFormComponent = ({
     message: null,
   });
 
-  const uuid = profile.uuid;
-  const [email, setEmail] = useState<string>(profile.email);
-  const [userName, setUserName] = useState<string>(profile.userName);
+  const uuid = user.uuid;
+  const [email, setEmail] = useState<string>(user.email);
+  const [userName, setUserName] = useState<string>(user.userName);
 
   return (
     <>

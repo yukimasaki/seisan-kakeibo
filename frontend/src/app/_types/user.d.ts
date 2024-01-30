@@ -1,7 +1,8 @@
 export type User = {
   id: number;
+  uuid: string;
   email: string
-  displayName: string;
+  userName: string;
   membership: string;
   hashedPassword: string;
 }

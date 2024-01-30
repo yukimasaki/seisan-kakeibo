@@ -4,7 +4,7 @@ import { HeaderComponent } from "@components/header";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
 import { ProfileFormComponent } from "@components/form/profile";
-import { Profile } from "@type/profile";
+import { User } from "@type/user";
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
@@ -17,18 +17,17 @@ const ProfilePage = async () => {
     },
   });
 
-  const { userName }: { userName: string } = await response.json();
-
-  const profile: Profile = {
+  const data: User = await response.json();
+  const user: User = {
+    ...data,
     uuid: session?.user.id || "",
     email: session?.user.email || "",
-    userName: userName || "",
   }
 
   return (
     <>
       <HeaderComponent />
-      <ProfileFormComponent profile={profile} />
+      <ProfileFormComponent user={user} />
     </>
   );
 }

@@ -25,6 +25,9 @@ export class UserService {
       where: {
         uuid: keycloakUserId,
       },
+      include: {
+        members: true,
+      },
     });
 
     if (!user) throw new NotFoundException;
