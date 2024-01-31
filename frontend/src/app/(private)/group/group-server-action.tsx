@@ -1,6 +1,7 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
+import { Group } from "@type/group";
 import { ServerActionResult } from "@type/server-actions";
 import { User } from "@type/user";
 import { getServerSession } from "next-auth";
@@ -19,20 +20,20 @@ export const createGroup = async (
     message: string | null,
   },
   formData: FormData,
-): Promise<ServerActionResult> => {
+): Promise<ServerActionResult<Group>> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
   const displayName = formData.get("displayName");
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
+  const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
       "Authorization": `Bearer ${session?.user.accessToken}`,
     },
   });
 
-  const user: User = await response.json();
+  const user: User = await profileResponse.json();
 
   const createGroupAndMemberDto = {
     displayName,
@@ -41,29 +42,31 @@ export const createGroup = async (
 
   try {
     CreateGroupSchema.parse(createGroupAndMemberDto);
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`, {
-      method: "POST",
-      body: JSON.stringify(createGroupAndMemberDto),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
   } catch (error) {
     console.log(error);
 
-    const result: ServerActionResult = {
+    const result: ServerActionResult<Group> = {
       ok: false,
       message: `入力内容に誤りがあります`,
+      data: null,
     }
     return result;
   }
+  const groupResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`, {
+    method: "POST",
+    body: JSON.stringify(createGroupAndMemberDto),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  });
 
-  // 成功時
-  const result: ServerActionResult = {
+  const parsedGroupResponse: Group = await groupResponse.json();
+
+  const result: ServerActionResult<Group> = {
     ok: true,
-    message: "グループを作成しました"
+    message: "グループを作成しました",
+    data: parsedGroupResponse,
   };
   return result;
 };

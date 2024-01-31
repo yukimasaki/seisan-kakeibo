@@ -11,6 +11,7 @@ export const GroupFormComponent = ({
   const [messageAfterSubmit, formAction] = useFormState(createGroup, {
     ok: null,
     message: null,
+    data: null,
   });
 
   const [displayNameValidateState, displayNameValidateAction] = useFormState(validateOnBlurDisplayName, {
