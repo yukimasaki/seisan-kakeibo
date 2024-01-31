@@ -1,5 +1,6 @@
 import 'next-auth';
 import type { User } from 'next-auth';
+import { User as UserData } from '@type/user';
 import 'next-auth/jwt'
 
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
@@ -20,6 +21,7 @@ declare module 'next-auth' {
       accessToken: string;
     };
     error: string;
+    profile: UserData | null;
   }
 
   interface User {
@@ -83,5 +85,6 @@ declare module 'next-auth/jwt' {
     refreshTokenExpired: number;
     user: User;
     error: string;
+    profile: UserData | null;
   }
 }

@@ -9,16 +9,9 @@ export default withAuth(
   async function middleware(req) {
     // authorized === trueの場合に実行される処理
     const token = req.nextauth.token;
+    const myProfile = req.nextauth.token?.profile;
 
-    const user = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
-      headers: {
-        "Authorization": `Bearer ${token?.accessToken}`,
-      },
-    });
-
-    const isUserNotCreated = user.status === 404 ? true : false;
-
-    if (isUserNotCreated) {
+    if (!myProfile) {
       return NextResponse.redirect(new URL("/profile", req.url));
     }
   },

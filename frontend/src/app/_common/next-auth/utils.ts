@@ -1,3 +1,4 @@
+import { User } from '@type/user';
 import { JWT } from 'next-auth/jwt';
 
 export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
@@ -41,3 +42,15 @@ export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
     }
   }
 }
+
+export const fetchMyProfile = async (token: JWT): Promise<void> => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
+    headers: {
+      "Authorization": `Bearer ${token.accessToken}`,
+    },
+  });
+
+  const data: User | null = (response.status) !== 200 ? null : await response.json();
+
+  token.profile = data;
+};

@@ -1,7 +1,7 @@
-import { Account, NextAuthOptions, Session, User } from 'next-auth';
+import { NextAuthOptions, Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import KeycloakProvider from 'next-auth/providers/keycloak';
-import { refreshAccessToken } from './utils';
+import { fetchMyProfile, refreshAccessToken } from './utils';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -15,13 +15,13 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }: {
-      token: JWT,
-      user: User,
-      account: Account | null,
-    }) {
+    async jwt({ token, user, account, trigger }) {
       // Initial sign in
       if (account && user) {
+        if (trigger === "signIn") {
+          await fetchMyProfile(token);
+        }
+
         token.idToken = account.id_token;
 
         // Add access_token, refresh_token and expirations to the token right after signin
@@ -33,7 +33,6 @@ export const authOptions: NextAuthOptions = {
         token.refreshTokenExpired =
           Date.now() + (account.refresh_expires_in - 15) * 1000;
         token.user = user;
-        return token;
       }
 
       // Return previous token if the access token has not expired yet
@@ -47,6 +46,8 @@ export const authOptions: NextAuthOptions = {
       token: JWT,
     }) {
       if (token) {
+        // アプリケーションから利用可能にするため、明示的にsessionに転送する
+        // https://next-auth.js.org/configuration/callbacks#session-callback
         session.user = token.user;
         session.error = token.error;
         session.user.accessToken = token.accessToken;

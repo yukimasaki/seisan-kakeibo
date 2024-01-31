@@ -2,6 +2,7 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
+import { User } from "@type/user";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from 'zod';
 
@@ -24,7 +25,7 @@ export const upsertProfile = async (
     message: string | null,
   },
   formData: FormData,
-): Promise<ServerActionResult> => {
+): Promise<ServerActionResult<User>> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
@@ -32,35 +33,40 @@ export const upsertProfile = async (
   const email = formData.get("email");
   const userName = formData.get("userName");
 
-  const profile = {
+  const createProfileDto = {
     uuid,
     email,
     userName,
   }
 
   try {
-    UpsertProfileSchema.parse(profile);
+    UpsertProfileSchema.parse(createProfileDto);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, {
-      method: "POST",
-      body: JSON.stringify(profile),
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
-    });
   } catch (error) {
-    const result: ServerActionResult = {
+    const result: ServerActionResult<User> = {
       ok: false,
       message: `入力内容に誤りがあります`,
+      data: null,
     }
     return result;
   }
 
-  // 成功時
-  const result: ServerActionResult = {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, {
+    method: "POST",
+    body: JSON.stringify(createProfileDto),
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+
+  const profileResponse: User = await response.json();
+  // console.log(profileResponse);
+
+  const result: ServerActionResult<User> = {
     ok: true,
     message: "保存しました",
+    data: profileResponse,
   }
   return result;
 }
