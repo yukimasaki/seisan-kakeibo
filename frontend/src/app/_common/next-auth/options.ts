@@ -18,10 +18,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account, trigger }) {
       // Initial sign in
       if (account && user) {
-        if (trigger === "signIn") {
-          await fetchMyProfile(token);
-        }
-
         token.idToken = account.id_token;
 
         // Add access_token, refresh_token and expirations to the token right after signin
@@ -33,6 +29,16 @@ export const authOptions: NextAuthOptions = {
         token.refreshTokenExpired =
           Date.now() + (account.refresh_expires_in - 15) * 1000;
         token.user = user;
+
+        if (
+          trigger === "signIn" ||
+          trigger === "update"
+        ) {
+          console.log(`signIn or updateで発動:`);
+          console.log(trigger);
+          const userData = await fetchMyProfile(token);
+          token.profile = userData;
+        }
       }
 
       // Return previous token if the access token has not expired yet
