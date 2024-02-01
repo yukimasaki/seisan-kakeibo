@@ -2,16 +2,17 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/((?!register|api|login|welcome|test|profile).*)"],
+  matcher: ["/((?!register|api|login|welcome|test).*)"],
 }
 
 export default withAuth(
   async function middleware(req) {
     // authorized === trueの場合に実行される処理
     const token = req.nextauth.token;
+    const path = req.nextUrl.pathname;
     const myProfile = req.nextauth.token?.profile;
 
-    if (!myProfile) {
+    if (!myProfile && path !== "/profile") {
       return NextResponse.redirect(new URL("/profile", req.url));
     }
   },
