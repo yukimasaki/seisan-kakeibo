@@ -1,3 +1,5 @@
+import { Member } from "@type/member";
+
 export type User = {
   id: number;
   uuid: string;
@@ -5,4 +7,5 @@ export type User = {
   userName: string;
   membership: string;
   hashedPassword: string;
+  members: Member[];
 }

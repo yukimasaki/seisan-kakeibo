@@ -26,7 +26,11 @@ export class UserService {
         uuid: keycloakUserId,
       },
       include: {
-        members: true,
+        members: {
+          include: {
+            group: true,
+          },
+        },
       },
     });
 
