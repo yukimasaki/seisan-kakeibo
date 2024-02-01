@@ -2,6 +2,7 @@ import 'next-auth';
 import type { User } from 'next-auth';
 import { User as UserData } from '@type/user';
 import 'next-auth/jwt'
+import { Group } from '@type/group';
 
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
 
@@ -22,7 +23,7 @@ declare module 'next-auth' {
     };
     error: string;
     profile: UserData | null;
-    activeGroup: number | undefined;
+    activeGroup: Group | undefined;
   }
 
   interface User {
@@ -87,6 +88,6 @@ declare module 'next-auth/jwt' {
     user: User;
     error: string;
     profile: UserData | null;
-    activeGroup: number | undefined;
+    activeGroup: Group | undefined;
   }
 }

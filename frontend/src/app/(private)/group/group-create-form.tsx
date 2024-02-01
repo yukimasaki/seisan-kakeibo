@@ -3,7 +3,8 @@
 import { Button, Input } from "@nextui-org/react";
 import { useFormState } from "react-dom";
 import { createGroup, validateOnBlurDisplayName } from "./group-server-action";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export const GroupFormComponent = ({
 }: {
@@ -19,6 +20,13 @@ export const GroupFormComponent = ({
   });
 
   const [displayName, setDisplayName] = useState<string>("");
+
+  const { data: session, update } = useSession();
+  useEffect(() => {
+    if (messageAfterSubmit.ok) {
+      update({ activeGroup: messageAfterSubmit.data });
+    };
+  }, [messageAfterSubmit.ok, messageAfterSubmit.data]);
 
   return (
     <form

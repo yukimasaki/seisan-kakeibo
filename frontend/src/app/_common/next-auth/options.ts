@@ -34,8 +34,12 @@ export const authOptions: NextAuthOptions = {
         token.profile = userData;
       }
 
-      if (trigger === "update") {
+      if (trigger === "update" && session?.profile) {
         token.profile = session.profile;
+      }
+
+      if (trigger === "update" && session?.activeGroup) {
+        token.activeGroup = session.activeGroup;
       }
 
       // Return previous token if the access token has not expired yet
@@ -55,6 +59,7 @@ export const authOptions: NextAuthOptions = {
         session.error = token.error;
         session.user.accessToken = token.accessToken;
         session.profile = token.profile;
+        session.activeGroup = token.activeGroup;
       }
       return session;
     },
