@@ -6,9 +6,14 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export const SelectActiveGroup = () => {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const groups = session?.profile?.members;
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
+
+  const updateSession = () => {
+    const group = groups?.find(group => group.groupId === selectedGroup)?.group;
+    update({ activeGroup: group });
+  };
 
   return (
     <div className="flex flex-col p-2 h-svh">
@@ -41,7 +46,8 @@ export const SelectActiveGroup = () => {
           color={"primary"}
           variant={"flat"}
           className={"w-full"}
-          onPress={() => console.log(selectedGroup)}
+          isDisabled={!selectedGroup}
+          onPress={() => updateSession()}
         >
           グループを選択する
         </Button>
