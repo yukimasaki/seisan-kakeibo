@@ -2,10 +2,11 @@
 
 import { upsertProfile, validateOnBlurEmail, validateOnBlurUserName } from "@components/action/profile";
 import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
 import { User } from "@type/user";
+import { useSession } from "next-auth/react";
 
 export const ProfileFormComponent = ({
   user,
@@ -15,6 +16,7 @@ export const ProfileFormComponent = ({
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
     ok: null,
     message: null,
+    data: null,
   });
 
   const [emailValidateState, validateEmailAction] = useFormState(validateOnBlurEmail, {
@@ -28,6 +30,15 @@ export const ProfileFormComponent = ({
   const uuid = user.uuid;
   const [email, setEmail] = useState<string>(user.email);
   const [userName, setUserName] = useState<string>(user.userName);
+
+  // update関数はコールバックにオブジェクトを渡しているだけなので、データの格納はコールバック側で行う必要がある
+  // https://qiita.com/kage1020/items/8224efd0f3557256c541#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E6%9B%B4%E6%96%B0
+  const { data: session, update } = useSession();
+  useEffect(() => {
+    if (messageAfterSubmit.ok) {
+      update({ profile: messageAfterSubmit.data });
+    };
+  }, [messageAfterSubmit.ok, messageAfterSubmit.data]);
 
   return (
     <>

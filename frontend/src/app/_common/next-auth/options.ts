@@ -15,8 +15,8 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account, trigger }) {
-      // Initial sign in
+    async jwt({ token, user, account, trigger, session }) {
+      // trigger === "signIn"と同等
       if (account && user) {
         token.idToken = account.id_token;
 
@@ -30,15 +30,12 @@ export const authOptions: NextAuthOptions = {
           Date.now() + (account.refresh_expires_in - 15) * 1000;
         token.user = user;
 
-        if (
-          trigger === "signIn" ||
-          trigger === "update"
-        ) {
-          console.log(`signIn or updateで発動:`);
-          console.log(trigger);
-          const userData = await fetchMyProfile(token);
-          token.profile = userData;
-        }
+        const userData = await fetchMyProfile(token);
+        token.profile = userData;
+      }
+
+      if (trigger === "update") {
+        token.profile = session.profile;
       }
 
       // Return previous token if the access token has not expired yet
@@ -57,6 +54,7 @@ export const authOptions: NextAuthOptions = {
         session.user = token.user;
         session.error = token.error;
         session.user.accessToken = token.accessToken;
+        session.profile = token.profile;
       }
       return session;
     },
