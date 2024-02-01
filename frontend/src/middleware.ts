@@ -8,12 +8,16 @@ export const config = {
 export default withAuth(
   async function middleware(req) {
     // authorized === trueの場合に実行される処理
-    const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
-    const myProfile = req.nextauth.token?.profile;
 
+    const myProfile = req.nextauth.token?.profile;
     if (!myProfile && path !== "/profile") {
       return NextResponse.redirect(new URL("/profile", req.url));
+    }
+
+    const activeGroup = req.nextauth.token?.activeGroup;
+    if (myProfile && !activeGroup && path !== "/group") {
+      return NextResponse.redirect(new URL("/group", req.url));
     }
   },
   {
