@@ -22,6 +22,7 @@ declare module 'next-auth' {
     };
     error: string;
     profile: UserData | null;
+    activeGroup: number | undefined;
   }
 
   interface User {
@@ -86,5 +87,6 @@ declare module 'next-auth/jwt' {
     user: User;
     error: string;
     profile: UserData | null;
+    activeGroup: number | undefined;
   }
 }
