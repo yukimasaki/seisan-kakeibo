@@ -20,6 +20,9 @@ export class GroupService {
           displayName: createGroupAndMemberDto.displayName,
           uuid: uuidv4() as string,
         },
+        include: {
+          members: true,
+        },
       });
 
       const member = await this.prisma.member.create({
@@ -29,7 +32,16 @@ export class GroupService {
         },
       });
 
-      return group;
+      const groupWithMembers = await this.prisma.group.findUnique({
+        where: {
+          id: group.id,
+        },
+        include: {
+          members: true,
+        },
+      });
+
+      return groupWithMembers;
     });
 
     return group;
