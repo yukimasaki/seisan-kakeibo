@@ -9,12 +9,6 @@ import { SelectActiveGroup } from "./select-active-group";
 
 const GroupPage = async () => {
   const session = await getServerSession(authOptions);
-  const getBelongingGroups = () => {
-    if (!session?.profile) return null;
-    return session.profile.members;
-  };
-
-  const belongingGroups = getBelongingGroups();
 
   const renderGroupPage = () => {
     if (!session?.profile?.members) return <GroupCreateFormComponent />
