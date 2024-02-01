@@ -6,7 +6,7 @@ import { createGroup, validateOnBlurDisplayName } from "./group-server-action";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-export const GroupFormComponent = ({
+export const GroupCreateFormComponent = ({
 }: {
   }) => {
   const [messageAfterSubmit, formAction] = useFormState(createGroup, {
