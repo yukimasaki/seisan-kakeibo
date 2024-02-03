@@ -15,19 +15,6 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      animation: {
-        "fade-out": "fade-out 5s ease both",
-      },
-      keyframes: {
-        "fade-out": {
-          from: {
-            opacity: "1",
-          },
-          to: {
-            opacity: "0",
-          },
-        },
-      },
     },
   },
   plugins: [nextui()],
