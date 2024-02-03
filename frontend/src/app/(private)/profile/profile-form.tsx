@@ -1,31 +1,44 @@
 "use client";
 
-import { upsertProfile, validateOnBlurEmail, validateOnBlurUserName } from "@components/action/profile";
-import { Button, Card, CardBody, CardFooter, CardHeader, Input } from "@nextui-org/react";
+import {
+  upsertProfile,
+  validateOnBlurEmail,
+  validateOnBlurUserName,
+} from "@components/action/profile";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Input,
+} from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
 import { User } from "@type/user";
 import { useSession } from "next-auth/react";
 
-export const ProfileFormComponent = ({
-  user,
-}: {
-  user: User,
-}) => {
+export const ProfileFormComponent = ({ user }: { user: User }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
     ok: null,
     message: null,
     data: null,
   });
 
-  const [emailValidateState, validateEmailAction] = useFormState(validateOnBlurEmail, {
-    message: null,
-  });
+  const [emailValidateState, validateEmailAction] = useFormState(
+    validateOnBlurEmail,
+    {
+      message: null,
+    }
+  );
 
-  const [userNameValidateState, validateUserNameAction] = useFormState(validateOnBlurUserName, {
-    message: null,
-  });
+  const [userNameValidateState, validateUserNameAction] = useFormState(
+    validateOnBlurUserName,
+    {
+      message: null,
+    }
+  );
 
   const uuid = user.uuid;
   const [email, setEmail] = useState<string>(user.email);
@@ -37,8 +50,8 @@ export const ProfileFormComponent = ({
   useEffect(() => {
     if (messageAfterSubmit.ok) {
       update({ profile: messageAfterSubmit.data });
-    };
-  }, [messageAfterSubmit.ok, messageAfterSubmit.data]);
+    }
+  }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
 
   return (
     <>
@@ -73,10 +86,9 @@ export const ProfileFormComponent = ({
                 onClear={() => setEmail("")}
                 isClearable
               />
-              {
-                emailValidateState.message &&
+              {emailValidateState.message && (
                 <p className="text-red-500">{emailValidateState.message}</p>
-              }
+              )}
 
               <Input
                 label="ユーザー名"
@@ -94,10 +106,9 @@ export const ProfileFormComponent = ({
                 onClear={() => setUserName("")}
                 isClearable
               />
-              {
-                userNameValidateState.message &&
+              {userNameValidateState.message && (
                 <p className="text-red-500">{userNameValidateState.message}</p>
-              }
+              )}
             </CardBody>
             <CardFooter>
               <div className="space-y-2">
@@ -105,15 +116,22 @@ export const ProfileFormComponent = ({
                   type="submit"
                   color="primary"
                   variant="flat"
-                  isDisabled={!!emailValidateState.message || !!userNameValidateState.message}
+                  isDisabled={
+                    !!emailValidateState.message ||
+                    !!userNameValidateState.message
+                  }
                 >
                   保存
                 </Button>
-                {
-                  messageAfterSubmit.message &&
-                  <p className={messageAfterSubmit.ok ? "text-green-500" : "text-red-500"}>{messageAfterSubmit.message}</p>
-                }
-
+                {messageAfterSubmit.message && (
+                  <p
+                    className={
+                      messageAfterSubmit.ok ? "text-green-500" : "text-red-500"
+                    }
+                  >
+                    {messageAfterSubmit.message}
+                  </p>
+                )}
               </div>
             </CardFooter>
           </form>
@@ -121,4 +139,4 @@ export const ProfileFormComponent = ({
       </PositionCenterWrapperComponent>
     </>
   );
-}
+};

@@ -30,32 +30,35 @@ export const TransactionOverviewComponent = () => {
     error,
     isLoading,
   }: {
-    data: Transaction[],
-    error: any,
-    isLoading: boolean,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}`, fetcher, {
-    keepPreviousData: true,
-  });
+    data: Transaction[];
+    error: any;
+    isLoading: boolean;
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}`,
+    fetcher,
+    {
+      keepPreviousData: true,
+    }
+  );
 
   const [isMonthChanged] = useState(false);
 
   useEffect(() => {
-    if (calendarStore.isInit || isMonthChanged) calendarStore.setTransactions(transactions);
-  }, [calendarStore.isInit, isMonthChanged, transactions]);
+    if (calendarStore.isInit || isMonthChanged)
+      calendarStore.setTransactions(transactions);
+  }, [calendarStore, isMonthChanged, transactions]);
 
   const loadingState = isLoading ? "loading" : "idle";
 
   // blankとcurrentMonthを1つの配列に結合
   const summaries: Summary[] = createSummary({
     transactions: calendarStore.transactions ?? undefined,
-    now: calendarStore.currentYearMonth
+    now: calendarStore.currentYearMonth,
   });
 
-  const onListBoxItemClick = (
-    key: Key,
-  ) => {
+  const onListBoxItemClick = (key: Key) => {
     router.push(`/transaction/${key}`);
-  }
+  };
 
   return (
     <>
@@ -76,11 +79,13 @@ export const TransactionOverviewComponent = () => {
           {/* 一覧 開始 */}
           <div>
             {loadingState === "loading" && <Spinner />}
-            {transactions &&
+            {transactions && (
               <ListboxWrapperComponent>
                 <Listbox
                   aria-label={"Transactions list"}
-                  onAction={(key) => { onListBoxItemClick(key) }}
+                  onAction={(key) => {
+                    onListBoxItemClick(key);
+                  }}
                 >
                   {transactions.map((transaction) => {
                     return (
@@ -92,12 +97,20 @@ export const TransactionOverviewComponent = () => {
                             {/* 孫1-1 */}
                             <div className="flex gap-2">
                               <Icon name="Groups" className="text-green-500" />
-                              <span className="text-xs self-center">{transaction.category.category}</span>
+                              <span className="text-xs self-center">
+                                {transaction.category.category}
+                              </span>
                             </div>
                             {/* 孫1-2 */}
                             <div className="flex gap-2">
-                              <span className="text-xs self-center">{dayjs(transaction.paymentDate).locale("ja").format("M/DD (dd)")}</span>
-                              <span className="text-xs self-center">{transaction.title}</span>
+                              <span className="text-xs self-center">
+                                {dayjs(transaction.paymentDate)
+                                  .locale("ja")
+                                  .format("M/DD (dd)")}
+                              </span>
+                              <span className="text-xs self-center">
+                                {transaction.title}
+                              </span>
                             </div>
                           </div>
 
@@ -105,7 +118,9 @@ export const TransactionOverviewComponent = () => {
                           <div className="flex flex-col">
                             {/* 孫2-1 */}
                             <div className="flex gap-2 space-x-0.5">
-                              <span className="text-xs self-center">{transaction.amount}</span>
+                              <span className="text-xs self-center">
+                                {transaction.amount}
+                              </span>
                               <span className="text-xs self-center">円</span>
                             </div>
                           </div>
@@ -115,11 +130,11 @@ export const TransactionOverviewComponent = () => {
                   })}
                 </Listbox>
               </ListboxWrapperComponent>
-            }
+            )}
             {/* 一覧 終了 */}
           </div>
         </div>
       </div>
     </>
   );
-}
+};

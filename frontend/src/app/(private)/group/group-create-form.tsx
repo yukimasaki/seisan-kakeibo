@@ -6,18 +6,19 @@ import { createGroup, validateOnBlurDisplayName } from "./group-server-action";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-export const GroupCreateFormComponent = ({
-}: {
-  }) => {
+export const GroupCreateFormComponent = ({}: {}) => {
   const [messageAfterSubmit, formAction] = useFormState(createGroup, {
     ok: null,
     message: null,
     data: null,
   });
 
-  const [displayNameValidateState, displayNameValidateAction] = useFormState(validateOnBlurDisplayName, {
-    message: null,
-  });
+  const [displayNameValidateState, displayNameValidateAction] = useFormState(
+    validateOnBlurDisplayName,
+    {
+      message: null,
+    }
+  );
 
   const [displayName, setDisplayName] = useState<string>("");
 
@@ -25,14 +26,11 @@ export const GroupCreateFormComponent = ({
   useEffect(() => {
     if (messageAfterSubmit.ok) {
       update({ activeGroup: messageAfterSubmit.data });
-    };
-  }, [messageAfterSubmit.ok, messageAfterSubmit.data]);
+    }
+  }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
 
   return (
-    <form
-      action={formAction}
-      className="flex flex-col p-2 h-svh"
-    >
+    <form action={formAction} className="flex flex-col p-2 h-svh">
       <div className="flex-1">
         <Input
           label={"グループ名"}
@@ -50,24 +48,31 @@ export const GroupCreateFormComponent = ({
           onClear={() => setDisplayName("")}
           isClearable
         />
-        {
-          displayNameValidateState.message &&
+        {displayNameValidateState.message && (
           <p className="text-red-500">{displayNameValidateState.message}</p>
-        }
+        )}
       </div>
       <div className="flex flex-col">
         <Button
           type="submit"
           color="primary"
           variant="flat"
-          isDisabled={!!displayNameValidateState.message || !!messageAfterSubmit.ok}
-          className="w-full">
+          isDisabled={
+            !!displayNameValidateState.message || !!messageAfterSubmit.ok
+          }
+          className="w-full"
+        >
           保存
         </Button>
-        {
-          messageAfterSubmit.message &&
-          <p className={messageAfterSubmit.ok ? "text-green-500" : "text-red-500"}>{messageAfterSubmit.message}</p>
-        }
+        {messageAfterSubmit.message && (
+          <p
+            className={
+              messageAfterSubmit.ok ? "text-green-500" : "text-red-500"
+            }
+          >
+            {messageAfterSubmit.message}
+          </p>
+        )}
       </div>
     </form>
   );
