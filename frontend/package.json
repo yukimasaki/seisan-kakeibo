@@ -19,6 +19,7 @@
     "react": "^18",
     "react-dom": "^18",
     "sweetalert2": "^11.10.4",
+    "sweetalert2-react-content": "^5.0.7",
     "swr": "^2.2.4",
     "uuid": "^9.0.1",
     "zod": "^3.22.4",
