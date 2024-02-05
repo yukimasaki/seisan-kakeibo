@@ -16,13 +16,19 @@ export const SelectActiveGroup = () => {
       (group) => group.groupId === selectedGroup
     )?.group;
     update({ activeGroup: group });
+    showToast({
+      message: "グループを選択しました",
+      type: "success",
+      timerProgressBar: true,
+      timer: 5000,
+    });
   };
 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     showToast({
-      message: "グループを選択してください。",
+      message: "グループを選択してください",
       type: "warning",
       timerProgressBar: true,
       timer: 5000,
