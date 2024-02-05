@@ -3,7 +3,19 @@
 import { CalendarComponent } from "@components/calendar";
 import { useDatePickerCalendar } from "@hooks/useCalendar";
 import useModalForm from "@hooks/useModalForm";
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Popover, PopoverContent, PopoverTrigger, Textarea } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Textarea,
+} from "@nextui-org/react";
 import { Summary } from "@type/calendar";
 import { createSummary } from "@utils/createSummary";
 
@@ -29,21 +41,13 @@ export const CreateTransactionForm = () => {
         {() => (
           <>
             <ModalHeader>
-              <div>
-                新しい支出の登録
-              </div>
+              <div>新しい支出の登録</div>
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col space-y-4">
-                <Input
-                  label={"金額"}
-                  size="sm"
-                />
+                <Input label={"金額"} size="sm" />
 
-                <Input
-                  label={"タイトル"}
-                  size="sm"
-                />
+                <Input label={"タイトル"} size="sm" />
 
                 <Popover placement={"top"}>
                   <PopoverTrigger>
@@ -64,12 +68,19 @@ export const CreateTransactionForm = () => {
                     />
                   </PopoverContent>
                 </Popover>
-
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color={"danger"} variant="light" onPress={() => form.onClose()}>閉じる</Button>
-              <Button color={"primary"} onPress={() => form.onClose()}>作成</Button>
+              <Button
+                color={"danger"}
+                variant="light"
+                onPress={() => form.onClose()}
+              >
+                閉じる
+              </Button>
+              <Button color={"primary"} onPress={() => form.onClose()}>
+                作成
+              </Button>
             </ModalFooter>
           </>
         )}
