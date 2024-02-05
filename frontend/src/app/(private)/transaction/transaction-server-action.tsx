@@ -10,14 +10,14 @@ import {
 import { z } from "zod";
 
 const CommonSchema = z.object({
-  creatorId: z.number(),
-  amount: z.number(),
-  paymentDate: z.date(),
-  title: z.string(),
-  memo: z.string(),
+  creatorId: z.number(), // session
+  amount: z.number(), // formData
+  paymentDate: z.date(), // formData
+  title: z.string(), // formData
+  memo: z.string().optional(), // formData
   status: z.string(),
-  categoryId: z.number(),
-  groupId: z.number(),
+  categoryId: z.number(), // formData
+  groupId: z.number(), // session
 }) satisfies z.ZodType<Common>;
 
 const RatioSchema = CommonSchema.extend({

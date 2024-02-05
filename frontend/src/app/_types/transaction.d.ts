@@ -44,7 +44,7 @@ export type Transaction = {
   amount: number;
   paymentDate: Date;
   title: string;
-  memo: string;
+  memo?: string;
   status: string;
   categoryId: number;
   groupId: number;
