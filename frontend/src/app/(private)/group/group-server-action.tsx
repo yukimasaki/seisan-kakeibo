@@ -52,6 +52,7 @@ export const createGroup = async (
     console.log(error);
 
     const result: ServerActionResult<Group> = {
+      isSubmitted: true,
       ok: false,
       message: `入力内容に誤りがあります`,
       data: null,
@@ -73,6 +74,7 @@ export const createGroup = async (
   const parsedGroupResponse: Group = await groupResponse.json();
 
   const result: ServerActionResult<Group> = {
+    isSubmitted: true,
     ok: true,
     message: "グループを作成しました",
     data: parsedGroupResponse,

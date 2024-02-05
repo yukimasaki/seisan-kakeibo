@@ -9,7 +9,8 @@ import { showToast } from "@components/toast/toast";
 
 export const GroupCreateFormComponent = ({}: {}) => {
   const [messageAfterSubmit, formAction] = useFormState(createGroup, {
-    ok: null,
+    isSubmitted: false,
+    ok: false,
     message: null,
     data: null,
   });
@@ -25,7 +26,7 @@ export const GroupCreateFormComponent = ({}: {}) => {
 
   const { data: session, update } = useSession();
   useEffect(() => {
-    if (messageAfterSubmit.ok) {
+    if (messageAfterSubmit.isSubmitted && messageAfterSubmit.ok) {
       const profile = {
         ...session?.profile,
         members: messageAfterSubmit.data?.members,
@@ -34,8 +35,21 @@ export const GroupCreateFormComponent = ({}: {}) => {
         activeGroup: messageAfterSubmit.data,
         profile,
       });
+      showToast({
+        message: messageAfterSubmit.message || "",
+        type: "success",
+        timerProgressBar: true,
+        timer: 5000,
+      });
+    } else if (messageAfterSubmit.isSubmitted && !messageAfterSubmit.ok) {
+      showToast({
+        message: messageAfterSubmit.message || "",
+        type: "error",
+        timerProgressBar: true,
+        timer: 5000,
+      });
     }
-  }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
+  }, [messageAfterSubmit]);
 
   const [loading, setLoading] = useState(true);
 
@@ -84,15 +98,6 @@ export const GroupCreateFormComponent = ({}: {}) => {
         >
           保存
         </Button>
-        {messageAfterSubmit.message && (
-          <p
-            className={
-              messageAfterSubmit.ok ? "text-green-500" : "text-red-500"
-            }
-          >
-            {messageAfterSubmit.message}
-          </p>
-        )}
       </div>
     </form>
   );
