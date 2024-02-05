@@ -70,7 +70,7 @@ export const upsertProfile = async (
 
   const result: ServerActionResult<User> = {
     ok: true,
-    message: "保存しました",
+    message: "プロフィールを保存しました",
     data: profileResponse,
   };
   return result;
