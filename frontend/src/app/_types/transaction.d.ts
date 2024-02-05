@@ -2,10 +2,45 @@ import { Balance } from "@type/balance";
 import { Category } from "@type/category";
 import { Payment } from "@type/payment";
 
+// 共通
+export type Common = Omit<
+  Transaction,
+  "id" | "editorId" | "payments" | "balances" | "category"
+>;
+
+// 比率
+export type Ratio = Common & {
+  tag: "ratio";
+  member: {
+    userId: number;
+    finalBill: number;
+    ratio: number;
+  }[];
+};
+
+// 均等
+export type Even = Common & {
+  tag: "even";
+  member: {
+    userId: number;
+    finalBill: number;
+  }[];
+};
+
+// 金額指定
+export type AmountBasis = Common & {
+  tag: "amount_basis";
+  member: {
+    userId: number;
+    finalBill: number;
+    specifiedAmount: number;
+  }[];
+};
+
 export type Transaction = {
-  id: number;
+  id: number; // Omit
   creatorId: number;
-  editorId: number;
+  editorId: number; // Omit
   amount: number;
   paymentDate: Date;
   title: string;
@@ -13,50 +48,11 @@ export type Transaction = {
   status: string;
   categoryId: number;
   groupId: number;
-  category: Category;
-  payments: Payment[];
-  balances: Balance[];
+  category: Category; // Omit
+  payments: Payment[]; // Omit
+  balances: Balance[]; // Omit
 };
 
-export type CreateTransactionDto = Omit<
-  Transaction,
-  "id",
-  "editorId",
-  "payments",
-  "balances"
-> &
-  PaymentInfo;
+export type CreateTransactionDto = Ratio | Even | AmountBasis;
 
 export type UpdateTransactionDto = Partial<CreateTransactionDto>;
-
-// 支払情報
-type PaymentInfo = Ratio | Even | AmountBasis;
-
-// 共通
-type Common = {
-  member: {
-    userId: number;
-    finalBill: number;
-  }[];
-};
-
-// 比率
-type Ratio = Common & {
-  tag: "ratio";
-  member: {
-    ratio: number;
-  }[];
-};
-
-// 均等
-type Even = Common & {
-  tag: "even";
-};
-
-// 金額指定
-type AmountBasis = Common & {
-  tag: "amount_basis";
-  member: {
-    specifiedAmount: number;
-  }[];
-};
