@@ -26,7 +26,14 @@ export const GroupCreateFormComponent = ({}: {}) => {
   const { data: session, update } = useSession();
   useEffect(() => {
     if (messageAfterSubmit.ok) {
-      update({ activeGroup: messageAfterSubmit.data });
+      const profile = {
+        ...session?.profile,
+        members: messageAfterSubmit.data?.members,
+      };
+      update({
+        activeGroup: messageAfterSubmit.data,
+        profile,
+      });
     }
   }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
 

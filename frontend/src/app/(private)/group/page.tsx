@@ -11,8 +11,9 @@ const GroupPage = async () => {
   const session = await getServerSession(authOptions);
 
   const renderGroupPage = () => {
-    if (!session?.profile?.members) return <GroupCreateFormComponent />;
-    if (!session.activeGroup) return <SelectActiveGroup />;
+    if (session?.profile?.members.length === 0)
+      return <GroupCreateFormComponent />;
+    if (!session?.activeGroup) return <SelectActiveGroup />;
     return <GroupMemberListComponent />;
   };
 
