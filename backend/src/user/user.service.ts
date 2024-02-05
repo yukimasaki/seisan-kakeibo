@@ -24,7 +24,7 @@ export class UserService {
 
     const keycloakUserId: string = accessToken['sub'];
 
-    const user: User = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         uuid: keycloakUserId,
       },
@@ -50,7 +50,7 @@ export class UserService {
 
   async upsert(upsertUserDto: CreateUserDto | UpdateUserDto) {
     try {
-      const user: User = await this.prisma.user.upsert({
+      const user = await this.prisma.user.upsert({
         where: {
           uuid: upsertUserDto.uuid,
         },
@@ -61,6 +61,13 @@ export class UserService {
           uuid: upsertUserDto.uuid,
           email: upsertUserDto.email,
           userName: upsertUserDto.userName,
+        },
+        include: {
+          members: {
+            include: {
+              group: true,
+            },
+          },
         },
       });
       return user;
