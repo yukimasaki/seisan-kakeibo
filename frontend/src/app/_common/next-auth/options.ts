@@ -1,16 +1,16 @@
-import { NextAuthOptions, Session } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
-import KeycloakProvider from 'next-auth/providers/keycloak';
-import { fetchMyProfile, refreshAccessToken } from './utils';
+import { NextAuthOptions, Session } from "next-auth";
+import { JWT } from "next-auth/jwt";
+import KeycloakProvider from "next-auth/providers/keycloak";
+import { fetchMyProfile, refreshAccessToken } from "./utils";
 
 export const authOptions: NextAuthOptions = {
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   providers: [
     KeycloakProvider({
-      clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID || '',
-      clientSecret: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_SECRET || '',
+      clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID || "",
+      clientSecret: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_SECRET || "",
       issuer: process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER,
     }),
   ],
@@ -48,10 +48,7 @@ export const authOptions: NextAuthOptions = {
       // Access token has expired, try to update it
       return refreshAccessToken(token);
     },
-    async session({ session, token }: {
-      session: Session,
-      token: JWT,
-    }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (token) {
         // アプリケーションから利用可能にするため、明示的にsessionに転送する
         // https://next-auth.js.org/configuration/callbacks#session-callback
@@ -67,11 +64,11 @@ export const authOptions: NextAuthOptions = {
   events: {
     signOut: async (message) => {
       const issuerUri = process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER;
-      const authOriginUri = encodeURIComponent(process.env.NEXTAUTH_URL || '');
+      const authOriginUri = encodeURIComponent(process.env.NEXTAUTH_URL || "");
       const idToken = message.token.idToken;
 
       const signOutUrl = `${issuerUri}/protocol/openid-connect/logout?post_logout_redirect_uri=${authOriginUri}&id_token_hint=${idToken}`;
       await fetch(signOutUrl);
     },
   },
-}
+};
