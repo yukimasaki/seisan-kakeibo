@@ -55,11 +55,15 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
       showToast({
         message: messageAfterSubmit.message || "",
         type: "success",
+        timerProgressBar: true,
+        timer: 5000,
       });
     } else if (messageAfterSubmit.isSubmitted && !messageAfterSubmit.ok) {
       showToast({
         message: messageAfterSubmit.message || "",
         type: "error",
+        timerProgressBar: true,
+        timer: 5000,
       });
     }
     messageAfterSubmit.isSubmitted = false;
