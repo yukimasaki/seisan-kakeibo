@@ -22,7 +22,8 @@ import { showToast } from "@components/toast/toast";
 
 export const ProfileFormComponent = ({ user }: { user: User }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
-    ok: null,
+    isSubmitted: false,
+    ok: false,
     message: null,
     data: null,
   });
@@ -49,10 +50,20 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
   // https://qiita.com/kage1020/items/8224efd0f3557256c541#%E8%AA%8D%E8%A8%BC%E6%83%85%E5%A0%B1%E3%81%AE%E6%9B%B4%E6%96%B0
   const { data: session, update } = useSession();
   useEffect(() => {
-    if (messageAfterSubmit.ok) {
+    if (messageAfterSubmit.isSubmitted && messageAfterSubmit.ok) {
       update({ profile: messageAfterSubmit.data });
+      showToast({
+        message: messageAfterSubmit.message || "",
+        type: "success",
+      });
+    } else if (messageAfterSubmit.isSubmitted && !messageAfterSubmit.ok) {
+      showToast({
+        message: messageAfterSubmit.message || "",
+        type: "error",
+      });
     }
-  }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
+    messageAfterSubmit.isSubmitted = false;
+  }, [messageAfterSubmit]);
 
   useEffect(() => {
     if (!user.userName) {
@@ -135,15 +146,6 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
                 >
                   保存
                 </Button>
-                {messageAfterSubmit.message && (
-                  <p
-                    className={
-                      messageAfterSubmit.ok ? "text-green-500" : "text-red-500"
-                    }
-                  >
-                    {messageAfterSubmit.message}
-                  </p>
-                )}
               </div>
             </CardFooter>
           </form>

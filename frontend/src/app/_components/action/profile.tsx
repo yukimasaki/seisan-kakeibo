@@ -46,6 +46,7 @@ export const upsertProfile = async (
     UpsertProfileSchema.parse(createProfileDto);
   } catch (error) {
     const result: ServerActionResult<User> = {
+      isSubmitted: true,
       ok: false,
       message: `入力内容に誤りがあります`,
       data: null,
@@ -69,6 +70,7 @@ export const upsertProfile = async (
   // console.log(profileResponse);
 
   const result: ServerActionResult<User> = {
+    isSubmitted: true,
     ok: true,
     message: "プロフィールを保存しました",
     data: profileResponse,
