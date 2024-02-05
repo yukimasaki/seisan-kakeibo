@@ -1,9 +1,10 @@
 "use client";
 
 import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
+import { showToast } from "@components/toast/toast";
 import { Button, Listbox, ListboxItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const SelectActiveGroup = () => {
   const { data: session, update } = useSession();
@@ -16,6 +17,18 @@ export const SelectActiveGroup = () => {
     )?.group;
     update({ activeGroup: group });
   };
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    showToast({
+      message: "グループを選択してください。",
+      type: "warning",
+      timerProgressBar: true,
+      timer: 5000,
+    });
+    setLoading(false);
+  }, [loading]);
 
   return (
     <div className="flex flex-col p-2 h-svh">
