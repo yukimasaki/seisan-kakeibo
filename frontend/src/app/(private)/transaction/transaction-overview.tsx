@@ -46,7 +46,7 @@ export const TransactionOverviewComponent = () => {
   useEffect(() => {
     if (calendarStore.isInit || isMonthChanged)
       calendarStore.setTransactions(transactions);
-  }, [calendarStore, isMonthChanged, transactions]);
+  }, [calendarStore.isInit, isMonthChanged, transactions]);
 
   const loadingState = isLoading ? "loading" : "idle";
 
