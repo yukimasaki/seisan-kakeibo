@@ -71,6 +71,9 @@ export const GroupCreateFormComponent = ({}: {}) => {
           name="displayName"
           value={displayName}
           type={"text"}
+          classNames={{
+            input: "text-base",
+          }}
           onChange={(e) => {
             setDisplayName(e.target.value);
             displayNameValidateAction(e.target.value);

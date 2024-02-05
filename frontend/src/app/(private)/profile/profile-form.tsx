@@ -94,6 +94,9 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
                 name="uuid"
                 value={uuid}
                 type="text"
+                classNames={{
+                  input: "text-base",
+                }}
                 readOnly
               />
 
@@ -102,6 +105,9 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
                 name="email"
                 value={email}
                 type="email"
+                classNames={{
+                  input: "text-base",
+                }}
                 onChange={(e) => {
                   setEmail(e.target.value);
                   validateEmailAction(e.target.value);
@@ -122,6 +128,9 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
                 name="userName"
                 value={userName}
                 type="text"
+                classNames={{
+                  input: "text-base",
+                }}
                 onChange={(e) => {
                   setUserName(e.target.value);
                   validateUserNameAction(e.target.value);

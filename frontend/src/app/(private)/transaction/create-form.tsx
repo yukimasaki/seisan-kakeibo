@@ -45,9 +45,21 @@ export const CreateTransactionForm = () => {
             </ModalHeader>
             <ModalBody>
               <div className="flex flex-col space-y-4">
-                <Input label={"金額"} size="sm" />
+                <Input
+                  label={"金額"}
+                  size="sm"
+                  classNames={{
+                    input: "text-base",
+                  }}
+                />
 
-                <Input label={"タイトル"} size="sm" />
+                <Input
+                  label={"タイトル"}
+                  size="sm"
+                  classNames={{
+                    input: "text-base",
+                  }}
+                />
 
                 <Popover placement={"top"}>
                   <PopoverTrigger>
@@ -57,7 +69,7 @@ export const CreateTransactionForm = () => {
                       size="sm"
                       readOnly
                       classNames={{
-                        input: "text-left",
+                        input: "text-left text-base",
                       }}
                     />
                   </PopoverTrigger>
