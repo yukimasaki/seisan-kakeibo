@@ -4,12 +4,15 @@ import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
 import { User } from "@type/user";
 import { getServerSession } from "next-auth";
-import { ZodError, z } from 'zod';
+import { ZodError, z } from "zod";
 
 const UpsertProfileSchema = z.object({
   uuid: z.string().uuid(),
   email: z.string().email({ message: "メールアドレスを入力してください" }),
-  userName: z.string().min(1, { message: "1文字以上入力してください" }).max(255, { message: "255文字以内で入力してください" }),
+  userName: z
+    .string()
+    .min(1, { message: "1文字以上入力してください" })
+    .max(255, { message: "255文字以内で入力してください" }),
 });
 
 const EmailSchema = UpsertProfileSchema.pick({
@@ -22,9 +25,9 @@ const UserNameSchema = UpsertProfileSchema.pick({
 
 export const upsertProfile = async (
   prevState: {
-    message: string | null,
+    message: string | null;
   },
-  formData: FormData,
+  formData: FormData
 ): Promise<ServerActionResult<User>> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
@@ -37,28 +40,30 @@ export const upsertProfile = async (
     uuid,
     email,
     userName,
-  }
+  };
 
   try {
     UpsertProfileSchema.parse(createProfileDto);
-
   } catch (error) {
     const result: ServerActionResult<User> = {
       ok: false,
       message: `入力内容に誤りがあります`,
       data: null,
-    }
+    };
     return result;
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, {
-    method: "POST",
-    body: JSON.stringify(createProfileDto),
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
+    {
+      method: "POST",
+      body: JSON.stringify(createProfileDto),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   const profileResponse: User = await response.json();
   // console.log(profileResponse);
@@ -67,15 +72,15 @@ export const upsertProfile = async (
     ok: true,
     message: "保存しました",
     data: profileResponse,
-  }
+  };
   return result;
-}
+};
 
 export const validateOnBlurEmail = async (
   prevState: {
-    message: string | null,
+    message: string | null;
   },
-  value: string,
+  value: string
 ) => {
   try {
     EmailSchema.parse({
@@ -83,25 +88,25 @@ export const validateOnBlurEmail = async (
     });
     return {
       message: null,
-    }
+    };
   } catch (error) {
     if (error instanceof ZodError) {
       return {
         message: error.errors[0].message,
-      }
+      };
     } else {
       return {
         message: null,
-      }
+      };
     }
   }
-}
+};
 
 export const validateOnBlurUserName = async (
   prevState: {
-    message: string | null,
+    message: string | null;
   },
-  value: string,
+  value: string
 ) => {
   try {
     UserNameSchema.parse({
@@ -109,16 +114,16 @@ export const validateOnBlurUserName = async (
     });
     return {
       message: null,
-    }
+    };
   } catch (error) {
     if (error instanceof ZodError) {
       return {
         message: error.errors[0].message,
-      }
+      };
     } else {
       return {
         message: null,
-      }
+      };
     }
   }
-}
+};
