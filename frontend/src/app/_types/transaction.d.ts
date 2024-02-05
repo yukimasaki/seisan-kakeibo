@@ -14,16 +14,18 @@ export type Transaction = {
   categoryId: number;
   groupId: number;
   category: Category;
-  payments: Payment[],
-  balances: Balance[],
+  payments: Payment[];
+  balances: Balance[];
 };
 
-export type CreateTransactionDto = Omit<Transaction,
+export type CreateTransactionDto = Omit<
+  Transaction,
   "id",
   "editorId",
   "payments",
-  "balances",
-> & PaymentInfo;
+  "balances"
+> &
+  PaymentInfo;
 
 export type UpdateTransactionDto = Partial<CreateTransactionDto>;
 
@@ -36,7 +38,7 @@ type Common = {
     userId: number;
     finalBill: number;
   }[];
-}
+};
 
 // 比率
 type Ratio = Common & {
