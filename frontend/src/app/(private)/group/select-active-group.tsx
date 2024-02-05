@@ -37,7 +37,7 @@ export const SelectActiveGroup = () => {
   }, [loading]);
 
   return (
-    <div className="flex flex-col p-2 h-svh">
+    <div className="flex flex-col h-full p-2">
       <div className="flex-1">
         {/* 選択したグループをupdate()関数でsession.activeGroupにセットする */}
         {groups && (

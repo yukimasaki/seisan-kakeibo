@@ -18,7 +18,7 @@ const GroupPage = async () => {
   };
 
   return (
-    <div className="flex flex-col justify-between h-svh">
+    <div className="flex flex-col h-svh">
       <HeaderComponent />
       {renderGroupPage()}
     </div>

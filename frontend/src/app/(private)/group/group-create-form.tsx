@@ -64,7 +64,7 @@ export const GroupCreateFormComponent = ({}: {}) => {
   }, [loading]);
 
   return (
-    <form action={formAction} className="flex flex-col p-2 h-svh">
+    <form action={formAction} className="flex flex-col h-full p-2">
       <div className="flex-1">
         <Input
           label={"グループ名"}
