@@ -1,11 +1,6 @@
 "use client";
 
 import {
-  upsertProfile,
-  validateOnBlurEmail,
-  validateOnBlurUserName,
-} from "@components/action/profile";
-import {
   Button,
   Card,
   CardBody,
@@ -19,6 +14,11 @@ import { PositionCenterWrapperComponent } from "@components/layout/position-cent
 import { User } from "@type/user";
 import { useSession } from "next-auth/react";
 import { showToast } from "@components/toast/toast";
+import {
+  upsertProfile,
+  validateOnBlurEmail,
+  validateOnBlurUserName,
+} from "./profile-server-action";
 
 export const ProfileFormComponent = ({ user }: { user: User }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
