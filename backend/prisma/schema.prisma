@@ -11,20 +11,17 @@ datasource db {
 }
 
 model User {
-  id             Int           @id @default(autoincrement())
-  uuid           String        @unique @default("")
-  email          String        @unique
-  userName       String
-  membership     String?       @default("FREE")
-  hashedPassword String        @default("")
-  members        Member[]
-  creators       Transaction[] @relation("creator")
-  editors        Transaction[] @relation("editor")
-  payments       Payment[]
-  lenders        Balance[]     @relation("lender")
-  borrowers      Balance[]     @relation("borrower")
-  activeGroup    Group?        @relation(fields: [activeGroupId], references: [id])
-  activeGroupId  Int?
+  id         Int           @id @default(autoincrement())
+  uuid       String        @unique @default("")
+  email      String        @unique
+  userName   String
+  membership String?       @default("FREE")
+  members    Member[]
+  creators   Transaction[] @relation("creator")
+  editors    Transaction[] @relation("editor")
+  payments   Payment[]
+  lenders    Balance[]     @relation("lender")
+  borrowers  Balance[]     @relation("borrower")
 }
 
 model Group {
@@ -34,7 +31,6 @@ model Group {
   members      Member[]
   categories   Category[]
   transactions Transaction[]
-  User         User[]
 }
 
 model Member {

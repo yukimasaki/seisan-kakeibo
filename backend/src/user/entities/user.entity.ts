@@ -47,23 +47,6 @@ export class User {
   })
   @IsString()
   membership: string;
-
-  @ApiProperty({
-    example: '$2a$12$jA9fyFy1qfh379BEfaJM2uGPe9EnqrEZnREv1iaiX8nyCmQz69ERK',
-    description: 'ハッシュ化されたパスワード',
-  })
-  @IsString()
-  hashedPassword: string;
-
-  @ApiProperty({
-    example: '1',
-    description: 'アクティブグループID',
-  })
-  @IsInt()
-  @IsPositive()
-  activeGroupId: number;
 }
 
 export class UserResponse extends User {}
-
-export class UserOmitPassword extends OmitType(User, ['hashedPassword']) {}
