@@ -25,7 +25,6 @@ export const showToast = ({
             popup: "!bg-red-400",
             container: "!w-full",
             closeButton: "!text-white",
-            icon: "!min-w-6 !max-h-6 !max-w-6",
           },
         };
       case "info":
@@ -35,7 +34,6 @@ export const showToast = ({
             popup: "!bg-blue-400",
             container: "!w-full",
             closeButton: "!text-white",
-            icon: "!min-w-6 !max-h-6 !max-w-6",
           },
         };
       case "question":
@@ -45,7 +43,6 @@ export const showToast = ({
             popup: "!bg-orange-400",
             container: "!w-full",
             closeButton: "!text-white",
-            icon: "!min-w-6 !max-h-6 !max-w-6",
           },
         };
       case "success":
@@ -55,7 +52,6 @@ export const showToast = ({
             popup: "!bg-green-400",
             container: "!w-full",
             closeButton: "!text-white",
-            icon: "!min-w-6 !max-h-6 !max-w-6",
           },
         };
       case "warning":
@@ -65,7 +61,6 @@ export const showToast = ({
             popup: "!bg-yellow-400",
             container: "!w-full",
             closeButton: "!text-white",
-            icon: "!min-w-6 !max-h-6 !max-w-6",
           },
         };
     }
