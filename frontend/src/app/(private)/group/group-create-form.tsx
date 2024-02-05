@@ -5,6 +5,7 @@ import { useFormState } from "react-dom";
 import { createGroup, validateOnBlurDisplayName } from "./group-server-action";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { showToast } from "@components/toast/toast";
 
 export const GroupCreateFormComponent = ({}: {}) => {
   const [messageAfterSubmit, formAction] = useFormState(createGroup, {
@@ -28,6 +29,18 @@ export const GroupCreateFormComponent = ({}: {}) => {
       update({ activeGroup: messageAfterSubmit.data });
     }
   }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    showToast({
+      message: "グループを作成してください",
+      type: "warning",
+      timerProgressBar: true,
+      timer: 5000,
+    });
+    setLoading(false);
+  }, [loading]);
 
   return (
     <form action={formAction} className="flex flex-col p-2 h-svh">

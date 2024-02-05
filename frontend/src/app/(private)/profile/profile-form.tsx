@@ -18,6 +18,7 @@ import { useFormState } from "react-dom";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
 import { User } from "@type/user";
 import { useSession } from "next-auth/react";
+import { showToast } from "@components/toast/toast";
 
 export const ProfileFormComponent = ({ user }: { user: User }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
@@ -52,6 +53,17 @@ export const ProfileFormComponent = ({ user }: { user: User }) => {
       update({ profile: messageAfterSubmit.data });
     }
   }, [update, messageAfterSubmit.ok, messageAfterSubmit.data]);
+
+  useEffect(() => {
+    if (!user.userName) {
+      showToast({
+        message: "プロフィールを設定してください",
+        type: "warning",
+        timerProgressBar: true,
+        timer: 5000,
+      });
+    }
+  }, [user.userName]);
 
   return (
     <>
