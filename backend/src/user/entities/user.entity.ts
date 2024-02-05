@@ -1,5 +1,12 @@
-import { ApiProperty, OmitType } from "@nestjs/swagger";
-import { IsEmail, IsInt, IsPositive, IsString, IsUUID, MaxLength } from "class-validator";
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import {
+  IsEmail,
+  IsInt,
+  IsPositive,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class User {
   @ApiProperty({
@@ -23,7 +30,7 @@ export class User {
   })
   @IsString()
   @IsEmail()
-  email: string
+  email: string;
 
   @ApiProperty({
     example: 'Jhon Doe',
@@ -57,6 +64,6 @@ export class User {
   activeGroupId: number;
 }
 
-export class UserResponse extends User { }
+export class UserResponse extends User {}
 
-export class UserOmitPassword extends OmitType(User, ['hashedPassword']) { }
+export class UserOmitPassword extends OmitType(User, ['hashedPassword']) {}
