@@ -8,7 +8,10 @@ import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
 const CreateGroupSchema = z.object({
-  displayName: z.string().min(1, { message: "1文字以上入力してください" }).max(255, "255文字以内で入力してください"),
+  displayName: z
+    .string()
+    .min(1, { message: "1文字以上入力してください" })
+    .max(255, "255文字以内で入力してください"),
 });
 
 const DisplayNameSchema = CreateGroupSchema.pick({
@@ -17,21 +20,24 @@ const DisplayNameSchema = CreateGroupSchema.pick({
 
 export const createGroup = async (
   prevState: {
-    message: string | null,
+    message: string | null;
   },
-  formData: FormData,
+  formData: FormData
 ): Promise<ServerActionResult<Group>> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
   const displayName = formData.get("displayName");
 
-  const profileResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
-    method: 'GET',
-    headers: {
-      "Authorization": `Bearer ${session?.user.accessToken}`,
-    },
-  });
+  const profileResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${session?.user.accessToken}`,
+      },
+    }
+  );
 
   const user: User = await profileResponse.json();
 
@@ -49,17 +55,20 @@ export const createGroup = async (
       ok: false,
       message: `入力内容に誤りがあります`,
       data: null,
-    }
+    };
     return result;
   }
-  const groupResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`, {
-    method: "POST",
-    body: JSON.stringify(createGroupAndMemberDto),
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
-    },
-  });
+  const groupResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`,
+    {
+      method: "POST",
+      body: JSON.stringify(createGroupAndMemberDto),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   const parsedGroupResponse: Group = await groupResponse.json();
 
@@ -73,9 +82,9 @@ export const createGroup = async (
 
 export const validateOnBlurDisplayName = async (
   prevState: {
-    message: string | null,
+    message: string | null;
   },
-  value: string,
+  value: string
 ) => {
   try {
     DisplayNameSchema.parse({
