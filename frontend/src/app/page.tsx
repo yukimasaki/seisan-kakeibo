@@ -1,6 +1,6 @@
 "use server";
 
-import { HeaderComponent } from "@components/header";
+import { NavbarComponent } from "@components/navbar";
 import { Icon } from "@components/icon/icon";
 import { PageListComponent } from "@components/page-list";
 
@@ -44,10 +44,10 @@ const HomePage = async () => {
 
   return (
     <>
-      <HeaderComponent />
+      <NavbarComponent />
       <PageListComponent pages={pages} />
     </>
   );
-}
+};
 
 export default HomePage;

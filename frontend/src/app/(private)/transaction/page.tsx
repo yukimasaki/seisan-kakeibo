@@ -1,17 +1,17 @@
 "use server";
 
-import { HeaderComponent } from "@components/header";
+import { NavbarComponent } from "@components/navbar";
 import { TransactionOverviewComponent } from "./transaction-overview";
 
 const TransactionPage = async () => {
   return (
     <>
       <div className="flex flex-col justify-between h-svh">
-        <HeaderComponent />
+        <NavbarComponent />
         <TransactionOverviewComponent />
       </div>
     </>
   );
-}
+};
 
 export default TransactionPage;

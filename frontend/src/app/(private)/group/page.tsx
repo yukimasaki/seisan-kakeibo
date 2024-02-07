@@ -1,6 +1,6 @@
 "use server";
 
-import { HeaderComponent } from "@components/header";
+import { NavbarComponent } from "@components/navbar";
 import { GroupCreateFormComponent } from "./group-create-form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
@@ -19,7 +19,7 @@ const GroupPage = async () => {
 
   return (
     <div className="flex flex-col h-svh">
-      <HeaderComponent />
+      <NavbarComponent />
       {renderGroupPage()}
     </div>
   );
