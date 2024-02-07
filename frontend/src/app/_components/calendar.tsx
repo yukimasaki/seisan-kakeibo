@@ -62,11 +62,10 @@ export const CalendarComponent = ({
 
   // 渡された文字列が今日の日付か判定する関数
   const isToday = (date: string) => {
-    const todayString = new Date().toDateString();
-    const dateString = new Date(date).toDateString();
+    const today = dayjs();
+    const givenDate = dayjs(date);
 
-    if (todayString === dateString) return true;
-    return false;
+    return today.isSame(givenDate, "day");
   };
 
   const onDateClick = (date: string) => {
