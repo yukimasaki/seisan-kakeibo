@@ -1,6 +1,6 @@
 "use server";
 
-import { NavbarComponent } from "@components/navbar";
+import { NavbarComponent } from "@components/navbar/navbar";
 import { TransactionDetailComponent } from "./transaction-detail";
 
 const TransactionDetailPage = () => {

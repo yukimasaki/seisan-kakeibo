@@ -1,6 +1,6 @@
 "use server";
 
-import { NavbarComponent } from "@components/navbar";
+import { NavbarComponent } from "@components/navbar/navbar";
 import { Icon } from "@components/icon/icon";
 import { PageListComponent } from "@components/page-list";
 

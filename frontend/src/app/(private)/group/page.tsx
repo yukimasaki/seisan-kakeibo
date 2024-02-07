@@ -1,6 +1,6 @@
 "use server";
 
-import { NavbarComponent } from "@components/navbar";
+import { NavbarComponent } from "@components/navbar/navbar";
 import { GroupCreateFormComponent } from "./group-create-form";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
