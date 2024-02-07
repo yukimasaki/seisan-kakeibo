@@ -1,5 +1,7 @@
-import { User } from '@type/user';
-import { JWT } from 'next-auth/jwt';
+import { authOptions } from "@common/next-auth/options";
+import { User } from "@type/user";
+import { getServerSession } from "next-auth";
+import { JWT } from "next-auth/jwt";
 
 export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
   try {
@@ -7,21 +9,21 @@ export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
     const details = {
       client_id: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID,
       client_secret: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_SECRET,
-      grant_type: ['refresh_token'],
+      grant_type: ["refresh_token"],
       refresh_token: token.refreshToken,
-    }
+    };
     const formBody: string[] = [];
     Object.entries(details).forEach(([key, value]: [string, any]) => {
       const encodedKey = encodeURIComponent(key);
       const encodedValue = encodeURIComponent(value);
-      formBody.push(encodedKey + '=' + encodedValue);
+      formBody.push(encodedKey + "=" + encodedValue);
     });
-    const formData = formBody.join('&');
+    const formData = formBody.join("&");
     const url = `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/token`;
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
       },
       body: formData,
     });
@@ -34,23 +36,27 @@ export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
       refreshTokenExpired:
         Date.now() + (refreshedTokens.refresh_expires_in - 15) * 1000,
-    }
+    };
   } catch (error) {
     return {
       ...token,
-      error: 'RefreshAccessTokenError',
-    }
+      error: "RefreshAccessTokenError",
+    };
   }
-}
+};
 
 export const fetchMyProfile = async (token: JWT): Promise<User | null> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`, {
-    headers: {
-      "Authorization": `Bearer ${token.accessToken}`,
-    },
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${token.accessToken}`,
+      },
+    }
+  );
 
-  const data: User | null = (response.status) !== 200 ? null : await response.json();
+  const data: User | null =
+    response.status !== 200 ? null : await response.json();
 
   return data;
 };
