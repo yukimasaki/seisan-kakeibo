@@ -60,3 +60,9 @@ export const fetchMyProfile = async (token: JWT): Promise<User | null> => {
 
   return data;
 };
+
+export const isLoggedIn = async () => {
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+  return !!user;
+};
