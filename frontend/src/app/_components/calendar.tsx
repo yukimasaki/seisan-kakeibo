@@ -1,7 +1,14 @@
 "use client";
 
 import { Icon } from "@components/icon/icon";
-import { Button, Input, Popover, PopoverContent, PopoverTrigger, useDisclosure } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  useDisclosure,
+} from "@nextui-org/react";
 import { CalendarStore, DayLabel, Summary } from "@type/calendar";
 import dayjs from "dayjs";
 import { StoreApi, UseBoundStore } from "zustand";
@@ -47,16 +54,14 @@ export const CalendarComponent = ({
   summaries,
   store,
 }: {
-  dayLabels?: DayLabel[],
-  summaries: Summary[],
-  store: UseBoundStore<StoreApi<CalendarStore>>,
+  dayLabels?: DayLabel[];
+  summaries: Summary[];
+  store: UseBoundStore<StoreApi<CalendarStore>>;
 }) => {
   const calendarStore = store();
 
   // 渡された文字列が今日の日付か判定する関数
-  const isToday = (
-    date: string,
-  ) => {
+  const isToday = (date: string) => {
     const todayString = new Date().toDateString();
     const dateString = new Date(date).toDateString();
 
@@ -64,10 +69,7 @@ export const CalendarComponent = ({
     return false;
   };
 
-
-  const onDateClick = (
-    date: string,
-  ) => {
+  const onDateClick = (date: string) => {
     calendarStore.setIsInit(false);
     calendarStore.setSelectedDate(date);
     calendarStore.setStart(date);
@@ -78,16 +80,14 @@ export const CalendarComponent = ({
     <div className="flex flex-col space-y-1">
       {/* 年月ピッカー ここから */}
       <div className="flex justify-between gap-2">
-        <Popover
-          backdrop="blur"
-        >
+        <Popover backdrop="blur">
           <PopoverTrigger>
             <Input
               value={calendarStore.currentYearMonth.format("YYYY年M月")}
               type={"text"}
               size={"sm"}
               classNames={{
-                inputWrapper: "h-full shadow-none"
+                inputWrapper: "h-full shadow-none",
               }}
               readOnly
             />
@@ -95,16 +95,26 @@ export const CalendarComponent = ({
           <PopoverContent>
             <div className="flex flex-col space-y-4">
               <div className="flex flex-row justify-center items-center">
-                <Button isIconOnly variant="light" onPress={() => calendarStore.decreaseYear()}>
+                <Button
+                  isIconOnly
+                  variant="light"
+                  onPress={() => calendarStore.decreaseYear()}
+                >
                   <Icon name={"Back"} size={24} />
                 </Button>
-                <div className="px-4 text-lg">{calendarStore.selectedYear}年</div>
-                <Button isIconOnly variant="light" onPress={() => calendarStore.increaseYear()}>
+                <div className="px-4 text-lg">
+                  {calendarStore.selectedYear}年
+                </div>
+                <Button
+                  isIconOnly
+                  variant="light"
+                  onPress={() => calendarStore.increaseYear()}
+                >
                   <Icon name={"Forward"} size={24} />
                 </Button>
               </div>
               <div className="grid grid-cols-4 gap-2">
-                {monthsOfYear.map(month => (
+                {monthsOfYear.map((month) => (
                   <Button
                     key={month.id}
                     value={month.value}
@@ -112,7 +122,11 @@ export const CalendarComponent = ({
                       calendarStore.setSelectedMonth(month.value);
                     }}
                     variant="flat"
-                    color={month.value === calendarStore.selectedMonth ? "primary" : "default"}
+                    color={
+                      month.value === calendarStore.selectedMonth
+                        ? "primary"
+                        : "default"
+                    }
                   >
                     {month.value}月
                   </Button>
@@ -123,10 +137,26 @@ export const CalendarComponent = ({
         </Popover>
 
         <div className="flex flex-row gap-1">
-          <Button isIconOnly variant="flat" onPress={() => calendarStore.setCurrentYearMonth(calendarStore.currentYearMonth.subtract(1, "month"))}>
+          <Button
+            isIconOnly
+            variant="flat"
+            onPress={() =>
+              calendarStore.setCurrentYearMonth(
+                calendarStore.currentYearMonth.subtract(1, "month")
+              )
+            }
+          >
             <Icon name={"Back"} size={24} />
           </Button>
-          <Button isIconOnly variant="flat" onPress={() => calendarStore.setCurrentYearMonth(calendarStore.currentYearMonth.add(1, "month"))}>
+          <Button
+            isIconOnly
+            variant="flat"
+            onPress={() =>
+              calendarStore.setCurrentYearMonth(
+                calendarStore.currentYearMonth.add(1, "month")
+              )
+            }
+          >
             <Icon name={"Forward"} size={24} />
           </Button>
         </div>
@@ -140,7 +170,8 @@ export const CalendarComponent = ({
             return (
               <span
                 key={dayLabel.key}
-                className="self-center justify-self-center border-gray-300 text-gray-50 text-xs pt-0.5 px-2"              >
+                className="self-center justify-self-center border-gray-300 text-gray-50 text-xs pt-0.5 px-2"
+              >
                 {dayLabel.label}
               </span>
             );
@@ -150,16 +181,28 @@ export const CalendarComponent = ({
           {summaries.map((summary) => {
             return (
               <div
-                className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${calendarStore.selectedDate === summary.date ? "bg-blue-100 shadow-sm" : ""}`}
+                className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${
+                  calendarStore.selectedDate === summary.date
+                    ? "bg-blue-100 shadow-sm"
+                    : ""
+                }`}
                 key={summary.id}
                 onClick={() => onDateClick(summary.date)}
               >
-                <div className={`top h-5 w-full text-sm text-center ${isToday(summary.date) ? "text-red-400" : ""}`}>
+                <div
+                  className={`top h-5 w-full text-sm text-center ${
+                    isToday(summary.date) ? "text-red-400" : ""
+                  }`}
+                >
                   {summary.label}
                 </div>
                 {summary.tag === "overview" && (
                   <div className="bottom flex-grow h-7 py-1 w-full cursor-pointer text-center">
-                    <div className="text-xs text-gray-500">{summary.amount > 0 ? summary.amount.toLocaleString() : ""}</div>
+                    <div className="text-xs text-gray-500">
+                      {summary.amount > 0
+                        ? summary.amount.toLocaleString()
+                        : ""}
+                    </div>
                   </div>
                 )}
               </div>
@@ -169,5 +212,5 @@ export const CalendarComponent = ({
       </div>
       {/* カレンダー ここまで */}
     </div>
-  )
+  );
 };
