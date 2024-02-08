@@ -1,5 +1,97 @@
 "use client";
 
+import { H1Component } from "@components/text/heading";
+import { ParagraphComponent } from "@components/text/paragraph";
+import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+
 export const HomePage = () => {
-  return <div>ここがホームページだ！</div>;
+  return (
+    <main className="p-2 ">
+      {/* セクション1 */}
+      <section className="pb-8 sm:flex sm:flex-row-reverse">
+        {/* 画像 */}
+        <div className="p-4 sm:w-1/2 ">
+          <Image
+            width={450}
+            height={300}
+            src={"https://via.placeholder.com/450x300"}
+          />
+        </div>
+        {/* キャッチコピー */}
+        <div className="p-4 sm:w-1/2 sm:flex sm:flex-col">
+          <div className="px-4 pb-2 flex flex-col sm:text-3xl sm:w-[360px] sm:self-end">
+            <H1Component>
+              立替えが楽になる
+              <br />
+              家計簿アプリ！
+            </H1Component>
+          </div>
+          <div className="px-4 pb-2 sm:w-[360px] sm:self-end">
+            <ParagraphComponent>
+              メンバー間の立替えをサポート。柔軟な立替え機能やグループ機能であなたの生活を支えます。
+            </ParagraphComponent>
+          </div>
+        </div>
+      </section>
+
+      {/* セクション2 */}
+      <section className="pb-8 flex flex-col justify-center items-center">
+        <H1Component className="pb-4">Seisanの機能</H1Component>
+        <ParagraphComponent className="pb-4">
+          日々の記録や面倒な精算もSeisanなら一瞬。
+          <br />
+          便利な機能がたくさんあります。
+        </ParagraphComponent>
+        <div className="px-4 flex flex-col justify-center w-full gap-8 sm:flex-row">
+          <Card
+            className="py-4 bg-blue-200 w-full sm:max-w-[320px]"
+            shadow="sm"
+          >
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <h4 className="font-bold text-large">柔軟な立替え</h4>
+            </CardHeader>
+            <CardBody className="overflow-visible py-2 items-center">
+              <Image
+                className="object-cover rounded-xl"
+                src={"https://via.placeholder.com/270x270"}
+                width={270}
+              />
+            </CardBody>
+          </Card>
+
+          <Card
+            className="py-4 bg-blue-200 w-full sm:max-w-[320px]"
+            shadow="sm"
+          >
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <h4 className="font-bold text-large">複数グループの作成</h4>
+            </CardHeader>
+            <CardBody className="overflow-visible py-2 items-center">
+              <Image
+                className="object-cover rounded-xl"
+                src={"https://via.placeholder.com/270x270"}
+                width={270}
+              />
+            </CardBody>
+          </Card>
+
+          <Card
+            className="py-4 bg-blue-200 w-full sm:max-w-[320px]"
+            shadow="sm"
+          >
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <h4 className="font-bold text-large">PC・スマホ対応</h4>
+            </CardHeader>
+            <CardBody className="overflow-visible py-2 items-center">
+              <Image
+                className="object-cover rounded-xl"
+                src={"https://via.placeholder.com/270x270"}
+                width={270}
+              />
+            </CardBody>
+          </Card>
+        </div>
+      </section>
+    </main>
+  );
 };
