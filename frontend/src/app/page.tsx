@@ -3,6 +3,7 @@
 import { NavbarComponent } from "@components/navbar/navbar";
 import { Icon } from "@components/icon/icon";
 import { PageListComponent } from "@components/page-list";
+import { SwitchButton } from "@components/navbar/switch-button";
 
 const HomePage = async () => {
   const iconClasses = "text-xl text-blue-500 pointer-events-none flex-shrink-0";
@@ -44,7 +45,9 @@ const HomePage = async () => {
 
   return (
     <>
-      <NavbarComponent />
+      <NavbarComponent>
+        <SwitchButton />
+      </NavbarComponent>
       <PageListComponent pages={pages} />
     </>
   );
