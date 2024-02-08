@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 import {
   Navbar,
@@ -6,30 +6,56 @@ import {
   NavbarContent,
   NavbarItem,
   Link,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
 } from "@nextui-org/react";
-import { getServerSession } from "next-auth";
-import { LoginButtonComponent } from "@components/button/login";
-import { LogoutButtonComponent } from "@components/button/logout";
-import { authOptions } from "@common/next-auth/options";
+import { useState } from "react";
+import { pages } from "@components/navbar/pages";
+import { usePathname } from "next/navigation";
 
-export const NavbarComponent = async () => {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+export const NavbarComponent = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const currentPath = usePathname();
 
   return (
-    <Navbar className="shadow" maxWidth="full">
-      <NavbarBrand>
-        <NavbarItem>
-          <p className="font-bold text-inherit">
-            <Link href="/">Seisan家計簿</Link>
-          </p>
-        </NavbarItem>
-      </NavbarBrand>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          {!user ? <LoginButtonComponent /> : <LogoutButtonComponent />}
-        </NavbarItem>
+    <Navbar className="shadow" maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
+      <NavbarContent justify="start">
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        />
+
+        <NavbarBrand>
+          <NavbarItem>
+            <p className="font-bold text-inherit">
+              <Link href="/">Seisan家計簿</Link>
+            </p>
+          </NavbarItem>
+        </NavbarBrand>
       </NavbarContent>
+
+      <NavbarContent justify="end">
+        <NavbarItem>{children}</NavbarItem>
+      </NavbarContent>
+
+      <NavbarMenu>
+        {pages.map((page, idx) => (
+          <NavbarMenuItem key={`${page}-${idx}`}>
+            <Link
+              color={currentPath === page.path ? "primary" : "foreground"}
+              className={"w-full"}
+              href={page.path}
+              size={"lg"}
+            >
+              {page.name}
+            </Link>
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu>
     </Navbar>
   );
 };
