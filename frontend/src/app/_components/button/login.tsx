@@ -6,8 +6,8 @@ import Link from "next/link";
 
 export const LoginButtonComponent = () => {
   return (
-    <Button as={Link} color="primary" href="#" onClick={() => signIn()} variant="flat">
+    <Button as={Link} color="primary" href="#" onClick={() => signIn()}>
       Login
     </Button>
   );
-}
+};
