@@ -1,0 +1,27 @@
+import { Toggle } from "@type/toggle";
+import { create } from "zustand";
+
+const definition = (
+  set: (
+    partial:
+      | Toggle
+      | Partial<Toggle>
+      | ((state: Toggle) => Toggle | Partial<Toggle>),
+    replace?: boolean | undefined
+  ) => void,
+  get: () => Toggle
+) =>
+  ({
+    isOpen: false,
+    onOpen: () =>
+      set({
+        isOpen: true,
+      }),
+    onClose: () =>
+      set({
+        isOpen: false,
+      }),
+  } satisfies Toggle);
+
+export const useModalForm = create<Toggle>(definition);
+export const useNavMenu = create<Toggle>(definition);
