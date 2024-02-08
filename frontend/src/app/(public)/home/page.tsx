@@ -12,6 +12,7 @@ export const HomePage = () => {
         {/* 画像 */}
         <div className="p-4 sm:w-1/2 ">
           <Image
+            alt={"Hero image"}
             width={450}
             height={300}
             src={"https://via.placeholder.com/450x300"}
@@ -52,6 +53,7 @@ export const HomePage = () => {
             </CardHeader>
             <CardBody className="overflow-visible py-2 items-center">
               <Image
+                alt={"Seisan's Feature 1"}
                 className="object-cover rounded-xl"
                 src={"https://via.placeholder.com/270x270"}
                 width={270}
@@ -68,6 +70,7 @@ export const HomePage = () => {
             </CardHeader>
             <CardBody className="overflow-visible py-2 items-center">
               <Image
+                alt={"Seisan's Feature 2"}
                 className="object-cover rounded-xl"
                 src={"https://via.placeholder.com/270x270"}
                 width={270}
@@ -84,6 +87,7 @@ export const HomePage = () => {
             </CardHeader>
             <CardBody className="overflow-visible py-2 items-center">
               <Image
+                alt={"Seisan's Feature 3"}
                 className="object-cover rounded-xl"
                 src={"https://via.placeholder.com/270x270"}
                 width={270}
