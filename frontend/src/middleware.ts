@@ -2,8 +2,9 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 export const config = {
-  matcher: ["/((?!register|api|login|welcome|test).*)"],
-}
+  // reason: "$" は "/" (ルートパス)を表している
+  matcher: ["/((?!register|api|login|$).*)"],
+};
 
 export default withAuth(
   async function middleware(req) {
@@ -28,5 +29,5 @@ export default withAuth(
         return true;
       },
     },
-  },
+  }
 );
