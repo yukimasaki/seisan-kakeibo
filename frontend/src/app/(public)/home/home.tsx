@@ -4,7 +4,7 @@ import { H1Component } from "@components/text/heading";
 import { ParagraphComponent } from "@components/text/paragraph";
 import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 
-export const HomePage = () => {
+export const HomePageComponent = () => {
   return (
     <main className="p-2 ">
       {/* セクション1 */}
