@@ -6,7 +6,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
 import { GroupMemberListComponent } from "./group-member-list";
 import { SelectActiveGroup } from "./select-active-group";
-import { SwitchButton } from "@components/navbar/switch-button";
 
 const GroupPage = async () => {
   const session = await getServerSession(authOptions);
@@ -20,9 +19,7 @@ const GroupPage = async () => {
 
   return (
     <div className="flex flex-col h-svh">
-      <NavbarComponent>
-        <SwitchButton />
-      </NavbarComponent>
+      <NavbarComponent />
       {renderGroupPage()}
     </div>
   );

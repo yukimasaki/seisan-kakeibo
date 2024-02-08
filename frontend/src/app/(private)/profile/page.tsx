@@ -5,7 +5,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
 import { User } from "@type/user";
 import { ProfileFormComponent } from "./profile-form";
-import { SwitchButton } from "@components/navbar/switch-button";
 
 const ProfilePage = async () => {
   const session = await getServerSession(authOptions);
@@ -30,9 +29,7 @@ const ProfilePage = async () => {
 
   return (
     <>
-      <NavbarComponent>
-        <SwitchButton />
-      </NavbarComponent>
+      <NavbarComponent />
       <ProfileFormComponent user={user} />
     </>
   );
