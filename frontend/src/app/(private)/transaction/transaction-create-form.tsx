@@ -2,7 +2,6 @@
 
 import { CalendarComponent } from "@components/calendar";
 import { useDatePickerCalendar } from "@hooks/useCalendar";
-import useModalForm from "@hooks/useModalForm";
 import {
   Button,
   Input,
@@ -26,6 +25,7 @@ import { createSummary } from "@utils/createSummary";
 import { useFormState } from "react-dom";
 import { createTransaction, validateOnBlur } from "./transaction-server-action";
 import { useState } from "react";
+import { useModalForm } from "@hooks/useToggle";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
