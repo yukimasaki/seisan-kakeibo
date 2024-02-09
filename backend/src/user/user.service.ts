@@ -32,6 +32,7 @@ export class UserService {
         members: {
           include: {
             group: true,
+            user: true,
           },
         },
       },
