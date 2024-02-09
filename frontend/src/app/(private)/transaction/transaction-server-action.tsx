@@ -87,6 +87,7 @@ export const createTransaction = async (
   const title = formData.get("title");
   const tag = formData.get("tag");
   const paymentDate = formData.get("paymentDate");
+
   const memo = formData.get("memo");
 
   const createTransactionDto = {
@@ -100,7 +101,6 @@ export const createTransaction = async (
     groupId,
     // members,
   };
-  console.log(createTransactionDto);
 
   return {
     isSubmitted: true,
@@ -119,6 +119,10 @@ export type Keys =
   | keyof AmountBasisSchemaKeys;
 
 const messages = new Map<Keys, string>();
+
+export const clearMessages = () => {
+  messages.clear();
+};
 
 export const validateOnBlur = async (
   prevState: {

@@ -25,11 +25,13 @@ import { createSummary } from "@utils/createSummary";
 import { useFormState } from "react-dom";
 import {
   Keys,
+  clearMessages,
   createTransaction,
   validateOnBlur,
 } from "./transaction-server-action";
 import { useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
+import dayjs from "dayjs";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
@@ -43,13 +45,23 @@ export const CreateTransactionForm = () => {
     message: new Map<Keys, string>(),
   });
 
+  const form = useModalForm();
+  const calendarStore = useDatePickerCalendar();
+
   // input
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [title, setTitle] = useState("");
-
-  const form = useModalForm();
-  const calendarStore = useDatePickerCalendar();
+  const [selectedTab, setSelectedTab] = useState("ratio");
+  const clear = () => {
+    setAmount("");
+    setCategoryId("");
+    setTitle("");
+    setSelectedTab("ratio");
+    calendarStore.setSelectedDate(dayjs().format("YYYY-MM-DD"));
+    validateState.message.clear();
+    clearMessages();
+  };
 
   const summaries: Summary[] = createSummary({
     now: calendarStore.currentYearMonth,
@@ -72,7 +84,6 @@ export const CreateTransactionForm = () => {
     { id: 13, icon: "", category: "分類不能" },
   ];
 
-  const [selectedTab, setSelectedTab] = useState("ratio");
   const tabs = [
     {
       key: "ratio",
@@ -94,7 +105,6 @@ export const CreateTransactionForm = () => {
   return (
     <Modal
       isOpen={form.isOpen}
-      onClose={() => form.onClose()}
       placement="center"
       isDismissable={false}
       isKeyboardDismissDisabled={true}
@@ -134,8 +144,7 @@ export const CreateTransactionForm = () => {
                       validateAction({
                         tag: selectedTab,
                         key: "amount",
-                        value:
-                          e.target.value === "" ? undefined : e.target.value,
+                        value: !e.target.value ? undefined : e.target.value,
                       });
                     }}
                     onClear={() => setAmount("")}
@@ -151,10 +160,20 @@ export const CreateTransactionForm = () => {
                     label={"カテゴリー"}
                     name={"categoryId"}
                     value={categoryId}
+                    defaultSelectedKeys={["1"]}
                     items={categories}
                     placeholder={"カテゴリーを選択"}
                     onChange={(e) => {
                       setCategoryId(e.target.value);
+                      validateAction({
+                        tag: selectedTab,
+                        key: "categoryId",
+                        value:
+                          e.target.value === "" ? undefined : e.target.value,
+                      });
+                    }}
+                    onBlur={(e) => {
+                      if (!(e.target instanceof HTMLInputElement)) return;
                       validateAction({
                         tag: selectedTab,
                         key: "categoryId",
@@ -214,7 +233,6 @@ export const CreateTransactionForm = () => {
                     <PopoverTrigger>
                       <Input
                         label={"支払日"}
-                        name={"paymentDate"}
                         value={calendarStore.selectedDate}
                         size="sm"
                         readOnly
@@ -230,8 +248,16 @@ export const CreateTransactionForm = () => {
                       />
                     </PopoverContent>
                   </Popover>
+                  <input
+                    name={"paymentDate"}
+                    value={calendarStore.selectedDate}
+                    hidden
+                    readOnly
+                  />
+
                   <Tabs
                     items={tabs}
+                    selectedKey={selectedTab}
                     onSelectionChange={(tab) => setSelectedTab(tab.toString())}
                   >
                     {(tab) => (
@@ -254,7 +280,10 @@ export const CreateTransactionForm = () => {
                 <Button
                   color={"danger"}
                   variant="light"
-                  onPress={() => form.onClose()}
+                  onPress={() => {
+                    form.onClose();
+                    clear();
+                  }}
                 >
                   閉じる
                 </Button>
@@ -262,7 +291,10 @@ export const CreateTransactionForm = () => {
                   type={"submit"}
                   color={"primary"}
                   variant={"flat"}
-                  onPress={() => form.onClose()}
+                  onPress={() => {
+                    form.onClose();
+                    clear();
+                  }}
                 >
                   作成
                 </Button>
