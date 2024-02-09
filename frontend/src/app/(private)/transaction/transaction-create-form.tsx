@@ -25,13 +25,16 @@ import { createSummary } from "@utils/createSummary";
 import { useFormState } from "react-dom";
 import {
   Keys,
+  PaymentType,
   clearMessages,
   createTransaction,
   validateOnBlur,
 } from "./transaction-server-action";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
 import dayjs from "dayjs";
+import { useSession } from "next-auth/react";
+import { Member } from "@type/member";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
@@ -47,12 +50,13 @@ export const CreateTransactionForm = () => {
 
   const form = useModalForm();
   const calendarStore = useDatePickerCalendar();
+  const { data: session } = useSession();
 
   // input
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [title, setTitle] = useState("");
-  const [selectedTab, setSelectedTab] = useState("ratio");
+  const [selectedTab, setSelectedTab] = useState<PaymentType>("ratio");
   const clear = () => {
     setAmount("");
     setCategoryId("");
@@ -84,21 +88,59 @@ export const CreateTransactionForm = () => {
     { id: 13, icon: "", category: "分類不能" },
   ];
 
-  const tabs = [
+  const paymentTable = ({
+    tag,
+    members,
+  }: {
+    tag: PaymentType;
+    members: Member[] | undefined;
+  }) => {
+    if (!members) return null;
+    const unit = (() => {
+      if (tag === "ratio") return "%";
+      return "円";
+    })();
+    return (
+      <div>
+        {members.map((member) => (
+          <div key={member.userId} className="flex flex-row space-x-2">
+            <div>{member.userId}</div>
+            <div>{member.user.userName}</div>
+            <div>{unit}</div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const tabs: {
+    key: PaymentType;
+    label: string;
+    content: React.ReactNode;
+  }[] = [
     {
       key: "ratio",
       label: "比率",
-      content: "比率!!",
+      content: paymentTable({
+        tag: "ratio",
+        members: session?.profile?.members,
+      }),
     },
     {
       key: "even",
       label: "均等",
-      content: "均等!!",
+      content: paymentTable({
+        tag: "even",
+        members: session?.profile?.members,
+      }),
     },
     {
       key: "amount_basis",
       label: "金額",
-      content: "金額!!",
+      content: paymentTable({
+        tag: "amount_basis",
+        members: session?.profile?.members,
+      }),
     },
   ];
 
@@ -258,7 +300,9 @@ export const CreateTransactionForm = () => {
                   <Tabs
                     items={tabs}
                     selectedKey={selectedTab}
-                    onSelectionChange={(tab) => setSelectedTab(tab.toString())}
+                    onSelectionChange={(tab) =>
+                      setSelectedTab(tab as PaymentType)
+                    }
                   >
                     {(tab) => (
                       <Tab key={tab.key} title={tab.label}>

@@ -14,6 +14,8 @@ import React from "react";
 import { ZodError, z } from "zod";
 
 // **************************** スキーマ ****************************
+export type PaymentType = "ratio" | "even" | "amount_basis";
+
 // オブジェクト単位
 const CommonSchema = z.object({
   amount: z.coerce.number({ invalid_type_error: "数値を入力してください" }), // formData
@@ -133,7 +135,7 @@ export const validateOnBlur = async (
     key,
     value,
   }: {
-    tag: React.Key;
+    tag: PaymentType;
     key: Keys;
     value: unknown;
   }
@@ -154,11 +156,6 @@ export const validateOnBlur = async (
       }
     }
   })();
-
-  if (!schema)
-    return {
-      message: messages,
-    };
 
   try {
     schema.parse({ [key]: value });
