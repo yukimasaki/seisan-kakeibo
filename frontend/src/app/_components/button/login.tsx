@@ -6,7 +6,12 @@ import Link from "next/link";
 
 export const LoginButtonComponent = () => {
   return (
-    <Button as={Link} color="primary" href="#" onClick={() => signIn()}>
+    <Button
+      as={Link}
+      color="primary"
+      href="#"
+      onClick={() => signIn("keycloak", { callbackUrl: "/transaction" })}
+    >
       Login
     </Button>
   );

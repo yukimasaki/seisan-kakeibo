@@ -6,8 +6,14 @@ import Link from "next/link";
 
 export const LogoutButtonComponent = () => {
   return (
-    <Button as={Link} color="primary" href="#" onClick={() => signOut()} variant="flat">
+    <Button
+      as={Link}
+      color="primary"
+      href="#"
+      onClick={() => signOut({ callbackUrl: "/" })}
+      variant="flat"
+    >
       Logout
     </Button>
   );
-}
+};
