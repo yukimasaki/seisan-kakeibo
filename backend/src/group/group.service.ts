@@ -56,6 +56,9 @@ export class GroupService {
   async findOne(id: number): Promise<GroupResponse | null> {
     return await this.prisma.group.findUnique({
       where: { id },
+      include: {
+        members: true,
+      },
     });
   }
 
