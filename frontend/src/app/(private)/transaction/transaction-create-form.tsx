@@ -23,7 +23,11 @@ import { Summary } from "@type/calendar";
 import { Category } from "@type/category";
 import { createSummary } from "@utils/createSummary";
 import { useFormState } from "react-dom";
-import { createTransaction, validateOnBlur } from "./transaction-server-action";
+import {
+  Keys,
+  createTransaction,
+  validateOnBlur,
+} from "./transaction-server-action";
 import { useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
 
@@ -36,7 +40,7 @@ export const CreateTransactionForm = () => {
   });
 
   const [validateState, validateAction] = useFormState(validateOnBlur, {
-    message: null,
+    message: new Map<Keys, string>(),
   });
 
   // input

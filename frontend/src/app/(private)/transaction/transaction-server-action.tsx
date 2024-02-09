@@ -113,14 +113,16 @@ export const createTransaction = async (
 type RatioSchemaKeys = (typeof RatioSchema)["_type"];
 type EvenSchemaKeys = (typeof EvenSchema)["_type"];
 type AmountBasisSchemaKeys = (typeof AmountBasisSchema)["_type"];
-type Keys =
+export type Keys =
   | keyof RatioSchemaKeys
   | keyof EvenSchemaKeys
   | keyof AmountBasisSchemaKeys;
 
+const messages = new Map<Keys, string>();
+
 export const validateOnBlur = async (
   prevState: {
-    message: null | Map<Keys, string>;
+    message: Map<Keys, string>;
   },
   {
     tag,
@@ -131,7 +133,7 @@ export const validateOnBlur = async (
     key: Keys;
     value: unknown;
   }
-): Promise<{ message: null | Map<Keys, string> }> => {
+): Promise<{ message: Map<Keys, string> }> => {
   console.log(tag);
   console.log(key);
   console.log(value);
@@ -155,25 +157,25 @@ export const validateOnBlur = async (
 
   if (!schema)
     return {
-      message: null,
+      message: messages,
     };
 
   try {
     schema.parse({ [key]: value });
+    // reason: エラーメッセージがフォームに表示され続けてしまうため、バリデーションを通過したkeyをmessagesから削除する
+    messages.delete(key);
     return {
-      message: null,
+      message: messages,
     };
   } catch (error) {
-    console.log(error);
     if (error instanceof ZodError) {
-      const map = new Map();
-      map.set(key, error.errors[0].message);
+      messages.set(key, error.errors[0].message);
       return {
-        message: map,
+        message: messages,
       };
     } else {
       return {
-        message: null,
+        message: messages,
       };
     }
   }
