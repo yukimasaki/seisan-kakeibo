@@ -16,13 +16,15 @@ import { ZodError, z } from "zod";
 // **************************** スキーマ ****************************
 // オブジェクト単位
 const CommonSchema = z.object({
+  amount: z.coerce.number({ invalid_type_error: "数値を入力してください" }), // formData
+  categoryId: z.coerce.number({
+    invalid_type_error: "カテゴリーを選択してください",
+  }), // formData
   creatorId: z.number(), // session
-  amount: z.number(), // formData
   paymentDate: z.date(), // formData
   title: z.string(), // formData
   memo: z.string().optional(), // formData
   status: z.string(),
-  categoryId: z.number(), // formData
   groupId: z.number(), // session
 }) satisfies z.ZodType<Common>;
 
@@ -77,24 +79,25 @@ export const createTransaction = async (
   const creatorId = session?.profile?.id;
   const groupId = session?.activeGroup?.id;
 
-  const tag = formData.get("tag");
+  const categoryId = formData.get("categoryId");
   const amount = formData.get("amount");
+  const tag = formData.get("tag");
   const paymentDate = formData.get("paymentDate");
   const title = formData.get("title");
   const memo = formData.get("memo");
-  const categoryId = formData.get("categoryId");
 
-  // const createTransactionDto: CreateTransactionDto = {
-  //   tag,
-  //   creatorId,
-  //   amount,
-  //   paymentDate,
-  //   title,
-  //   memo,
-  //   categoryId,
-  //   groupId,
-  //   // members,
-  // };
+  const createTransactionDto = {
+    categoryId,
+    amount,
+    tag,
+    creatorId,
+    paymentDate,
+    title,
+    memo,
+    groupId,
+    // members,
+  };
+  console.log(createTransactionDto);
 
   return {
     isSubmitted: true,
@@ -107,20 +110,29 @@ export const createTransaction = async (
 type RatioSchemaKeys = (typeof RatioSchema)["_type"];
 type EvenSchemaKeys = (typeof EvenSchema)["_type"];
 type AmountBasisSchemaKeys = (typeof AmountBasisSchema)["_type"];
-export const validateOnBlur = ({
-  tag,
-  key,
-  value,
-}: {
-  tag: React.Key;
-  key:
-    | keyof RatioSchemaKeys
-    | keyof EvenSchemaKeys
-    | keyof AmountBasisSchemaKeys;
-  value: unknown;
-}): {
-  message: string | null;
-} => {
+type Keys =
+  | keyof RatioSchemaKeys
+  | keyof EvenSchemaKeys
+  | keyof AmountBasisSchemaKeys;
+
+export const validateOnBlur = async (
+  prevState: {
+    message: null | Map<Keys, string>;
+  },
+  {
+    tag,
+    key,
+    value,
+  }: {
+    tag: React.Key;
+    key: Keys;
+    value: unknown;
+  }
+): Promise<{ message: null | Map<Keys, string> }> => {
+  console.log(tag);
+  console.log(key);
+  console.log(value);
+
   const schema = (() => {
     switch (tag) {
       case "ratio": {
@@ -151,8 +163,10 @@ export const validateOnBlur = ({
   } catch (error) {
     console.log(error);
     if (error instanceof ZodError) {
+      const map = new Map();
+      map.set(key, error.errors[0].message);
       return {
-        message: error.errors[0].message,
+        message: map,
       };
     } else {
       return {

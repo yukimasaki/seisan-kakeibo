@@ -35,6 +35,13 @@ export const CreateTransactionForm = () => {
     data: null,
   });
 
+  const [validateState, validateAction] = useFormState(validateOnBlur, {
+    message: null,
+  });
+
+  const [amount, setAmount] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+
   const form = useModalForm();
   const calendarStore = useDatePickerCalendar();
 
@@ -100,17 +107,55 @@ export const CreateTransactionForm = () => {
                   <Input
                     label={"金額"}
                     name={"amount"}
+                    value={amount}
+                    type={"number"}
                     inputMode={"numeric"}
                     size={"sm"}
                     classNames={{
                       input: "text-base",
                     }}
+                    onChange={(e) => {
+                      setAmount(e.target.value);
+                      validateAction({
+                        tag: selectedTab,
+                        key: "amount",
+                        value:
+                          e.target.value === "" ? undefined : e.target.value,
+                      });
+                    }}
+                    onBlur={(e) => {
+                      if (!(e.target instanceof HTMLInputElement)) return;
+                      validateAction({
+                        tag: selectedTab,
+                        key: "amount",
+                        value:
+                          e.target.value === "" ? undefined : e.target.value,
+                      });
+                    }}
+                    onClear={() => setAmount("")}
+                    isClearable
                   />
+                  {validateState.message && (
+                    <p className="text-red-500">
+                      {validateState.message.get("amount")}
+                    </p>
+                  )}
+
                   <Select
                     label={"カテゴリー"}
                     name={"categoryId"}
+                    value={categoryId}
                     items={categories}
                     placeholder={"カテゴリーを選択"}
+                    onChange={(e) => {
+                      setCategoryId(e.target.value);
+                      validateAction({
+                        tag: selectedTab,
+                        key: "categoryId",
+                        value:
+                          e.target.value === "" ? undefined : e.target.value,
+                      });
+                    }}
                   >
                     {(category) => (
                       <SelectItem key={category.id}>
@@ -118,6 +163,12 @@ export const CreateTransactionForm = () => {
                       </SelectItem>
                     )}
                   </Select>
+                  {validateState.message && (
+                    <p className="text-red-500">
+                      {validateState.message.get("categoryId")}
+                    </p>
+                  )}
+
                   <Input
                     label={"タイトル"}
                     name={"title"}
