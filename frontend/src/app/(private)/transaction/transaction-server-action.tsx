@@ -134,10 +134,6 @@ export const validateOnBlur = async (
     value: unknown;
   }
 ): Promise<{ message: Map<Keys, string> }> => {
-  console.log(tag);
-  console.log(key);
-  console.log(value);
-
   const schema = (() => {
     switch (tag) {
       case "ratio": {
