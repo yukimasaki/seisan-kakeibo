@@ -39,8 +39,10 @@ export const CreateTransactionForm = () => {
     message: null,
   });
 
+  // input
   const [amount, setAmount] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [title, setTitle] = useState("");
 
   const form = useModalForm();
   const calendarStore = useDatePickerCalendar();
@@ -172,11 +174,38 @@ export const CreateTransactionForm = () => {
                   <Input
                     label={"タイトル"}
                     name={"title"}
+                    value={title}
                     size={"sm"}
                     classNames={{
                       input: "text-base",
                     }}
+                    onChange={(e) => {
+                      setTitle(e.target.value);
+                      validateAction({
+                        tag: selectedTab,
+                        key: "title",
+                        value:
+                          e.target.value === "" ? undefined : e.target.value,
+                      });
+                    }}
+                    onBlur={(e) => {
+                      if (!(e.target instanceof HTMLInputElement)) return;
+                      validateAction({
+                        tag: selectedTab,
+                        key: "title",
+                        value:
+                          e.target.value === "" ? undefined : e.target.value,
+                      });
+                    }}
+                    onClear={() => setTitle("")}
+                    isClearable
                   />
+                  {validateState.message && (
+                    <p className="text-red-500">
+                      {validateState.message.get("title")}
+                    </p>
+                  )}
+
                   <Popover placement={"top"}>
                     <PopoverTrigger>
                       <Input

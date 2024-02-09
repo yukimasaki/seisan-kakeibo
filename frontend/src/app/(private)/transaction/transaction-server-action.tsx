@@ -20,9 +20,12 @@ const CommonSchema = z.object({
   categoryId: z.coerce.number({
     invalid_type_error: "カテゴリーを選択してください",
   }), // formData
+  title: z
+    .string({ required_error: "タイトルを入力してください" })
+    .min(1, { message: "1文字以上入力してください" })
+    .max(128, { message: "128文字以内で入力してください" }), // formData
   creatorId: z.number(), // session
   paymentDate: z.date(), // formData
-  title: z.string(), // formData
   memo: z.string().optional(), // formData
   status: z.string(),
   groupId: z.number(), // session
@@ -79,20 +82,20 @@ export const createTransaction = async (
   const creatorId = session?.profile?.id;
   const groupId = session?.activeGroup?.id;
 
-  const categoryId = formData.get("categoryId");
   const amount = formData.get("amount");
+  const categoryId = formData.get("categoryId");
+  const title = formData.get("title");
   const tag = formData.get("tag");
   const paymentDate = formData.get("paymentDate");
-  const title = formData.get("title");
   const memo = formData.get("memo");
 
   const createTransactionDto = {
-    categoryId,
     amount,
+    categoryId,
+    title,
     tag,
     creatorId,
     paymentDate,
-    title,
     memo,
     groupId,
     // members,
