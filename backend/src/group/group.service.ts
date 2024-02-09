@@ -7,42 +7,44 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class GroupService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createGroupAndMemberDto: CreateGroupAndMemberDto): Promise<GroupResponse> {
+  async create(
+    createGroupAndMemberDto: CreateGroupAndMemberDto,
+  ): Promise<GroupResponse> {
     // トランザクション処理
-    const group: GroupResponse = await this.prisma.$transaction(async (prisma) => {
-      // reason: groupIdが必要なので先にグループを作成する
-      const group = await this.prisma.group.create({
-        data: {
-          displayName: createGroupAndMemberDto.displayName,
-          uuid: uuidv4() as string,
-        },
-        include: {
-          members: true,
-        },
-      });
+    const group: GroupResponse = await this.prisma.$transaction(
+      async (prisma) => {
+        // reason: groupIdが必要なので先にグループを作成する
+        const group = await this.prisma.group.create({
+          data: {
+            displayName: createGroupAndMemberDto.displayName,
+            uuid: uuidv4() as string,
+          },
+          include: {
+            members: true,
+          },
+        });
 
-      const member = await this.prisma.member.create({
-        data: {
-          userId: createGroupAndMemberDto.userId,
-          groupId: group.id,
-        },
-      });
+        const member = await this.prisma.member.create({
+          data: {
+            userId: createGroupAndMemberDto.userId,
+            groupId: group.id,
+          },
+        });
 
-      const groupWithMembers = await this.prisma.group.findUnique({
-        where: {
-          id: group.id,
-        },
-        include: {
-          members: true,
-        },
-      });
+        const groupWithMembers = await this.prisma.group.findUnique({
+          where: {
+            id: group.id,
+          },
+          include: {
+            members: true,
+          },
+        });
 
-      return groupWithMembers;
-    });
+        return groupWithMembers;
+      },
+    );
 
     return group;
   }
@@ -53,20 +55,23 @@ export class GroupService {
 
   async findOne(id: number): Promise<GroupResponse | null> {
     return await this.prisma.group.findUnique({
-      where: { id }
+      where: { id },
     });
   }
 
-  async update(id: number, updateGroupDto: UpdateGroupDto): Promise<GroupResponse> {
+  async update(
+    id: number,
+    updateGroupDto: UpdateGroupDto,
+  ): Promise<GroupResponse> {
     return await this.prisma.group.update({
       where: { id },
-      data: updateGroupDto
+      data: updateGroupDto,
     });
   }
 
   async remove(id: number): Promise<GroupResponse> {
     return await this.prisma.group.delete({
-      where: { id }
+      where: { id },
     });
   }
 }
