@@ -97,18 +97,6 @@ export const CreateTransactionForm = () => {
               </ModalHeader>
               <ModalBody>
                 <div className="flex flex-col space-y-4">
-                  <Button
-                    onPress={() => {
-                      validateOnBlur({
-                        tag: selectedTab,
-                        key: "amount",
-                        value: 10000,
-                      });
-                    }}
-                  >
-                    test
-                  </Button>
-
                   <Input
                     label={"金額"}
                     name={"amount"}
