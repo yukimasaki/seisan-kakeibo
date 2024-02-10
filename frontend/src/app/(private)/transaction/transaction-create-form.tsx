@@ -35,6 +35,8 @@ import { useModalForm } from "@hooks/useToggle";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { Member } from "@type/member";
+import { ParagraphComponent } from "@components/text/paragraph";
+import { v4 } from "uuid";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
@@ -103,10 +105,15 @@ export const CreateTransactionForm = () => {
     return (
       <div>
         {members.map((member) => (
-          <div key={member.userId} className="flex flex-row space-x-2">
-            <div>{member.userId}</div>
-            <div>{member.user.userName}</div>
-            <div>{unit}</div>
+          <div key={v4()} className="flex flex-row justify-between">
+            <div className="flex flex-row space-x-4 items-center">
+              <ParagraphComponent>{member.userId}</ParagraphComponent>
+              <ParagraphComponent>{member.user.userName}</ParagraphComponent>
+            </div>
+            <div className="flex flex-row space-x-2 items-center">
+              <Input size={"sm"} variant="underlined" />
+              <ParagraphComponent>{unit}</ParagraphComponent>
+            </div>
           </div>
         ))}
       </div>
