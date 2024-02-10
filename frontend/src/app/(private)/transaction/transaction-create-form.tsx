@@ -130,7 +130,7 @@ export const CreateTransactionForm = () => {
       label: "比率",
       content: paymentTable({
         tag: "ratio",
-        members: session?.profile?.members,
+        members: session?.profile?.belongingGroups,
       }),
     },
     {
@@ -138,7 +138,7 @@ export const CreateTransactionForm = () => {
       label: "均等",
       content: paymentTable({
         tag: "even",
-        members: session?.profile?.members,
+        members: session?.profile?.belongingGroups,
       }),
     },
     {
@@ -146,7 +146,7 @@ export const CreateTransactionForm = () => {
       label: "金額",
       content: paymentTable({
         tag: "amount_basis",
-        members: session?.profile?.members,
+        members: session?.profile?.belongingGroups,
       }),
     },
   ];

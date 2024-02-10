@@ -8,11 +8,11 @@ import { useEffect, useState } from "react";
 
 export const SelectActiveGroup = () => {
   const { data: session, update } = useSession();
-  const groups = session?.profile?.members;
+  const belongingGroups = session?.profile?.belongingGroups;
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
 
   const updateSession = () => {
-    const group = groups?.find(
+    const group = belongingGroups?.find(
       (group) => group.groupId === selectedGroup
     )?.group;
     update({ activeGroup: group });
@@ -40,7 +40,7 @@ export const SelectActiveGroup = () => {
     <div className="flex flex-col h-full p-2">
       <div className="flex-1">
         {/* 選択したグループをupdate()関数でsession.activeGroupにセットする */}
-        {groups && (
+        {belongingGroups && (
           <ListboxWrapperComponent>
             <Listbox
               aria-label="Listbox menu with icons"
@@ -48,7 +48,7 @@ export const SelectActiveGroup = () => {
               selectionMode="single"
               onAction={(key) => setSelectedGroup(Number(key))}
             >
-              {groups.map((group) => {
+              {belongingGroups.map((group) => {
                 return (
                   <ListboxItem key={group.groupId} startContent={group.groupId}>
                     {group.group.displayName}
