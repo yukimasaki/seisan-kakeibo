@@ -33,8 +33,7 @@ model Group {
   members      Member[]
   categories   Category[]
   transactions Transaction[]
-  users        User[]
-  userId       Int
+  user         User[]
 }
 
 model Member {

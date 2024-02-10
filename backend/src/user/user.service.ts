@@ -29,7 +29,7 @@ export class UserService {
         uuid: keycloakUserId,
       },
       include: {
-        members: {
+        belongingGroups: {
           include: {
             group: true,
             user: true,
@@ -64,7 +64,7 @@ export class UserService {
           userName: upsertUserDto.userName,
         },
         include: {
-          members: {
+          belongingGroups: {
             include: {
               group: true,
             },
@@ -85,7 +85,7 @@ export class UserService {
     return await this.prisma.user.findUnique({
       where: { id },
       include: {
-        members: {
+        belongingGroups: {
           include: {
             group: true,
           },
@@ -98,7 +98,7 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { email },
       include: {
-        members: {
+        belongingGroups: {
           include: {
             group: true,
           },
