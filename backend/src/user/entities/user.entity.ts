@@ -1,4 +1,6 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { GroupResponse } from '@@nest/group/entities/group.entity';
+import { Member, MemberResponse } from '@@nest/member/entities/member.entity';
+import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger';
 import {
   IsEmail,
   IsInt,
@@ -49,4 +51,10 @@ export class User {
   membership: string;
 }
 
-export class UserResponse extends User {}
+class AdditionalUserInfo {
+  belongingGroups: MemberResponse[];
+  activeGroupId: number;
+  activeGroup: GroupResponse;
+}
+
+export class UserResponse extends IntersectionType(User, AdditionalUserInfo) {}

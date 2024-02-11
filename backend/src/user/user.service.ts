@@ -18,40 +18,62 @@ export class UserService {
     private readonly utilityService: UtilityService,
   ) {}
 
-  async findMyProfile(bearerToken: string) {
+  async findMyProfile(bearerToken: string): Promise<UserResponse> {
     const accessToken: AccessToken = this.utilityService.decodeJwt(bearerToken);
     if (!accessToken) throw new BadRequestException();
 
     const keycloakUserId: string = accessToken['sub'];
 
-    const user = await this.prisma.user.findUnique({
+    const user: UserResponse = await this.prisma.user.findUnique({
       where: {
         uuid: keycloakUserId,
       },
       include: {
         belongingGroups: {
           include: {
-            group: true,
             user: true,
+            group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
           },
         },
       },
     });
 
     if (!user) throw new NotFoundException();
-
     return user;
   }
 
   async create(createUserDto: CreateUserDto): Promise<UserResponse> {
-    return await this.prisma.user.create({
+    const user: UserResponse = await this.prisma.user.create({
       data: createUserDto,
+      include: {
+        belongingGroups: {
+          include: {
+            user: true,
+            group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
+          },
+        },
+      },
     });
+
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
-  async upsert(upsertUserDto: CreateUserDto | UpdateUserDto) {
+  async upsert(
+    upsertUserDto: CreateUserDto | UpdateUserDto,
+  ): Promise<UserResponse> {
     try {
-      const user = await this.prisma.user.upsert({
+      const user: UserResponse = await this.prisma.user.upsert({
         where: {
           uuid: upsertUserDto.uuid,
         },
@@ -66,41 +88,81 @@ export class UserService {
         include: {
           belongingGroups: {
             include: {
+              user: true,
               group: true,
+            },
+          },
+          activeGroup: {
+            include: {
+              members: true,
             },
           },
         },
       });
+
+      if (!user) throw new NotFoundException();
       return user;
     } catch (error) {
       console.log(error);
     }
   }
 
-  async findAll(): Promise<UserResponse[] | null> {
-    return await this.prisma.user.findMany();
-  }
-
-  async findById(id: number) {
-    return await this.prisma.user.findUnique({
-      where: { id },
+  async findAll(): Promise<UserResponse[]> {
+    const users: UserResponse[] = await this.prisma.user.findMany({
       include: {
         belongingGroups: {
           include: {
+            user: true,
             group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
           },
         },
       },
     });
+
+    if (!users) throw new NotFoundException();
+    return users;
   }
 
-  async findByEmail(email: string) {
-    const user = await this.prisma.user.findUnique({
+  async findById(id: number): Promise<UserResponse> {
+    const user: UserResponse = await this.prisma.user.findUnique({
+      where: { id },
+      include: {
+        belongingGroups: {
+          include: {
+            user: true,
+            group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
+          },
+        },
+      },
+    });
+
+    if (!user) throw new NotFoundException();
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<UserResponse> {
+    const user: UserResponse = await this.prisma.user.findUnique({
       where: { email },
       include: {
         belongingGroups: {
           include: {
+            user: true,
             group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
           },
         },
       },
@@ -114,23 +176,47 @@ export class UserService {
     id: number,
     updateUserDto: UpdateUserDto,
   ): Promise<UserResponse> {
-    return await this.prisma.user.update({
+    const user: UserResponse = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
+      include: {
+        belongingGroups: {
+          include: {
+            user: true,
+            group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
+          },
+        },
+      },
     });
+
+    if (!user) throw new NotFoundException();
+    return user;
   }
 
   async remove(id: number): Promise<UserResponse> {
-    const currentUser: User = await this.findById(id);
-    if (!currentUser) throw new NotFoundException();
+    const user: UserResponse = await this.prisma.user.delete({
+      where: { id },
+      include: {
+        belongingGroups: {
+          include: {
+            user: true,
+            group: true,
+          },
+        },
+        activeGroup: {
+          include: {
+            members: true,
+          },
+        },
+      },
+    });
 
-    try {
-      const user = await this.prisma.user.delete({
-        where: { id },
-      });
-      return user;
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
+    if (!user) throw new NotFoundException();
+    return user;
   }
 }
