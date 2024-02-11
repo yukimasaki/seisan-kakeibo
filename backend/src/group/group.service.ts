@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGroupAndMemberDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { PrismaService } from '@@nest/common/prisma/prisma.service';
@@ -49,32 +49,46 @@ export class GroupService {
     return group;
   }
 
-  async findAll(): Promise<GroupResponse[] | null> {
-    return await this.prisma.group.findMany();
+  async findAll(): Promise<GroupResponse[]> {
+    const groups: GroupResponse[] = await this.prisma.group.findMany({
+      include: { members: true },
+    });
+
+    if (!groups) throw new NotFoundException();
+    return groups;
   }
 
-  async findOne(id: number): Promise<GroupResponse | null> {
-    return await this.prisma.group.findUnique({
+  async findOne(id: number): Promise<GroupResponse> {
+    const group: GroupResponse = await this.prisma.group.findUnique({
       where: { id },
-      include: {
-        members: true,
-      },
+      include: { members: true },
     });
+
+    if (!group) throw new NotFoundException();
+    return group;
   }
 
   async update(
     id: number,
     updateGroupDto: UpdateGroupDto,
   ): Promise<GroupResponse> {
-    return await this.prisma.group.update({
+    const group: GroupResponse = await this.prisma.group.update({
       where: { id },
+      include: { members: true },
       data: updateGroupDto,
     });
+
+    if (!group) throw new NotFoundException();
+    return group;
   }
 
   async remove(id: number): Promise<GroupResponse> {
-    return await this.prisma.group.delete({
+    const group: GroupResponse = await this.prisma.group.delete({
       where: { id },
+      include: { members: true },
     });
+
+    if (!group) throw new NotFoundException();
+    return group;
   }
 }

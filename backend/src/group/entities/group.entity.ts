@@ -1,4 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { Member } from '@@nest/member/entities/member.entity';
+import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import {
   IsInt,
   IsPositive,
@@ -32,4 +33,11 @@ export class Group {
   displayName: string;
 }
 
-export class GroupResponse extends Group {}
+class AddtionalGroupInfo {
+  members: Member[];
+}
+
+export class GroupResponse extends IntersectionType(
+  Group,
+  AddtionalGroupInfo,
+) {}
