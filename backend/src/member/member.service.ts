@@ -6,19 +6,15 @@ import { MemberResponse } from './entities/member.entity';
 
 @Injectable()
 export class MemberService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createMemberDto: CreateMemberDto): Promise<MemberResponse> {
     return await this.prisma.member.create({
-      data: createMemberDto
+      data: createMemberDto,
     });
   }
 
-  async findByGroupId(
-    groupId: number,
-  ): Promise<MemberResponse[] | null> {
+  async findByGroupId(groupId: number): Promise<MemberResponse[] | null> {
     return await this.prisma.member.findMany({
       where: {
         groupId,
@@ -35,7 +31,7 @@ export class MemberService {
         userId_groupId: {
           userId,
           groupId,
-        }
+        },
       },
       include: {
         user: true,
@@ -43,15 +39,19 @@ export class MemberService {
     });
   }
 
-  async update(userId: number, groupId: number, updateMemberDto: UpdateMemberDto) {
+  async update(
+    userId: number,
+    groupId: number,
+    updateMemberDto: UpdateMemberDto,
+  ) {
     return await this.prisma.member.update({
       where: {
         userId_groupId: {
           userId,
           groupId,
-        }
+        },
       },
-      data: updateMemberDto
+      data: updateMemberDto,
     });
   }
 
@@ -61,8 +61,8 @@ export class MemberService {
         userId_groupId: {
           userId,
           groupId,
-        }
-      }
+        },
+      },
     });
   }
 }
