@@ -2,7 +2,20 @@
 
 import { fetcher } from "@common/fetcher";
 import { Icon } from "@components/icon/icon";
-import { Card, CardHeader, CardBody, CardFooter, Button, Table, TableHeader, TableColumn, TableBody, Spinner, TableRow, TableCell } from "@nextui-org/react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Button,
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  Spinner,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
 import { Transaction } from "@type/transaction";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
@@ -20,19 +33,24 @@ export const TransactionDetailComponent = () => {
     error,
     isLoading,
   }: {
-    data: Transaction,
-    error: any,
-    isLoading: boolean,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/${id}`, fetcher, {
-    keepPreviousData: true,
-  });
+    data: Transaction;
+    error: any;
+    isLoading: boolean;
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/${id}`,
+    fetcher,
+    {
+      keepPreviousData: true,
+    }
+  );
 
-  const loadingState = isLoading || transaction.payments.length === 0 ? "loading" : "idle";
+  const loadingState =
+    isLoading || transaction.payments.length === 0 ? "loading" : "idle";
 
   return (
     <div className="flex flex-col h-svh">
       <div className="flex-1 p-2 space-y-2">
-        {transaction &&
+        {transaction && (
           <Card>
             <CardHeader className="flex">
               <Button variant="light" onClick={() => router.back()}>
@@ -49,11 +67,17 @@ export const TransactionDetailComponent = () => {
                     {/* 1-1-1 */}
                     <div className="flex gap-2">
                       <Icon name="Groups" className="text-green-500" />
-                      <span className="text-md self-center">{transaction.category.category}</span>
+                      <span className="text-md self-center">
+                        {transaction.category.category}
+                      </span>
                     </div>
                     {/* 1-1-2 */}
                     <div className="flex gap-2">
-                      <span className="text-md self-center">{dayjs(transaction.paymentDate).locale("ja").format("M/DD (dd)")}</span>
+                      <span className="text-md self-center">
+                        {dayjs(transaction.paymentDate)
+                          .locale("ja")
+                          .format("M/DD (dd)")}
+                      </span>
                     </div>
                   </div>
 
@@ -61,7 +85,9 @@ export const TransactionDetailComponent = () => {
                   <div className="flex flex-col">
                     {/* 1-2-1 */}
                     <div className="flex gap-2 space-x-0.5">
-                      <span className="text-md self-center">{transaction.amount}</span>
+                      <span className="text-md self-center">
+                        {transaction.amount}
+                      </span>
                       <span className="text-md self-center">円</span>
                     </div>
                   </div>
@@ -92,20 +118,19 @@ export const TransactionDetailComponent = () => {
                     >
                       {(item) => (
                         <TableRow key={item.id}>
-                          <TableCell >{item.payer.userName}</TableCell>
-                          <TableCell >{item.defaultPaymentAmount}円</TableCell>
-                          <TableCell >{item.actualPaymentAmount}円</TableCell>
+                          <TableCell>{item.payer.userName}</TableCell>
+                          <TableCell>{item.defaultPaymentAmount}円</TableCell>
+                          <TableCell>{item.actualPaymentAmount}円</TableCell>
                         </TableRow>
                       )}
                     </TableBody>
                   </Table>
                 </div>
               </CardBody>
-              <CardFooter>
-              </CardFooter>
+              <CardFooter></CardFooter>
             </form>
           </Card>
-        }
+        )}
       </div>
     </div>
   );

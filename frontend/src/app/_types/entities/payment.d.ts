@@ -9,5 +9,5 @@ export type Payment = {
   method: string;
   ratio: number;
   transactionId: number;
-  payer: User,
+  payer: User;
 };

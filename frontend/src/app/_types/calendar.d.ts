@@ -24,7 +24,7 @@ type DatePicker = {
 };
 
 export type CalendarStore = {
-  transactions: Transaction[] | null,
+  transactions: Transaction[] | null;
   isInit: boolean;
   start: string;
   end: string;
@@ -33,28 +33,14 @@ export type CalendarStore = {
   selectedMonth: number;
   selectedDate: string;
   isYearMonthPickerOpen: boolean;
-  setTransactions: (
-    transactions: Transaction[],
-  ) => void;
-  setIsInit: (
-    boolean: boolean,
-  ) => void;
-  setStart: (
-    date: string,
-  ) => void;
-  setEnd: (
-    date: string,
-  ) => void;
-  setCurrentYearMonth: (
-    date: dayjs.Dayjs,
-  ) => void;
+  setTransactions: (transactions: Transaction[]) => void;
+  setIsInit: (boolean: boolean) => void;
+  setStart: (date: string) => void;
+  setEnd: (date: string) => void;
+  setCurrentYearMonth: (date: dayjs.Dayjs) => void;
   increaseYear: () => void;
   decreaseYear: () => void;
-  setSelectedMonth: (
-    month: number,
-  ) => void;
+  setSelectedMonth: (month: number) => void;
   toggleIsYearMonthPickerOpen: () => void;
-  setSelectedDate: (
-    date: string,
-  ) => void;
+  setSelectedDate: (date: string) => void;
 };

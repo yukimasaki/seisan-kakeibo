@@ -1,12 +1,12 @@
-import 'next-auth';
-import type { User } from 'next-auth';
-import { User as UserData } from '@type/user';
-import 'next-auth/jwt'
-import { Group } from '@type/group';
+import "next-auth";
+import type { User } from "next-auth";
+import { User as UserData } from "@type/user";
+import "next-auth/jwt";
+import { Group } from "@type/group";
 
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
     user: {
       sub: string;
@@ -54,7 +54,7 @@ declare module 'next-auth' {
     refresh_token: string;
     token_type: string;
     id_token: string;
-    'not-before-policy': number;
+    "not-before-policy": number;
     session_state: string;
     scope: string;
   }
@@ -72,7 +72,7 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
+declare module "next-auth/jwt" {
   interface JWT {
     name: string;
     email: string;
