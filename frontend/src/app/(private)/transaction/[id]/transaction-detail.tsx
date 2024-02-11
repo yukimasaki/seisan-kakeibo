@@ -16,7 +16,7 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { Transaction } from "@type/transaction";
+import { Transaction } from "@type/entities/transaction";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { usePathname, useRouter } from "next/navigation";

@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { Key, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Transaction } from "@type/transaction";
+import { Transaction } from "@type/entities/transaction";
 import { CreateTransactionForm } from "./transaction-create-form";
 import { CalendarComponent } from "@components/calendar";
 import { useOverviewCalendar } from "@hooks/useCalendar";

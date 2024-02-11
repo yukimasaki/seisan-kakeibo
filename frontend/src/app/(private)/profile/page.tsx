@@ -3,7 +3,7 @@
 import { NavbarComponent } from "@components/navbar/navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
-import { User } from "@type/user";
+import { User } from "@type/entities/user";
 import { ProfileFormComponent } from "./profile-form";
 
 const ProfilePage = async () => {

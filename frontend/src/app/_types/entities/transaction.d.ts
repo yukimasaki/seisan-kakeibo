@@ -1,6 +1,6 @@
-import { Balance } from "@type/balance";
-import { Category } from "@type/category";
-import { Payment } from "@type/payment";
+import { Balance } from "@type/entities/balance";
+import { Category } from "@type/entities/category";
+import { Payment } from "@type/entities/payment";
 
 // 共通
 export type Common = Omit<

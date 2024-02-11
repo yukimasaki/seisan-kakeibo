@@ -8,7 +8,7 @@ import {
   CreateTransactionDto,
   Even,
   Ratio,
-} from "@type/transaction";
+} from "@type/entities/transaction";
 import { getServerSession } from "next-auth";
 import React from "react";
 import { ZodError, z } from "zod";

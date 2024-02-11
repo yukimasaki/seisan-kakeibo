@@ -1,5 +1,5 @@
 import { Summary } from "@type/calendar";
-import { Transaction } from "@type/transaction";
+import { Transaction } from "@type/entities/transaction";
 import dayjs from "dayjs";
 
 const reduce = (transactions: Transaction[]): Map<string, number> => {

@@ -20,7 +20,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { Summary } from "@type/calendar";
-import { Category } from "@type/category";
+import { Category } from "@type/entities/category";
 import { createSummary } from "@utils/createSummary";
 import { useFormState } from "react-dom";
 import {
@@ -34,7 +34,7 @@ import React, { useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
-import { Member } from "@type/member";
+import { Member } from "@type/entities/member";
 import { ParagraphComponent } from "@components/text/paragraph";
 import { v4 } from "uuid";
 

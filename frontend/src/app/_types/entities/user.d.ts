@@ -1,4 +1,4 @@
-import { Member } from "@type/member";
+import { Member } from "@type/entities/member";
 
 export type User = {
   id: number;

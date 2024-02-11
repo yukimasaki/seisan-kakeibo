@@ -1,5 +1,5 @@
 import { authOptions } from "@common/next-auth/options";
-import { User } from "@type/user";
+import { User } from "@type/entities/user";
 import { getServerSession } from "next-auth";
 import { JWT } from "next-auth/jwt";
 

@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
-import { User } from "@type/user";
+import { User } from "@type/entities/user";
 import { useSession } from "next-auth/react";
 import { showToast } from "@components/toast/toast";
 import {

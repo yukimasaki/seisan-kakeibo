@@ -1,4 +1,4 @@
-import { Transaction } from "@type/transaction";
+import { Transaction } from "@type/entities/transaction";
 import dayjs from "dayjs";
 
 export type DayLabel = {

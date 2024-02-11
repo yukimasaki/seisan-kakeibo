@@ -1,9 +1,9 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
-import { Group } from "@type/group";
+import { Group } from "@type/entities/group";
 import { ServerActionResult } from "@type/server-actions";
-import { User } from "@type/user";
+import { User } from "@type/entities/user";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 

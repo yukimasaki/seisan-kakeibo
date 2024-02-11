@@ -1,8 +1,8 @@
 import "next-auth";
 import type { User } from "next-auth";
-import { User as UserData } from "@type/user";
+import { User as UserData } from "@type/entities/user";
 import "next-auth/jwt";
-import { Group } from "@type/group";
+import { Group } from "@type/entities/group";
 
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
 
