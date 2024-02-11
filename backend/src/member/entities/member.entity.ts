@@ -1,5 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsPositive } from "class-validator";
+import { Group } from '@@nest/group/entities/group.entity';
+import { ApiProperty, IntersectionType } from '@nestjs/swagger';
+import { User } from '@prisma/client';
+import { IsInt, IsPositive } from 'class-validator';
 
 export class Member {
   @ApiProperty({
@@ -19,4 +21,12 @@ export class Member {
   groupId: number;
 }
 
-export class MemberResponse extends Member { }
+class AdditionalMemberInfo {
+  user: User;
+  group: Group;
+}
+
+export class MemberResponse extends IntersectionType(
+  Member,
+  AdditionalMemberInfo,
+) {}

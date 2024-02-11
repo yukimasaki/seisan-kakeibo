@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { PrismaService } from '@@nest/common/prisma/prisma.service';
@@ -9,24 +9,48 @@ export class MemberService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createMemberDto: CreateMemberDto): Promise<MemberResponse> {
-    return await this.prisma.member.create({
+    const member: MemberResponse = await this.prisma.member.create({
       data: createMemberDto,
+      include: {
+        user: true,
+        group: true,
+      },
     });
+    return member;
   }
 
-  async findByGroupId(groupId: number): Promise<MemberResponse[] | null> {
-    return await this.prisma.member.findMany({
+  async findByGroupId(groupId: number): Promise<MemberResponse[]> {
+    const members: MemberResponse[] = await this.prisma.member.findMany({
       where: {
         groupId,
       },
       include: {
         user: true,
+        group: true,
       },
     });
+
+    if (!members) throw new NotFoundException();
+    return members;
   }
 
-  async findOne(userId: number, groupId: number) {
-    return await this.prisma.member.findUnique({
+  async findByUserId(userId: number): Promise<MemberResponse[]> {
+    const members: MemberResponse[] = await this.prisma.member.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        user: true,
+        group: true,
+      },
+    });
+
+    if (!members) throw new NotFoundException();
+    return members;
+  }
+
+  async findOne(userId: number, groupId: number): Promise<MemberResponse> {
+    const member: MemberResponse = await this.prisma.member.findUnique({
       where: {
         userId_groupId: {
           userId,
@@ -35,16 +59,20 @@ export class MemberService {
       },
       include: {
         user: true,
+        group: true,
       },
     });
+
+    if (!member) throw new NotFoundException();
+    return member;
   }
 
   async update(
     userId: number,
     groupId: number,
     updateMemberDto: UpdateMemberDto,
-  ) {
-    return await this.prisma.member.update({
+  ): Promise<MemberResponse> {
+    const member: MemberResponse = await this.prisma.member.update({
       where: {
         userId_groupId: {
           userId,
@@ -52,17 +80,31 @@ export class MemberService {
         },
       },
       data: updateMemberDto,
+      include: {
+        user: true,
+        group: true,
+      },
     });
+
+    if (!member) throw new NotFoundException();
+    return member;
   }
 
-  async remove(userId: number, groupId: number) {
-    return await this.prisma.member.delete({
+  async remove(userId: number, groupId: number): Promise<MemberResponse> {
+    const member: MemberResponse = await this.prisma.member.delete({
       where: {
         userId_groupId: {
           userId,
           groupId,
         },
       },
+      include: {
+        user: true,
+        group: true,
+      },
     });
+
+    if (!member) throw new NotFoundException();
+    return member;
   }
 }
