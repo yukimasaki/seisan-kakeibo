@@ -1,5 +1,11 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsPositive, IsString, IsUUID, MaxLength } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsInt,
+  IsPositive,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class Group {
   @ApiProperty({
@@ -26,4 +32,4 @@ export class Group {
   displayName: string;
 }
 
-export class GroupResponse extends Group { }
+export class GroupResponse extends Group {}
