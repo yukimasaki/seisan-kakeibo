@@ -27,14 +27,7 @@ export const GroupCreateFormComponent = ({}: {}) => {
   const { data: session, update } = useSession();
   useEffect(() => {
     if (messageAfterSubmit.isSubmitted && messageAfterSubmit.ok) {
-      const profile = {
-        ...session?.profile,
-        members: messageAfterSubmit.data?.members,
-      };
-      update({
-        activeGroup: messageAfterSubmit.data,
-        profile,
-      });
+      update();
       showToast({
         message: messageAfterSubmit.message || "",
         type: "success",

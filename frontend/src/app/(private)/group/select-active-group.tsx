@@ -12,10 +12,7 @@ export const SelectActiveGroup = () => {
   const [selectedGroup, setSelectedGroup] = useState<number | null>(null);
 
   const updateSession = () => {
-    const group = belongingGroups?.find(
-      (group) => group.groupId === selectedGroup
-    )?.group;
-    update({ activeGroup: group });
+    update();
     showToast({
       message: "グループを選択しました",
       type: "success",

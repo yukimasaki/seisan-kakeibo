@@ -51,7 +51,7 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
   const { data: session, update } = useSession();
   useEffect(() => {
     if (messageAfterSubmit.isSubmitted && messageAfterSubmit.ok) {
-      update({ profile: messageAfterSubmit.data });
+      update();
       showToast({
         message: messageAfterSubmit.message || "",
         type: "success",
