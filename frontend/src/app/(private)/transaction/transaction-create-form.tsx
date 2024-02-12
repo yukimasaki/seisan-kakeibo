@@ -34,7 +34,7 @@ import React, { useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
-import { Member } from "@type/entities/member";
+import { Member, MemberResponse } from "@type/entities/member";
 import { ParagraphComponent } from "@components/text/paragraph";
 import { v4 } from "uuid";
 
@@ -95,7 +95,7 @@ export const CreateTransactionForm = () => {
     members,
   }: {
     tag: PaymentType;
-    members: Member[] | undefined;
+    members: MemberResponse[] | undefined;
   }) => {
     if (!members) return null;
     const unit = (() => {
