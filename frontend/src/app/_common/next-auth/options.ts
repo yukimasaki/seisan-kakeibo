@@ -2,7 +2,6 @@ import { Account, NextAuthOptions, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import KeycloakProvider from "next-auth/providers/keycloak";
 import { fetchMyProfile, refreshAccessToken } from "./utils";
-import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   session: {
