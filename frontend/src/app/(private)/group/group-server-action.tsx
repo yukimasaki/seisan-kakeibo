@@ -2,8 +2,8 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { GroupResponse } from "@type/entities/group";
+import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
-import { User } from "@type/entities/user";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -39,7 +39,7 @@ export const createGroup = async (
     }
   );
 
-  const user: User = await profileResponse.json();
+  const user: UserResponse = await profileResponse.json();
 
   const createGroupAndMemberDto = {
     displayName,
