@@ -73,6 +73,8 @@ export const createGroup = async (
 
   const parsedGroupResponse: GroupResponse = await groupResponse.json();
 
+  // todo: UserService.upsertエンドポイントを叩き、activeGroup情報を更新する処理を追記する
+
   const result: ServerActionResult<GroupResponse> = {
     isSubmitted: true,
     ok: true,
