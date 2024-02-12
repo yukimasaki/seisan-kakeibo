@@ -1,6 +1,5 @@
-export type ServerActionResult<ResponseData> = {
+export type ServerActionResult = {
   isSubmitted: boolean;
   ok: boolean;
   message: string | null;
-  data: ResponseData | null;
 };

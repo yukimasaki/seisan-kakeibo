@@ -43,7 +43,6 @@ export const CreateTransactionForm = () => {
     isSubmitted: false,
     ok: false,
     message: null,
-    data: null,
   });
 
   const [validateState, validateAction] = useFormState(validateOnBlur, {

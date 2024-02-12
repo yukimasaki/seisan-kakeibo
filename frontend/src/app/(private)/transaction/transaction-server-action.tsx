@@ -10,7 +10,6 @@ import {
   Ratio,
 } from "@type/entities/transaction";
 import { getServerSession } from "next-auth";
-import React from "react";
 import { ZodError, z } from "zod";
 
 // **************************** スキーマ ****************************
@@ -77,9 +76,8 @@ export const createTransaction = async (
     message: string | null;
   },
   formData: FormData
-): Promise<ServerActionResult<CreateTransactionDto>> => {
+): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
-  const token = session?.user.accessToken;
 
   const creatorId = session?.profile?.id;
   const groupId = session?.profile.activeGroup?.id;
@@ -108,7 +106,6 @@ export const createTransaction = async (
     isSubmitted: true,
     ok: true,
     message: "test",
-    data: null,
   };
 };
 

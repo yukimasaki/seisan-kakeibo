@@ -25,7 +25,6 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
     isSubmitted: false,
     ok: false,
     message: null,
-    data: null,
   });
 
   const [emailValidateState, validateEmailAction] = useFormState(

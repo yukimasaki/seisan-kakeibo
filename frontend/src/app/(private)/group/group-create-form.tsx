@@ -12,7 +12,6 @@ export const GroupCreateFormComponent = ({}: {}) => {
     isSubmitted: false,
     ok: false,
     message: null,
-    data: null,
   });
 
   const [displayNameValidateState, displayNameValidateAction] = useFormState(

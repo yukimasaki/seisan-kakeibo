@@ -1,7 +1,6 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
-import { GroupResponse } from "@type/entities/group";
 import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
 import { getServerSession } from "next-auth";
@@ -23,9 +22,8 @@ export const createGroup = async (
     message: string | null;
   },
   formData: FormData
-): Promise<ServerActionResult<GroupResponse>> => {
+): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
-  const token = session?.user.accessToken;
 
   const displayName = formData.get("displayName");
 
@@ -51,35 +49,20 @@ export const createGroup = async (
   } catch (error) {
     console.log(error);
 
-    const result: ServerActionResult<GroupResponse> = {
+    const result: ServerActionResult = {
       isSubmitted: true,
       ok: false,
       message: `入力内容に誤りがあります`,
-      data: null,
     };
     return result;
   }
-  const groupResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`,
-    {
-      method: "POST",
-      body: JSON.stringify(createGroupAndMemberDto),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-
-  const parsedGroupResponse: GroupResponse = await groupResponse.json();
 
   // todo: UserService.upsertエンドポイントを叩き、activeGroup情報を更新する処理を追記する
 
-  const result: ServerActionResult<GroupResponse> = {
+  const result: ServerActionResult = {
     isSubmitted: true,
     ok: true,
     message: "グループを作成しました",
-    data: parsedGroupResponse,
   };
   return result;
 };
