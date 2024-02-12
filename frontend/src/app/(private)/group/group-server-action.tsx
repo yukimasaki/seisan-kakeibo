@@ -1,7 +1,7 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
-import { Group } from "@type/entities/group";
+import { GroupResponse } from "@type/entities/group";
 import { ServerActionResult } from "@type/server-actions";
 import { User } from "@type/entities/user";
 import { getServerSession } from "next-auth";
@@ -23,7 +23,7 @@ export const createGroup = async (
     message: string | null;
   },
   formData: FormData
-): Promise<ServerActionResult<Group>> => {
+): Promise<ServerActionResult<GroupResponse>> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
@@ -51,7 +51,7 @@ export const createGroup = async (
   } catch (error) {
     console.log(error);
 
-    const result: ServerActionResult<Group> = {
+    const result: ServerActionResult<GroupResponse> = {
       isSubmitted: true,
       ok: false,
       message: `入力内容に誤りがあります`,
@@ -71,9 +71,9 @@ export const createGroup = async (
     }
   );
 
-  const parsedGroupResponse: Group = await groupResponse.json();
+  const parsedGroupResponse: GroupResponse = await groupResponse.json();
 
-  const result: ServerActionResult<Group> = {
+  const result: ServerActionResult<GroupResponse> = {
     isSubmitted: true,
     ok: true,
     message: "グループを作成しました",

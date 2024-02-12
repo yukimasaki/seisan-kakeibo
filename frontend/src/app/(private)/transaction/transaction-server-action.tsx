@@ -82,7 +82,7 @@ export const createTransaction = async (
   const token = session?.user.accessToken;
 
   const creatorId = session?.profile?.id;
-  const groupId = session?.activeGroup?.id;
+  const groupId = session?.profile.activeGroup?.id;
 
   const amount = formData.get("amount");
   const categoryId = formData.get("categoryId");

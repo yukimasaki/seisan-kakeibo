@@ -7,7 +7,7 @@ export const GroupMemberListComponent = () => {
 
   return (
     <div className="flex flex-col p-2 h-svh">
-      選択中のグループ:{session?.activeGroup?.displayName}
+      選択中のグループ:{session?.profile.activeGroup?.displayName}
     </div>
   );
 };

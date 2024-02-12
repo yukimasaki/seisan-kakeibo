@@ -1,7 +1,8 @@
-import { NextAuthOptions, Session } from "next-auth";
+import { Account, NextAuthOptions, Session, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import KeycloakProvider from "next-auth/providers/keycloak";
 import { fetchMyProfile, refreshAccessToken } from "./utils";
+import { AdapterUser } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -15,7 +16,19 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account, trigger, session }) {
+    async jwt({
+      token,
+      user,
+      account,
+      trigger,
+      session,
+    }: {
+      token: JWT;
+      user: User;
+      account: Account | null;
+      trigger?: "signIn" | "signUp" | "update" | undefined;
+      session?: Session;
+    }) {
       // trigger === "signIn"と同等
       if (account && user) {
         token.idToken = account.id_token;
@@ -38,10 +51,6 @@ export const authOptions: NextAuthOptions = {
         token.profile = session.profile;
       }
 
-      if (trigger === "update" && session?.activeGroup) {
-        token.activeGroup = session.activeGroup;
-      }
-
       // Return previous token if the access token has not expired yet
       if (Date.now() < token.accessTokenExpired) return token;
 
@@ -56,7 +65,6 @@ export const authOptions: NextAuthOptions = {
         session.error = token.error;
         session.user.accessToken = token.accessToken;
         session.profile = token.profile;
-        session.activeGroup = token.activeGroup;
       }
       return session;
     },

@@ -1,8 +1,8 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
+import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
-import { User } from "@type/entities/user";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -28,7 +28,7 @@ export const upsertProfile = async (
     message: string | null;
   },
   formData: FormData
-): Promise<ServerActionResult<User>> => {
+): Promise<ServerActionResult<UserResponse>> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
@@ -45,7 +45,7 @@ export const upsertProfile = async (
   try {
     UpsertProfileSchema.parse(createProfileDto);
   } catch (error) {
-    const result: ServerActionResult<User> = {
+    const result: ServerActionResult<UserResponse> = {
       isSubmitted: true,
       ok: false,
       message: `入力内容に誤りがあります`,
@@ -66,10 +66,10 @@ export const upsertProfile = async (
     }
   );
 
-  const profileResponse: User = await response.json();
+  const profileResponse: UserResponse = await response.json();
   // console.log(profileResponse);
 
-  const result: ServerActionResult<User> = {
+  const result: ServerActionResult<UserResponse> = {
     isSubmitted: true,
     ok: true,
     message: "プロフィールを保存しました",

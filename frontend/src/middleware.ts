@@ -16,8 +16,8 @@ export default withAuth(
       return NextResponse.redirect(new URL("/profile", req.url));
     }
 
-    const activeGroup = req.nextauth.token?.activeGroup;
-    if (myProfile && !activeGroup && path !== "/group") {
+    const activeGroup = req.nextauth.token?.profile.activeGroup;
+    if (!activeGroup && path !== "/group") {
       return NextResponse.redirect(new URL("/group", req.url));
     }
   },

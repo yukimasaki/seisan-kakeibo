@@ -11,7 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
-import { User } from "@type/entities/user";
+import { UserResponse } from "@type/entities/user";
 import { useSession } from "next-auth/react";
 import { showToast } from "@components/toast/toast";
 import {
@@ -20,7 +20,7 @@ import {
   validateOnBlurUserName,
 } from "./profile-server-action";
 
-export const ProfileFormComponent = ({ user }: { user: User }) => {
+export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
   const [messageAfterSubmit, formAction] = useFormState(upsertProfile, {
     isSubmitted: false,
     ok: false,

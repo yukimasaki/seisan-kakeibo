@@ -3,7 +3,7 @@
 import { NavbarComponent } from "@components/navbar/navbar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
-import { User } from "@type/entities/user";
+import { UserResponse } from "@type/entities/user";
 import { ProfileFormComponent } from "./profile-form";
 
 const ProfilePage = async () => {
@@ -20,8 +20,8 @@ const ProfilePage = async () => {
     }
   );
 
-  const data: User = await response.json();
-  const user: User = {
+  const data: UserResponse = await response.json();
+  const user: UserResponse = {
     ...data,
     uuid: data.uuid || session?.user.id || "",
     email: data.email || session?.user.email || "",

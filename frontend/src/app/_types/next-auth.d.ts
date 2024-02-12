@@ -1,8 +1,8 @@
 import "next-auth";
 import type { User } from "next-auth";
-import { User as UserData } from "@type/entities/user";
 import "next-auth/jwt";
 import { Group } from "@type/entities/group";
+import { UserResponse } from "@type/entities/user";
 
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
 
@@ -22,8 +22,7 @@ declare module "next-auth" {
       accessToken: string;
     };
     error: string;
-    profile: UserData | null;
-    activeGroup: Group | undefined;
+    profile: UserResponse;
   }
 
   interface User {
@@ -87,7 +86,6 @@ declare module "next-auth/jwt" {
     refreshTokenExpired: number;
     user: User;
     error: string;
-    profile: UserData | null;
-    activeGroup: Group | undefined;
+    profile: UserResponse;
   }
 }

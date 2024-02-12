@@ -1,5 +1,5 @@
 import { authOptions } from "@common/next-auth/options";
-import { User } from "@type/entities/user";
+import { UserResponse } from "@type/entities/user";
 import { getServerSession } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
@@ -45,7 +45,7 @@ export const refreshAccessToken = async (token: JWT): Promise<JWT> => {
   }
 };
 
-export const fetchMyProfile = async (token: JWT): Promise<User | null> => {
+export const fetchMyProfile = async (token: JWT): Promise<UserResponse> => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`,
     {
@@ -55,7 +55,7 @@ export const fetchMyProfile = async (token: JWT): Promise<User | null> => {
     }
   );
 
-  const data: User | null =
+  const data: UserResponse =
     response.status !== 200 ? null : await response.json();
 
   return data;

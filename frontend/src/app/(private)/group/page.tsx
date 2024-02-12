@@ -13,7 +13,7 @@ const GroupPage = async () => {
   const renderGroupPage = () => {
     if (session?.profile?.belongingGroups.length === 0)
       return <GroupCreateFormComponent />;
-    if (!session?.activeGroup) return <SelectActiveGroup />;
+    if (!session?.profile.activeGroup) return <SelectActiveGroup />;
     return <GroupMemberListComponent />;
   };
 
