@@ -65,6 +65,7 @@ export const SelectActiveGroup = () => {
           variant={"flat"}
           className={"w-full"}
           isDisabled={!selectedGroup}
+          // todo: Server Actionsを使って、DBのProfileをUpdateする処理に置き換える
           onPress={() => updateSession()}
         >
           グループを選択する
