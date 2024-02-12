@@ -46,8 +46,9 @@ export const authOptions: NextAuthOptions = {
         token.profile = userData;
       }
 
-      if (trigger === "update" && session?.profile) {
-        token.profile = session.profile;
+      if (trigger === "update") {
+        const userData = await fetchMyProfile(token);
+        token.profile = userData;
       }
 
       // Return previous token if the access token has not expired yet
