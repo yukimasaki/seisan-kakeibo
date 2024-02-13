@@ -1,4 +1,4 @@
-import { Member } from "@type/entities/member";
+import { Member, MemberResponse } from "@type/entities/member";
 
 export type Group = {
   id: number;
@@ -7,7 +7,7 @@ export type Group = {
 };
 
 type AddtionalGroupInfo = {
-  members: Member[];
+  members: MemberResponse[];
 };
 
 export type GroupResponse = Group & AddtionalGroupInfo;

@@ -37,7 +37,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
@@ -59,7 +64,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
@@ -94,7 +104,12 @@ export class UserService {
           },
           activeGroup: {
             include: {
-              members: true,
+              members: {
+                include: {
+                  user: true,
+                  group: true,
+                },
+              },
             },
           },
         },
@@ -118,7 +133,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
@@ -140,7 +160,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
@@ -162,7 +187,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
@@ -188,7 +218,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
@@ -210,7 +245,12 @@ export class UserService {
         },
         activeGroup: {
           include: {
-            members: true,
+            members: {
+              include: {
+                user: true,
+                group: true,
+              },
+            },
           },
         },
       },
