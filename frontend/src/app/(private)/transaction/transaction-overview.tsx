@@ -18,9 +18,12 @@ import { useOverviewCalendar } from "@hooks/useCalendar";
 import { Summary } from "@type/calendar";
 import { createSummary } from "@utils/createSummary";
 import { useModalForm } from "@hooks/useToggle";
+import { useSession } from "next-auth/react";
 
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
+
+  const { update } = useSession();
 
   const calendarStore = useOverviewCalendar();
   const form = useModalForm();
@@ -66,7 +69,12 @@ export const TransactionOverviewComponent = () => {
         <div className="flex-1 p-2 space-y-2">
           <div className="flex justify-end gap-2">
             <FilterButtonComponent />
-            <AddButtonComponent onClick={() => form.onOpen()} />
+            <AddButtonComponent
+              onClick={() => {
+                form.onOpen();
+                update();
+              }}
+            />
           </div>
 
           <CreateTransactionForm />
