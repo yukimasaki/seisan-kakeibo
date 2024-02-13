@@ -5,7 +5,7 @@ import { Input } from "@nextui-org/react";
 import { MemberResponse } from "@type/entities/member";
 import { PaymentType } from "../transaction-server-action";
 
-export const RatioComponent = ({
+export const BalanceInputComponent = ({
   members,
   tag,
 }: {

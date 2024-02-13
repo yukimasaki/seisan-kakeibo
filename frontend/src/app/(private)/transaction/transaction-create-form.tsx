@@ -36,7 +36,7 @@ import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { MemberResponse } from "@type/entities/member";
 import { MetaInfoComponent } from "./form/MetaInfo";
-import { RatioComponent } from "./form/Ratio";
+import { BalanceInputComponent } from "./form/BalanceInput";
 import { FinalBillComponent } from "./form/FinalBill";
 
 export const CreateTransactionForm = () => {
@@ -101,12 +101,10 @@ export const CreateTransactionForm = () => {
     return (
       <>
         <MetaInfoComponent members={members} />
-
         <h5 className="text-base font-bold text-blue-400">
           誰といくら割り勘する？
         </h5>
-        <RatioComponent members={members} tag={tag} />
-
+        <BalanceInputComponent members={members} tag={tag} />
         <h5 className="text-base font-bold text-blue-400">
           誰がいくら立て替えた？
         </h5>
