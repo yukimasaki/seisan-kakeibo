@@ -1,6 +1,7 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
+import { GroupResponse } from "@type/entities/group";
 import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
 import { getServerSession } from "next-auth";
@@ -24,6 +25,7 @@ export const createGroup = async (
   formData: FormData
 ): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
+  const token = session?.user.accessToken;
 
   const displayName = formData.get("displayName");
 
@@ -32,7 +34,7 @@ export const createGroup = async (
     {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${session?.user.accessToken}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
@@ -56,8 +58,34 @@ export const createGroup = async (
     };
     return result;
   }
+  const groupResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/groups`,
+    {
+      method: "POST",
+      body: JSON.stringify(createGroupAndMemberDto),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
-  // todo: UserService.upsertエンドポイントを叩き、activeGroup情報を更新する処理を追記する
+  const parsedGroupResponse: GroupResponse = await groupResponse.json();
+
+  // グループ作成後に、activeGroupIdを更新する
+  const updateProfileResponse = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${user.id}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({
+        activeGroupId: parsedGroupResponse.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   const result: ServerActionResult = {
     isSubmitted: true,
