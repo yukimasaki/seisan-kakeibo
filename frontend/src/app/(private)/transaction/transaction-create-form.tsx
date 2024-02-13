@@ -147,7 +147,7 @@ export const CreateTransactionForm = () => {
   return (
     <Modal
       isOpen={form.isOpen}
-      placement="center"
+      placement="top"
       isDismissable={false}
       isKeyboardDismissDisabled={true}
       backdrop="blur"
