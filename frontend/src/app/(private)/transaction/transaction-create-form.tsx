@@ -37,6 +37,9 @@ import { useSession } from "next-auth/react";
 import { Member, MemberResponse } from "@type/entities/member";
 import { ParagraphComponent } from "@components/text/paragraph";
 import { v4 } from "uuid";
+import { MetaInfoComponent } from "./form/MetaInfo";
+import { RatioComponent } from "./form/Ratio";
+import { FinalBillComponent } from "./form/FinalBill";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
@@ -97,25 +100,20 @@ export const CreateTransactionForm = () => {
     members: MemberResponse[] | undefined;
   }) => {
     if (!members) return null;
-    const unit = (() => {
-      if (tag === "ratio") return "%";
-      return "円";
-    })();
     return (
-      <div>
-        {members.map((member) => (
-          <div key={v4()} className="flex flex-row justify-between">
-            <div className="flex flex-row space-x-4 items-center">
-              <ParagraphComponent>{member.userId}</ParagraphComponent>
-              <ParagraphComponent>{member.user.userName}</ParagraphComponent>
-            </div>
-            <div className="flex flex-row space-x-2 items-center">
-              <Input size={"sm"} variant="underlined" />
-              <ParagraphComponent>{unit}</ParagraphComponent>
-            </div>
-          </div>
-        ))}
-      </div>
+      <>
+        <MetaInfoComponent members={members} />
+
+        <h5 className="text-base font-bold text-blue-400">
+          誰といくら割り勘する？
+        </h5>
+        <RatioComponent members={members} tag={tag} />
+
+        <h5 className="text-base font-bold text-blue-400">
+          誰がいくら立て替えた？
+        </h5>
+        <FinalBillComponent members={members} />
+      </>
     );
   };
 

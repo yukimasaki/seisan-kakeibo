@@ -25,11 +25,11 @@ const CommonSchema = z.object({
     .string({ required_error: "タイトルを入力してください" })
     .min(1, { message: "1文字以上入力してください" })
     .max(128, { message: "128文字以内で入力してください" }), // formData
-  creatorId: z.number(), // session
-  paymentDate: z.date(), // formData
+  creatorId: z.coerce.number(), // session
+  paymentDate: z.coerce.date(), // formData
   memo: z.string().optional(), // formData
   status: z.string(),
-  groupId: z.number(), // session
+  groupId: z.coerce.number(), // session
 }) satisfies z.ZodType<Common>;
 
 const RatioSchema = CommonSchema.extend({
@@ -87,8 +87,13 @@ export const createTransaction = async (
   const title = formData.get("title");
   const tag = formData.get("tag");
   const paymentDate = formData.get("paymentDate");
-
   const memo = formData.get("memo");
+  const memberCount = formData.get("memberCount");
+  const member = Array.from({ length: Number(memberCount) }, (_, idx) => ({
+    userId: formData.get(`member.${idx}.userId`),
+    finalBill: formData.get(`member.${idx}.finalBill`),
+    ratio: formData.get(`member.${idx}.ratio`),
+  }));
 
   const createTransactionDto = {
     amount,
@@ -99,8 +104,16 @@ export const createTransaction = async (
     paymentDate,
     memo,
     groupId,
-    // members,
+    member,
   };
+
+  console.log(createTransactionDto);
+
+  try {
+    CreateTransactionSchema.parse(createTransactionDto);
+  } catch (error) {
+    // console.log(error);
+  }
 
   return {
     isSubmitted: true,
