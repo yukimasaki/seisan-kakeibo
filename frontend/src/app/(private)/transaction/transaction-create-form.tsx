@@ -23,7 +23,7 @@ import {
 import { Summary } from "@type/calendar";
 import { Category } from "@type/entities/category";
 import { createSummary } from "@utils/createSummary";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import {
   Keys,
   PaymentType,
@@ -46,6 +46,9 @@ export const CreateTransactionForm = () => {
     ok: false,
     message: null,
   });
+
+  // issue: 連動していない気がする
+  const status = useFormStatus();
 
   const [validateState, validateAction] = useFormState(validateOnBlur, {
     message: new Map<Keys, string>(),
@@ -355,7 +358,12 @@ export const CreateTransactionForm = () => {
                 >
                   閉じる
                 </Button>
-                <Button type={"submit"} color={"primary"} variant={"flat"}>
+                <Button
+                  type={"submit"}
+                  color={"primary"}
+                  isDisabled={status.pending}
+                  isLoading={status.pending}
+                >
                   作成
                 </Button>
               </ModalFooter>
