@@ -2,13 +2,7 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
-import {
-  AmountBasis,
-  Common,
-  CreateTransactionDto,
-  Even,
-  Ratio,
-} from "@type/entities/transaction";
+import { CommonInput, CreateTransactionDto } from "@type/entities/transaction";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -16,7 +10,7 @@ import { ZodError, z } from "zod";
 export type PaymentType = "ratio" | "even" | "amount_basis";
 
 // オブジェクト単位
-const CommonSchema = z.object({
+const CommonInputSchema = z.object({
   amount: z.coerce.number({ invalid_type_error: "数値を入力してください" }), // formData
   categoryId: z.coerce.number({
     invalid_type_error: "カテゴリーを選択してください",
@@ -30,45 +24,17 @@ const CommonSchema = z.object({
   memo: z.string().optional(), // formData
   status: z.string(),
   groupId: z.coerce.number(), // session
-}) satisfies z.ZodType<Common>;
+}) satisfies z.ZodType<CommonInput>;
 
-const RatioSchema = CommonSchema.extend({
-  tag: z.enum(["ratio"]),
+const CreateTransactionSchema = CommonInputSchema.extend({
   member: z.array(
     z.object({
       userId: z.number(),
       finalBill: z.number(),
-      ratio: z.number(),
+      balance: z.number(),
     })
   ),
-}) satisfies z.ZodType<Ratio>;
-
-const EvenSchema = CommonSchema.extend({
-  tag: z.enum(["even"]),
-  member: z.array(
-    z.object({
-      userId: z.number(),
-      finalBill: z.number(),
-    })
-  ),
-}) satisfies z.ZodType<Even>;
-
-const AmountBasisSchema = CommonSchema.extend({
-  tag: z.enum(["amount_basis"]),
-  member: z.array(
-    z.object({
-      userId: z.number(),
-      finalBill: z.number(),
-      specifiedAmount: z.number(),
-    })
-  ),
-}) satisfies z.ZodType<AmountBasis>;
-
-const CreateTransactionSchema = z.discriminatedUnion("tag", [
-  RatioSchema,
-  EvenSchema,
-  AmountBasisSchema,
-]) satisfies z.ZodType<CreateTransactionDto>;
+}) satisfies z.ZodType<CreateTransactionDto>;
 
 // **************************** Server Actions ****************************
 export const createTransaction = async (
@@ -92,7 +58,7 @@ export const createTransaction = async (
   const member = Array.from({ length: Number(memberCount) }, (_, idx) => ({
     userId: formData.get(`member.${idx}.userId`),
     finalBill: formData.get(`member.${idx}.finalBill`),
-    ratio: formData.get(`member.${idx}.ratio`),
+    balance: formData.get(`member.${idx}.balance`),
   }));
 
   const createTransactionDto = {
@@ -122,13 +88,7 @@ export const createTransaction = async (
   };
 };
 
-type RatioSchemaKeys = (typeof RatioSchema)["_type"];
-type EvenSchemaKeys = (typeof EvenSchema)["_type"];
-type AmountBasisSchemaKeys = (typeof AmountBasisSchema)["_type"];
-export type Keys =
-  | keyof RatioSchemaKeys
-  | keyof EvenSchemaKeys
-  | keyof AmountBasisSchemaKeys;
+export type Keys = keyof (typeof CreateTransactionSchema)["_type"];
 
 const messages = new Map<Keys, string>();
 
@@ -150,22 +110,7 @@ export const validateOnBlur = async (
     value: unknown;
   }
 ): Promise<{ message: Map<Keys, string> }> => {
-  const schema = (() => {
-    switch (tag) {
-      case "ratio": {
-        const schema = RatioSchema.pick({ [key]: true });
-        return schema;
-      }
-      case "even": {
-        const schema = EvenSchema.pick({ [key]: true });
-        return schema;
-      }
-      case "amount_basis": {
-        const schema = AmountBasisSchema.pick({ [key]: true });
-        return schema;
-      }
-    }
-  })();
+  const schema = CreateTransactionSchema.pick({ [key]: true });
 
   try {
     schema.parse({ [key]: value });

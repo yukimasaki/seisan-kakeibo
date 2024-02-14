@@ -3,37 +3,17 @@ import { Category } from "@type/entities/category";
 import { Payment } from "@type/entities/payment";
 
 // 共通
-export type Common = Omit<
+export type CommonInput = Omit<
   Transaction,
   "id" | "editorId" | "payments" | "balances" | "category"
 >;
 
 // 比率
-export type Ratio = Common & {
-  tag: "ratio";
+export type BalanceInput = {
   member: {
     userId: number;
     finalBill: number;
-    ratio: number;
-  }[];
-};
-
-// 均等
-export type Even = Common & {
-  tag: "even";
-  member: {
-    userId: number;
-    finalBill: number;
-  }[];
-};
-
-// 金額指定
-export type AmountBasis = Common & {
-  tag: "amount_basis";
-  member: {
-    userId: number;
-    finalBill: number;
-    specifiedAmount: number;
+    balance: number;
   }[];
 };
 
@@ -53,6 +33,6 @@ export type Transaction = {
   balances: Balance[]; // Omit
 };
 
-export type CreateTransactionDto = Ratio | Even | AmountBasis;
+export type CreateTransactionDto = CommonInput & BalanceInput;
 
 export type UpdateTransactionDto = Partial<CreateTransactionDto>;

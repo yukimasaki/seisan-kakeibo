@@ -27,7 +27,7 @@ export const BalanceInputComponent = ({
           </div>
           <div className="flex flex-row space-x-2 items-center">
             <Input
-              name={`member.${idx}.ratio`}
+              name={`member.${idx}.balance`}
               size={"sm"}
               variant="underlined"
             />
