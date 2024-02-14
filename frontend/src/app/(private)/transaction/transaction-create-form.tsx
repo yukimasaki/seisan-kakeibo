@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
   Select,
   SelectItem,
+  Spacer,
   Tab,
   Tabs,
   Textarea,
@@ -99,10 +100,12 @@ export const CreateTransactionForm = () => {
           誰といくら割り勘する？
         </h5>
         <BalanceInputComponent tag={tag} />
+        <Spacer y={4} />
         <h5 className="text-base font-bold text-blue-400">
           誰がいくら立て替えた？
         </h5>
         <FinalBillComponent />
+        <Spacer y={4} />
       </>
     );
   };
