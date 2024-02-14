@@ -79,13 +79,16 @@ export const createTransaction = async (
     member,
   };
 
-  console.log(createTransactionDto);
-
   // 1. 入力値が型として正しいかどうかのバリデーション
   try {
     CreateTransactionSchema.parse(createTransactionDto);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    return {
+      isSubmitted: true,
+      ok: false,
+      message: "入力内容に誤りがあります",
+    };
   }
 
   // 2. 支払い情報が不釣り合いではないかのバリデーション
@@ -96,7 +99,7 @@ export const createTransaction = async (
   );
 
   if (totalFinalBill !== amount) {
-    console.log("amountとtotalFinalBillが一致していません");
+    // console.log("amountとtotalFinalBillが一致していません");
     return {
       isSubmitted: true,
       ok: false,
@@ -110,7 +113,7 @@ export const createTransaction = async (
   );
   if (tag === "ratio") {
     if (totalBalance !== 100) {
-      console.log("ratioの合計が100%ではありません");
+      // console.log("ratioの合計が100%ではありません");
       return {
         isSubmitted: true,
         ok: false,
@@ -119,7 +122,7 @@ export const createTransaction = async (
     }
   } else {
     if (totalBalance !== amount) {
-      console.log("amountとtotalBalanceが一致していません");
+      // console.log("amountとtotalBalanceが一致していません");
       return {
         isSubmitted: true,
         ok: false,
