@@ -31,13 +31,14 @@ import {
   createTransaction,
   validateOnBlur,
 } from "./transaction-server-action";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { MetaInfoComponent } from "./form/MetaInfo";
 import { BalanceInputComponent } from "./form/BalanceInput";
 import { FinalBillComponent } from "./form/FinalBill";
+import { showToast } from "@components/toast/toast";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
@@ -49,6 +50,27 @@ export const CreateTransactionForm = () => {
   const [validateState, validateAction] = useFormState(validateOnBlur, {
     message: new Map<Keys, string>(),
   });
+
+  // 成否をトーストで通知
+  useEffect(() => {
+    if (messageAfterSubmit.isSubmitted && messageAfterSubmit.ok) {
+      showToast({
+        message: messageAfterSubmit.message || "",
+        type: "success",
+        timerProgressBar: true,
+        timer: 5000,
+      });
+      form.onClose();
+      clear();
+    } else if (messageAfterSubmit.isSubmitted && !messageAfterSubmit.ok) {
+      showToast({
+        message: messageAfterSubmit.message || "",
+        type: "error",
+        timerProgressBar: true,
+        timer: 5000,
+      });
+    }
+  }, [messageAfterSubmit]);
 
   const form = useModalForm();
   const calendarStore = useDatePickerCalendar();
@@ -333,15 +355,7 @@ export const CreateTransactionForm = () => {
                 >
                   閉じる
                 </Button>
-                <Button
-                  type={"submit"}
-                  color={"primary"}
-                  variant={"flat"}
-                  onPress={() => {
-                    form.onClose();
-                    clear();
-                  }}
-                >
+                <Button type={"submit"} color={"primary"} variant={"flat"}>
                   作成
                 </Button>
               </ModalFooter>
