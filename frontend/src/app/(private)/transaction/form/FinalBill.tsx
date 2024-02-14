@@ -40,8 +40,13 @@ export const FinalBillComponent = () => {
               <Input
                 name={`member.${idx}.finalBill`}
                 value={finalBills[idx]}
+                variant={"underlined"}
+                type={"number"}
+                inputMode={"numeric"}
                 size={"sm"}
-                variant="underlined"
+                classNames={{
+                  input: "text-base",
+                }}
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onClear={() => handleClear(idx)}
                 isClearable

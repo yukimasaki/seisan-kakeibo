@@ -46,8 +46,13 @@ export const BalanceInputComponent = ({ tag }: { tag: PaymentType }) => {
               <Input
                 name={`member.${idx}.balance`}
                 value={balances[idx]}
+                variant={"underlined"}
+                type={"number"}
+                inputMode={"numeric"}
                 size={"sm"}
-                variant="underlined"
+                classNames={{
+                  input: "text-base",
+                }}
                 onChange={(e) => handleChange(idx, e.target.value)}
                 onClear={() => handleClear(idx)}
                 isClearable
