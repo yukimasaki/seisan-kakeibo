@@ -22,15 +22,15 @@ export const BalanceInputComponent = ({ tag }: { tag: PaymentType }) => {
   });
 
   const handleChange = (idx: number, value: string) => {
-    const newBalance = [...balances];
-    newBalance[idx] = value;
-    setBalances(newBalance);
+    const newBalances = [...balances];
+    newBalances[idx] = value;
+    setBalances(newBalances);
   };
 
   const handleClear = (idx: number) => {
-    const newBalance = [...balances];
-    newBalance[idx] = "";
-    setBalances(newBalance);
+    const newBalances = [...balances];
+    newBalances[idx] = "";
+    setBalances(newBalances);
   };
 
   return (
