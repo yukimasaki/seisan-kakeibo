@@ -34,7 +34,6 @@ import React, { useState } from "react";
 import { useModalForm } from "@hooks/useToggle";
 import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
-import { MemberResponse } from "@type/entities/member";
 import { MetaInfoComponent } from "./form/MetaInfo";
 import { BalanceInputComponent } from "./form/BalanceInput";
 import { FinalBillComponent } from "./form/FinalBill";
@@ -90,13 +89,8 @@ export const CreateTransactionForm = () => {
     { id: 13, icon: "", category: "分類不能" },
   ];
 
-  const paymentTable = ({
-    tag,
-    members,
-  }: {
-    tag: PaymentType;
-    members: MemberResponse[] | undefined;
-  }) => {
+  const paymentTable = ({ tag }: { tag: PaymentType }) => {
+    const members = session?.profile.activeGroup.members;
     if (!members) return null;
     return (
       <>
@@ -104,7 +98,7 @@ export const CreateTransactionForm = () => {
         <h5 className="text-base font-bold text-blue-400">
           誰といくら割り勘する？
         </h5>
-        <BalanceInputComponent members={members} tag={tag} />
+        <BalanceInputComponent tag={tag} />
         <h5 className="text-base font-bold text-blue-400">
           誰がいくら立て替えた？
         </h5>
@@ -123,7 +117,6 @@ export const CreateTransactionForm = () => {
       label: "比率",
       content: paymentTable({
         tag: "ratio",
-        members: session?.profile?.activeGroup.members,
       }),
     },
     {
@@ -131,7 +124,6 @@ export const CreateTransactionForm = () => {
       label: "均等",
       content: paymentTable({
         tag: "even",
-        members: session?.profile?.activeGroup.members,
       }),
     },
     {
@@ -139,7 +131,6 @@ export const CreateTransactionForm = () => {
       label: "金額",
       content: paymentTable({
         tag: "amount_basis",
-        members: session?.profile?.activeGroup.members,
       }),
     },
   ];
