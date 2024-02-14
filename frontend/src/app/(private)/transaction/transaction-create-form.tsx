@@ -102,7 +102,7 @@ export const CreateTransactionForm = () => {
         <h5 className="text-base font-bold text-blue-400">
           誰がいくら立て替えた？
         </h5>
-        <FinalBillComponent members={members} />
+        <FinalBillComponent />
       </>
     );
   };
