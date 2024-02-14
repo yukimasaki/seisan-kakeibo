@@ -32,10 +32,10 @@ export const FinalBillComponent = () => {
       <input name={"memberCount"} value={members.length} readOnly hidden />
       {members.map((member, idx) => (
         <div key={member.userId} className="flex flex-row justify-between">
-          <div className="flex flex-row space-x-4 items-center">
+          <div className="flex flex-row space-x-4 items-end">
             <ParagraphComponent>{member.user.userName}</ParagraphComponent>
           </div>
-          <div className="flex flex-row space-x-2 items-center">
+          <div className="flex flex-row space-x-2 items-end">
             <Input
               name={`member.${idx}.finalBill`}
               value={finalBills[idx]}
