@@ -172,7 +172,9 @@ export const CreateTransactionForm = () => {
                         tag: selectedTab,
                         key: "amount",
                         value:
-                          e.target.value === "" ? undefined : e.target.value,
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value),
                       });
                     }}
                     onBlur={(e) => {
@@ -180,7 +182,9 @@ export const CreateTransactionForm = () => {
                       validateAction({
                         tag: selectedTab,
                         key: "amount",
-                        value: !e.target.value ? undefined : e.target.value,
+                        value: !e.target.value
+                          ? undefined
+                          : Number(e.target.value),
                       });
                     }}
                     onClear={() => setAmount("")}
@@ -205,7 +209,9 @@ export const CreateTransactionForm = () => {
                         tag: selectedTab,
                         key: "categoryId",
                         value:
-                          e.target.value === "" ? undefined : e.target.value,
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value),
                       });
                     }}
                     onBlur={(e) => {
@@ -214,7 +220,9 @@ export const CreateTransactionForm = () => {
                         tag: selectedTab,
                         key: "categoryId",
                         value:
-                          e.target.value === "" ? undefined : e.target.value,
+                          e.target.value === ""
+                            ? undefined
+                            : Number(e.target.value),
                       });
                     }}
                   >

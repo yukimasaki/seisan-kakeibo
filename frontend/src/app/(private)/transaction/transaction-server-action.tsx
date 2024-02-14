@@ -11,9 +11,9 @@ export type PaymentType = "ratio" | "even" | "amount_basis";
 
 // オブジェクト単位
 const CommonInputSchema = z.object({
-  amount: z.coerce.number({ invalid_type_error: "数値を入力してください" }), // formData
-  categoryId: z.coerce.number({
-    invalid_type_error: "カテゴリーを選択してください",
+  amount: z.number({ required_error: "数値を入力してください" }), // formData
+  categoryId: z.number({
+    required_error: "カテゴリーを選択してください",
   }), // formData
   title: z
     .string({ required_error: "タイトルを入力してください" })
@@ -29,9 +29,9 @@ const CommonInputSchema = z.object({
 const CreateTransactionSchema = CommonInputSchema.extend({
   member: z.array(
     z.object({
-      userId: z.number(),
-      finalBill: z.number(),
-      balance: z.number(),
+      userId: z.coerce.number(),
+      finalBill: z.coerce.number(),
+      balance: z.coerce.number(),
     })
   ),
 }) satisfies z.ZodType<CreateTransactionDto>;
@@ -47,6 +47,7 @@ export const createTransaction = async (
 
   const creatorId = session?.profile?.id;
   const groupId = session?.profile.activeGroup?.id;
+  const status = "未精算";
 
   const amount = formData.get("amount");
   const categoryId = formData.get("categoryId");
@@ -62,14 +63,15 @@ export const createTransaction = async (
   }));
 
   const createTransactionDto = {
+    creatorId,
+    groupId,
+    status,
     amount,
     categoryId,
     title,
     tag,
-    creatorId,
     paymentDate,
     memo,
-    groupId,
     member,
   };
 
@@ -78,7 +80,7 @@ export const createTransaction = async (
   try {
     CreateTransactionSchema.parse(createTransactionDto);
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 
   return {
