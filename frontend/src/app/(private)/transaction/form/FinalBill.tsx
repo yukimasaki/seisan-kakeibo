@@ -8,10 +8,10 @@ import { useState } from "react";
 export const FinalBillComponent = () => {
   const { data: session } = useSession();
   const members = session?.profile.activeGroup.members;
-  if (!members) return null;
 
   // input
   const [finalBills, setFinalBills] = useState(() => {
+    if (!members) return [""];
     return members.map(() => "");
   });
 
@@ -29,26 +29,27 @@ export const FinalBillComponent = () => {
 
   return (
     <>
-      <input name={"memberCount"} value={members.length} readOnly hidden />
-      {members.map((member, idx) => (
-        <div key={member.userId} className="flex flex-row justify-between">
-          <div className="flex flex-row space-x-4 items-end">
-            <ParagraphComponent>{member.user.userName}</ParagraphComponent>
+      <input name={"memberCount"} value={finalBills.length} readOnly hidden />
+      {members &&
+        members.map((member, idx) => (
+          <div key={member.userId} className="flex flex-row justify-between">
+            <div className="flex flex-row space-x-4 items-end">
+              <ParagraphComponent>{member.user.userName}</ParagraphComponent>
+            </div>
+            <div className="flex flex-row space-x-2 items-end">
+              <Input
+                name={`member.${idx}.finalBill`}
+                value={finalBills[idx]}
+                size={"sm"}
+                variant="underlined"
+                onChange={(e) => handleChange(idx, e.target.value)}
+                onClear={() => handleClear(idx)}
+                isClearable
+              />
+              <ParagraphComponent>円</ParagraphComponent>
+            </div>
           </div>
-          <div className="flex flex-row space-x-2 items-end">
-            <Input
-              name={`member.${idx}.finalBill`}
-              value={finalBills[idx]}
-              size={"sm"}
-              variant="underlined"
-              onChange={(e) => handleChange(idx, e.target.value)}
-              onClear={() => handleClear(idx)}
-              isClearable
-            />
-            <ParagraphComponent>円</ParagraphComponent>
-          </div>
-        </div>
-      ))}
+        ))}
     </>
   );
 };

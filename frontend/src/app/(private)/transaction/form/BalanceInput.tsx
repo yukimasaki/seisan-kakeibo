@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 export const BalanceInputComponent = ({ tag }: { tag: PaymentType }) => {
   const { data: session } = useSession();
   const members = session?.profile.activeGroup.members;
-  if (!members) return null;
 
   const unit = (() => {
     if (tag === "ratio") return "%";
@@ -18,6 +17,7 @@ export const BalanceInputComponent = ({ tag }: { tag: PaymentType }) => {
 
   // input
   const [balances, setBalances] = useState(() => {
+    if (!members) return [""];
     return members.map(() => "");
   });
 
@@ -35,26 +35,27 @@ export const BalanceInputComponent = ({ tag }: { tag: PaymentType }) => {
 
   return (
     <>
-      <input name={"memberCount"} value={members.length} readOnly hidden />
-      {members.map((member, idx) => (
-        <div key={member.userId} className="flex flex-row justify-between">
-          <div className="flex flex-row space-x-4 items-end">
-            <ParagraphComponent>{member.user.userName}</ParagraphComponent>
+      <input name={"memberCount"} value={balances.length} readOnly hidden />
+      {members &&
+        members.map((member, idx) => (
+          <div key={member.userId} className="flex flex-row justify-between">
+            <div className="flex flex-row space-x-4 items-end">
+              <ParagraphComponent>{member.user.userName}</ParagraphComponent>
+            </div>
+            <div className="flex flex-row space-x-2 items-end">
+              <Input
+                name={`member.${idx}.balance`}
+                value={balances[idx]}
+                size={"sm"}
+                variant="underlined"
+                onChange={(e) => handleChange(idx, e.target.value)}
+                onClear={() => handleClear(idx)}
+                isClearable
+              />
+              <ParagraphComponent>{unit}</ParagraphComponent>
+            </div>
           </div>
-          <div className="flex flex-row space-x-2 items-end">
-            <Input
-              name={`member.${idx}.balance`}
-              value={balances[idx]}
-              size={"sm"}
-              variant="underlined"
-              onChange={(e) => handleChange(idx, e.target.value)}
-              onClear={() => handleClear(idx)}
-              isClearable
-            />
-            <ParagraphComponent>{unit}</ParagraphComponent>
-          </div>
-        </div>
-      ))}
+        ))}
     </>
   );
 };
