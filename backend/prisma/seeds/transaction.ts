@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import * as dayjs from 'dayjs';
-import { CreateTransactionFormData } from '@@nest/transaction/dto/create-transaction.dto';
 import { randBetween } from '@@nest/utils/randBetween';
 import { PrismaService } from '@@nest/common/prisma/prisma.service';
 import { TransactionService } from '@@nest/transaction/transaction.service';
+import { CreateTransactionDto } from '@@nest/transaction/dto/create-transaction.dto';
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,7 @@ export const createTransaction = async () => {
     const start = dayjs().startOf('year').format('YYYY-MM-DD');
     const end = dayjs().endOf('month').format('YYYY-MM-DD');
 
-    const formData: CreateTransactionFormData = {
+    const formData: CreateTransactionDto = {
       creatorId: 1,
       amount,
       paymentDate: randomDate(start, end),
@@ -30,27 +30,27 @@ export const createTransaction = async () => {
       status: `未精算`,
       categoryId: randBetween(1, 4),
       groupId: 1,
-      method: '比率',
-      paymentInfoArray: [
+      method: 'ratio',
+      member: [
         {
           userId: 1,
-          ratio: 0.25,
-          amountEachMember: amount * 0.25,
+          balance: 0.25,
+          finalBill: amount * 0.25,
         },
         {
           userId: 2,
-          ratio: 0.25,
-          amountEachMember: amount * 0.25,
+          balance: 0.25,
+          finalBill: amount * 0.25,
         },
         {
           userId: 3,
-          ratio: 0.25,
-          amountEachMember: amount * 0.25,
+          balance: 0.25,
+          finalBill: amount * 0.25,
         },
         {
           userId: 4,
-          ratio: 0.25,
-          amountEachMember: amount * 0.25,
+          balance: 0.25,
+          finalBill: amount * 0.25,
         },
       ],
     };
