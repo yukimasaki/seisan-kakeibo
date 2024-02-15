@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 export const deleteTransaction = async () => {
   await prisma.transaction.deleteMany();
-}
+};
 
 export const createTransaction = async () => {
   Array.from({ length: 30 }, async (_, index) => {
@@ -53,17 +53,14 @@ export const createTransaction = async () => {
           amountEachMember: amount * 0.25,
         },
       ],
-    }
+    };
 
     await transactionService.createWithTransaction(formData);
     await prismaService.$disconnect();
   });
-}
+};
 
-const randomDate = (
-  start: string,
-  end: string,
-): Date => {
+const randomDate = (start: string, end: string): Date => {
   const startDate = dayjs(start).valueOf();
   const endDate = dayjs(end).valueOf();
 
@@ -71,8 +68,8 @@ const randomDate = (
   const randomDate = dayjs(randomMillis).toDate();
 
   return randomDate;
-}
+};
 
 const randomBool = () => {
   return Math.random() < 0.5;
-}
+};
