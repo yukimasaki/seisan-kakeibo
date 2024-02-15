@@ -1,9 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { CreateTransactionFormData } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import * as dayjs from 'dayjs';
-import { ApiOperation, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiProduces,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { Transaction } from './entities/transaction.entity';
 
@@ -11,7 +25,7 @@ import { Transaction } from './entities/transaction.entity';
 @ApiTags('/transactions')
 @SummarizeApiResponse()
 export class TransactionController {
-  constructor(private readonly transactionService: TransactionService) { }
+  constructor(private readonly transactionService: TransactionService) {}
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
@@ -24,7 +38,9 @@ export class TransactionController {
   createWithTransaction(
     @Body() createTransactionFormData: CreateTransactionFormData,
   ) {
-    return this.transactionService.createWithTransaction(createTransactionFormData);
+    return this.transactionService.createWithTransaction(
+      createTransactionFormData,
+    );
   }
 
   // @Get()
@@ -34,13 +50,11 @@ export class TransactionController {
 
   @Get()
   findByPaymentDate(
-    @Query('start') start: string = dayjs().startOf('month').format('YYYY-MM-DD'),
+    @Query('start')
+    start: string = dayjs().startOf('month').format('YYYY-MM-DD'),
     @Query('end') end: string = dayjs().endOf('month').format('YYYY-MM-DD'),
   ) {
-    return this.transactionService.findByPaymentDate(
-      start,
-      end,
-    );
+    return this.transactionService.findByPaymentDate(start, end);
   }
 
   @Get(':id')
@@ -49,7 +63,10 @@ export class TransactionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateTransactionDto: UpdateTransactionDto,
+  ) {
     return this.transactionService.update(+id, updateTransactionDto);
   }
 
