@@ -15,7 +15,7 @@ export class TransactionService {
     // 1. Prismaのトランザクション処理を開始
     return await this.prisma.$transaction(async (prisma) => {
       // 2. Transactionを作成
-      const { member, ...commonInput } = createTransactionDto;
+      const { member, method, ...commonInput } = createTransactionDto;
 
       const transaction: TransactionResponse =
         await this.prisma.transaction.create({
@@ -28,7 +28,6 @@ export class TransactionService {
 
       // 4. CreatePaymentDto[]を作成
       const totalAmount = createTransactionDto.amount;
-      const method = createTransactionDto.method;
 
       const createPaymentDto: CreatePaymentDto[] = (() => {
         switch (method) {
