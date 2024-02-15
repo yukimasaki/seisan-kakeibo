@@ -51,6 +51,7 @@ export const createTransaction = async (
   formData: FormData
 ): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
+  const token = session?.user.accessToken;
 
   const creatorId = session?.profile?.id;
   const groupId = session?.profile.activeGroup?.id;
@@ -58,14 +59,14 @@ export const createTransaction = async (
 
   const amount = Number(formData.get("amount"));
   const categoryId = Number(formData.get("categoryId"));
-  const title = formData.get("title");
+  const title = formData.get("title") as string;
   const method = formData.get("method") as PaymentType;
   const paymentDate = (() => {
     const paymentDate = formData.get("paymentDate")?.toString();
     if (!paymentDate) return new Date();
     return new Date(paymentDate);
   })();
-  const memo = formData.get("memo");
+  const memo = formData.get("memo") as string;
   const memberCount = formData.get("memberCount");
   const member = Array.from({ length: Number(memberCount) }, (_, idx) => ({
     userId: Number(formData.get(`member.${idx}.userId`)),
@@ -73,7 +74,7 @@ export const createTransaction = async (
     balance: Number(formData.get(`member.${idx}.balance`)),
   }));
 
-  const createTransactionDto = {
+  const preValidateData: Partial<CreateTransactionDto> = {
     creatorId,
     groupId,
     status,
@@ -87,16 +88,14 @@ export const createTransaction = async (
   };
 
   // 1. 入力値が型として正しいかどうかのバリデーション
-  try {
-    CreateTransactionSchema.parse(createTransactionDto);
-  } catch (error) {
-    // console.log(error);
+  const createTransactionDto =
+    CreateTransactionSchema.safeParse(preValidateData);
+  if (!createTransactionDto.success)
     return {
       isSubmitted: true,
       ok: false,
       message: "入力内容に誤りがあります",
     };
-  }
 
   // 2. 支払い情報が不釣り合いではないかのバリデーション
   const initialValue = 0;
@@ -138,7 +137,19 @@ export const createTransaction = async (
     }
   }
 
-  // 3. すべてのバリデーションに通過した場合、成功のメッセージを返す
+  // 3. すべてのバリデーションに通過した場合、APIへPOSTリクエストを送信する
+  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`, {
+    method: "POST",
+    body: JSON.stringify(
+      createTransactionDto.data satisfies CreateTransactionDto
+    ),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  // 成功のメッセージを返す
   return {
     isSubmitted: true,
     ok: true,
