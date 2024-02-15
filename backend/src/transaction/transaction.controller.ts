@@ -9,7 +9,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { CreateTransactionFormData } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import * as dayjs from 'dayjs';
 import {
@@ -20,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { Transaction } from './entities/transaction.entity';
+import { CreateTransactionDto } from '@@nest/transaction/dto/create-transaction.dto';
 
 @Controller('transactions')
 @ApiTags('/transactions')
@@ -36,7 +36,7 @@ export class TransactionController {
     type: Transaction,
   })
   createWithTransaction(
-    @Body() createTransactionFormData: CreateTransactionFormData,
+    @Body() createTransactionFormData: CreateTransactionDto,
   ) {
     return this.transactionService.createWithTransaction(
       createTransactionFormData,
