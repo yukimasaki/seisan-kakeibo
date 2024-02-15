@@ -2,13 +2,15 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
-import { CommonInput, CreateTransactionDto } from "@type/entities/transaction";
+import {
+  CommonInput,
+  CreateTransactionDto,
+  PaymentType,
+} from "@type/entities/transaction";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
 // **************************** スキーマ ****************************
-export type PaymentType = "ratio" | "even" | "amount_basis";
-
 // オブジェクト単位
 const CommonInputSchema = z.object({
   amount: z.number({ required_error: "数値を入力してください" }), // formData
@@ -27,6 +29,11 @@ const CommonInputSchema = z.object({
 }) satisfies z.ZodType<CommonInput>;
 
 const CreateTransactionSchema = CommonInputSchema.extend({
+  method: z.union([
+    z.literal("ratio"),
+    z.literal("even"),
+    z.literal("amount_basis"),
+  ]) satisfies z.ZodType<PaymentType>,
   member: z.array(
     z.object({
       userId: z.number(),
@@ -52,7 +59,7 @@ export const createTransaction = async (
   const amount = Number(formData.get("amount"));
   const categoryId = Number(formData.get("categoryId"));
   const title = formData.get("title");
-  const tag = formData.get("tag") as PaymentType;
+  const method = formData.get("method") as PaymentType;
   const paymentDate = (() => {
     const paymentDate = formData.get("paymentDate")?.toString();
     if (!paymentDate) return new Date();
@@ -73,7 +80,7 @@ export const createTransaction = async (
     amount,
     categoryId,
     title,
-    tag,
+    method,
     paymentDate,
     memo,
     member,
@@ -111,7 +118,7 @@ export const createTransaction = async (
     (accumulator, currentValue) => accumulator + currentValue.balance,
     initialValue
   );
-  if (tag === "ratio") {
+  if (method === "ratio") {
     if (totalBalance !== 100) {
       // console.log("ratioの合計が100%ではありません");
       return {
@@ -152,11 +159,11 @@ export const validateOnBlur = async (
     message: Map<Keys, string>;
   },
   {
-    tag,
+    method,
     key,
     value,
   }: {
-    tag: PaymentType;
+    method: PaymentType;
     key: Keys;
     value: unknown;
   }

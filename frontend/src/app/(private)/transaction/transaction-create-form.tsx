@@ -26,7 +26,6 @@ import { createSummary } from "@utils/createSummary";
 import { useFormState, useFormStatus } from "react-dom";
 import {
   Keys,
-  PaymentType,
   clearMessages,
   createTransaction,
   validateOnBlur,
@@ -39,6 +38,7 @@ import { MetaInfoComponent } from "./form/MetaInfo";
 import { BalanceInputComponent } from "./form/BalanceInput";
 import { FinalBillComponent } from "./form/FinalBill";
 import { showToast } from "@components/toast/toast";
+import { PaymentType } from "@type/entities/transaction";
 
 export const CreateTransactionForm = () => {
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
@@ -115,7 +115,7 @@ export const CreateTransactionForm = () => {
     { id: 13, icon: "", category: "分類不能" },
   ];
 
-  const paymentTable = ({ tag }: { tag: PaymentType }) => {
+  const paymentTable = ({ method }: { method: PaymentType }) => {
     const members = session?.profile.activeGroup.members;
     if (!members) return null;
     return (
@@ -124,7 +124,7 @@ export const CreateTransactionForm = () => {
         <h5 className="text-base font-bold text-blue-400">
           誰といくら割り勘する？
         </h5>
-        <BalanceInputComponent tag={tag} />
+        <BalanceInputComponent method={method} />
         <Spacer y={4} />
         <h5 className="text-base font-bold text-blue-400">
           誰がいくら立て替えた？
@@ -144,21 +144,21 @@ export const CreateTransactionForm = () => {
       key: "ratio",
       label: "比率",
       content: paymentTable({
-        tag: "ratio",
+        method: "ratio",
       }),
     },
     {
       key: "even",
       label: "均等",
       content: paymentTable({
-        tag: "even",
+        method: "even",
       }),
     },
     {
       key: "amount_basis",
       label: "金額",
       content: paymentTable({
-        tag: "amount_basis",
+        method: "amount_basis",
       }),
     },
   ];
@@ -194,7 +194,7 @@ export const CreateTransactionForm = () => {
                     onChange={(e) => {
                       setAmount(e.target.value);
                       validateAction({
-                        tag: selectedTab,
+                        method: selectedTab,
                         key: "amount",
                         value:
                           e.target.value === ""
@@ -205,7 +205,7 @@ export const CreateTransactionForm = () => {
                     onBlur={(e) => {
                       if (!(e.target instanceof HTMLInputElement)) return;
                       validateAction({
-                        tag: selectedTab,
+                        method: selectedTab,
                         key: "amount",
                         value: !e.target.value
                           ? undefined
@@ -231,7 +231,7 @@ export const CreateTransactionForm = () => {
                     onChange={(e) => {
                       setCategoryId(e.target.value);
                       validateAction({
-                        tag: selectedTab,
+                        method: selectedTab,
                         key: "categoryId",
                         value:
                           e.target.value === ""
@@ -242,7 +242,7 @@ export const CreateTransactionForm = () => {
                     onBlur={(e) => {
                       if (!(e.target instanceof HTMLInputElement)) return;
                       validateAction({
-                        tag: selectedTab,
+                        method: selectedTab,
                         key: "categoryId",
                         value:
                           e.target.value === ""
@@ -274,7 +274,7 @@ export const CreateTransactionForm = () => {
                     onChange={(e) => {
                       setTitle(e.target.value);
                       validateAction({
-                        tag: selectedTab,
+                        method: selectedTab,
                         key: "title",
                         value:
                           e.target.value === "" ? undefined : e.target.value,
@@ -283,7 +283,7 @@ export const CreateTransactionForm = () => {
                     onBlur={(e) => {
                       if (!(e.target instanceof HTMLInputElement)) return;
                       validateAction({
-                        tag: selectedTab,
+                        method: selectedTab,
                         key: "title",
                         value:
                           e.target.value === "" ? undefined : e.target.value,
@@ -333,7 +333,12 @@ export const CreateTransactionForm = () => {
                   >
                     {(tab) => (
                       <Tab key={tab.key} title={tab.label}>
-                        <input name={"tag"} value={tab.key} hidden readOnly />
+                        <input
+                          name={"method"}
+                          value={tab.key}
+                          hidden
+                          readOnly
+                        />
                         <div>{tab.content}</div>
                       </Tab>
                     )}

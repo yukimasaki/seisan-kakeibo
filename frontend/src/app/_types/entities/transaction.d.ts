@@ -1,6 +1,10 @@
 import { Balance } from "@type/entities/balance";
 import { Category } from "@type/entities/category";
 import { Payment } from "@type/entities/payment";
+import { PaymentType } from "../../(private)/transaction/transaction-server-action";
+
+// 割り勘方法
+export type PaymentType = "ratio" | "even" | "amount_basis";
 
 // 共通
 export type CommonInput = Omit<
@@ -10,6 +14,7 @@ export type CommonInput = Omit<
 
 // 比率
 export type BalanceInput = {
+  method: PaymentType;
   member: {
     userId: number;
     finalBill: number;

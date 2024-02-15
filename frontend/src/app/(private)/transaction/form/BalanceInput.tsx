@@ -2,16 +2,16 @@
 
 import { ParagraphComponent } from "@components/text/paragraph";
 import { Input } from "@nextui-org/react";
-import { PaymentType } from "../transaction-server-action";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { PaymentType } from "@type/entities/transaction";
 
-export const BalanceInputComponent = ({ tag }: { tag: PaymentType }) => {
+export const BalanceInputComponent = ({ method }: { method: PaymentType }) => {
   const { data: session } = useSession();
   const members = session?.profile.activeGroup.members;
 
   const unit = (() => {
-    if (tag === "ratio") return "%";
+    if (method === "ratio") return "%";
     return "円";
   })();
 
