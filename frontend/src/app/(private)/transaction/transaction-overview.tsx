@@ -65,7 +65,7 @@ export const TransactionOverviewComponent = () => {
 
   return (
     <>
-      <div className="flex flex-col h-svh">
+      <div className="flex flex-col h-svh lg:w-[1024px] lg:self-center">
         <div className="flex-1 p-2 space-y-2">
           <div className="flex justify-end gap-2">
             <FilterButtonComponent />

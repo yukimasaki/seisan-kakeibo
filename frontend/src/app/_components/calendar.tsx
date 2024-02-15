@@ -163,7 +163,7 @@ export const CalendarComponent = ({
       {/* 年月ピッカー ここまで */}
 
       {/* カレンダー ここから */}
-      <div className="rounded-md shadow w-full lg:w-1/3">
+      <div className="rounded-md shadow w-full">
         <div className="grid grid-cols-7 gap-2 py-1 bg-gray-400 rounded-t-md">
           {dayLabels.map((dayLabel) => {
             return (
