@@ -120,7 +120,7 @@ export const CreateTransactionForm = () => {
     if (!members) return null;
     return (
       <>
-        <MetaInfoComponent members={members} />
+        <MetaInfoComponent />
         <h5 className="text-base font-bold text-blue-400">
           誰といくら割り勘する？
         </h5>
