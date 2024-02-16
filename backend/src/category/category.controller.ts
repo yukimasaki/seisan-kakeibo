@@ -31,14 +31,14 @@ export class CategoryController {
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
-  @ApiOperation({ summary: '単体登録API' })
+  @ApiOperation({ summary: '複数登録API' })
   @ApiResponse({
     status: 201,
-    description: '登録後のカテゴリー情報を返却',
-    type: Category,
+    description: '登録数を返却',
+    type: Number,
   })
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  createWithTransaction(@Body() createCategoryDto: CreateCategoryDto[]) {
+    return this.categoryService.createWithTransaction(createCategoryDto);
   }
 
   @Get()
