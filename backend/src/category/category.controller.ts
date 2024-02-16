@@ -6,8 +6,8 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
   BadRequestException,
-  Request,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -16,21 +16,18 @@ import {
   ApiOperation,
   ApiParam,
   ApiProduces,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { Category } from './entities/category.entity';
-import { UtilityService } from '@@nest/common/services/utility.service';
 
 @Controller('categories')
 @ApiTags('/categories')
 @SummarizeApiResponse()
 export class CategoryController {
-  constructor(
-    private readonly categoryService: CategoryService,
-    private readonly utilityService: UtilityService,
-  ) {}
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
@@ -46,19 +43,38 @@ export class CategoryController {
 
   @Get()
   @ApiProduces('application/json; charset=utf-8')
-  @ApiOperation({ summary: 'グループ取得API' })
+  @ApiOperation({ summary: 'グループ別カテゴリー取得API' })
+  @ApiQuery({
+    name: 'groupId',
+    type: String,
+    example: '1',
+  })
   @ApiResponse({
     status: 200,
-    description: '自分の所属するグループのカテゴリー情報を返却',
+    description: '指定されたグループIDのカテゴリー情報を返却',
     type: Category,
   })
-  findByMyGroupId(@Request() req) {
-    const authorizationHeader: string = req.headers.authorization;
-    if (!authorizationHeader) throw new BadRequestException();
+  findByGroupId(@Query('groupId') groupId: string) {
+    if (!groupId || Number.isNaN(parseInt(groupId)))
+      throw new BadRequestException();
+    return this.categoryService.findByGroupId(+groupId);
+  }
 
-    const bearerToken: string =
-      this.utilityService.getBearerToken(authorizationHeader);
-    return this.categoryService.findByMyGroupId(bearerToken);
+  @Get(':id')
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '単体取得API' })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    example: '1',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '指定されたIDのカテゴリー情報を返却',
+    type: Category,
+  })
+  findOne(@Param('id') id: string) {
+    return this.categoryService.findOne(+id);
   }
 
   @Patch(':id')
