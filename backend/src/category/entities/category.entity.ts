@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsPositive, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsInt, IsPositive, IsString } from 'class-validator';
 
 export class Category {
   @ApiProperty({
@@ -22,7 +22,7 @@ export class Category {
     description: 'カテゴリーの表示名',
   })
   @IsString()
-  category: string;
+  categoryName: string;
 
   @ApiProperty({
     example: '1',
@@ -33,4 +33,4 @@ export class Category {
   groupId: number;
 }
 
-export class CategoryResponse extends Category { }
+export class CategoryResponse extends Category {}

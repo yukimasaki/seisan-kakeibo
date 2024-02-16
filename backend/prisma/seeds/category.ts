@@ -11,7 +11,7 @@ export const createCategory = async () => {
   await prisma.category.createMany({
     data: categoryGroup1.map((category, _) => ({
       icon: `category/icon.png`,
-      category,
+      categoryName: category,
       groupId: 1,
     })),
   });
