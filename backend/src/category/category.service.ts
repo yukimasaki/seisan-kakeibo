@@ -6,19 +6,15 @@ import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
     return await this.prisma.category.create({
-      data: createCategoryDto
+      data: createCategoryDto,
     });
   }
 
-  async findByGroupId(
-    groupId: number,
-  ): Promise<Category[]> {
+  async findByGroupId(groupId: number): Promise<Category[]> {
     return await this.prisma.category.findMany({
       where: {
         groupId,
@@ -28,20 +24,20 @@ export class CategoryService {
 
   async findOne(id: number) {
     return await this.prisma.category.findUnique({
-      where: { id }
+      where: { id },
     });
   }
 
   async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     return await this.prisma.category.update({
       where: { id },
-      data: updateCategoryDto
+      data: updateCategoryDto,
     });
   }
 
   async remove(id: number) {
     return await this.prisma.category.delete({
-      where: { id }
+      where: { id },
     });
   }
 }
