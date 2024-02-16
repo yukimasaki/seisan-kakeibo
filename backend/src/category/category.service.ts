@@ -1,12 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { PrismaService } from '@@nest/common/prisma/prisma.service';
-import { Category } from './entities/category.entity';
+import { CategoryResponse } from './entities/category.entity';
+import { AccessToken } from '@@nest/common/interfaces/access-token.interface';
+import { UtilityService } from '@@nest/common/services/utility.service';
 
 @Injectable()
 export class CategoryService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly utilityService: UtilityService,
+  ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
     return await this.prisma.category.create({
@@ -14,12 +19,18 @@ export class CategoryService {
     });
   }
 
-  async findByGroupId(groupId: number): Promise<Category[]> {
-    return await this.prisma.category.findMany({
+  async findByMyGroupId(bearerToken: string): Promise<CategoryResponse[]> {
+    const accessToken: AccessToken = this.utilityService.decodeJwt(bearerToken);
+    if (!accessToken) throw new BadRequestException();
+
+    const myGroupId: number = accessToken['profile'].activeGroupId;
+
+    const categories: CategoryResponse[] = await this.prisma.category.findMany({
       where: {
-        groupId,
+        groupId: myGroupId,
       },
     });
+    return categories;
   }
 
   async findOne(id: number) {
