@@ -1,8 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  BadRequestException,
+} from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { Category } from './entities/category.entity';
 
@@ -10,7 +27,7 @@ import { Category } from './entities/category.entity';
 @ApiTags('/categories')
 @SummarizeApiResponse()
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) { }
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
@@ -37,10 +54,8 @@ export class CategoryController {
     description: '指定されたグループIDのカテゴリー情報を返却',
     type: Category,
   })
-  findByGroupId(
-    @Query('groupId') groupId: string,
-  ) {
-    if (!groupId) throw new BadRequestException;
+  findByGroupId(@Query('groupId') groupId: string) {
+    if (!groupId) throw new BadRequestException();
     return this.categoryService.findByGroupId(+groupId);
   }
 
@@ -57,9 +72,7 @@ export class CategoryController {
     description: '指定されたIDのカテゴリー情報を返却',
     type: Category,
   })
-  findOne(
-    @Param('id') id: string,
-  ) {
+  findOne(@Param('id') id: string) {
     return this.categoryService.findOne(+id);
   }
 
@@ -78,7 +91,7 @@ export class CategoryController {
   })
   update(
     @Param('id') id: string,
-    @Body() updateCategoryDto: UpdateCategoryDto
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoryService.update(+id, updateCategoryDto);
   }
@@ -96,9 +109,7 @@ export class CategoryController {
     description: '削除後のカテゴリー情報を返却',
     type: Category,
   })
-  remove(
-    @Param('id') id: string
-  ) {
+  remove(@Param('id') id: string) {
     return this.categoryService.remove(+id);
   }
 }
