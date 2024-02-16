@@ -1,8 +1,8 @@
-export const fetcher = (url: string, token?: string) => {
-  if (!token) return fetch(url).then((res) => res.json());
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => res.json());
+export const fetcher = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const error = new Error();
+    throw error;
+  }
+  return await response.json();
 };
