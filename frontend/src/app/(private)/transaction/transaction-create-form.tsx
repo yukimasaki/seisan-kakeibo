@@ -100,19 +100,19 @@ export const CreateTransactionForm = () => {
 
   // dummy
   const categories: Category[] = [
-    { id: 1, icon: "", category: "日用品" },
-    { id: 2, icon: "", category: "光熱費" },
-    { id: 3, icon: "", category: "通信費" },
-    { id: 4, icon: "", category: "食費" },
-    { id: 5, icon: "", category: "外食費" },
-    { id: 6, icon: "", category: "美容費" },
-    { id: 7, icon: "", category: "付き合い" },
-    { id: 8, icon: "", category: "ペット" },
-    { id: 9, icon: "", category: "交通・車両費" },
-    { id: 10, icon: "", category: "住居費" },
-    { id: 11, icon: "", category: "趣味" },
-    { id: 12, icon: "", category: "自己啓発" },
-    { id: 13, icon: "", category: "分類不能" },
+    { id: 1, icon: "", categoryName: "日用品" },
+    { id: 2, icon: "", categoryName: "光熱費" },
+    { id: 3, icon: "", categoryName: "通信費" },
+    { id: 4, icon: "", categoryName: "食費" },
+    { id: 5, icon: "", categoryName: "外食費" },
+    { id: 6, icon: "", categoryName: "美容費" },
+    { id: 7, icon: "", categoryName: "付き合い" },
+    { id: 8, icon: "", categoryName: "ペット" },
+    { id: 9, icon: "", categoryName: "交通・車両費" },
+    { id: 10, icon: "", categoryName: "住居費" },
+    { id: 11, icon: "", categoryName: "趣味" },
+    { id: 12, icon: "", categoryName: "自己啓発" },
+    { id: 13, icon: "", categoryName: "分類不能" },
   ];
 
   const paymentTable = ({ method }: { method: PaymentType }) => {
@@ -253,7 +253,7 @@ export const CreateTransactionForm = () => {
                   >
                     {(category) => (
                       <SelectItem key={category.id}>
-                        {category.category}
+                        {category.categoryName}
                       </SelectItem>
                     )}
                   </Select>

@@ -106,7 +106,7 @@ export const TransactionOverviewComponent = () => {
                             <div className="flex gap-2">
                               <Icon name="Groups" className="text-green-500" />
                               <span className="text-xs self-center">
-                                {transaction.category.category}
+                                {transaction.category.categoryName}
                               </span>
                             </div>
                             {/* 孫1-2 */}

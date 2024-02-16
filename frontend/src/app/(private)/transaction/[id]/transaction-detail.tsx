@@ -68,7 +68,7 @@ export const TransactionDetailComponent = () => {
                     <div className="flex gap-2">
                       <Icon name="Groups" className="text-green-500" />
                       <span className="text-md self-center">
-                        {transaction.category.category}
+                        {transaction.category.categoryName}
                       </span>
                     </div>
                     {/* 1-1-2 */}
