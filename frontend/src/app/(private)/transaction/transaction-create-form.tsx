@@ -21,7 +21,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { Summary } from "@type/calendar";
-import { Category } from "@type/entities/category";
+import { CategoryResponse } from "@type/entities/category";
 import { createSummary } from "@utils/createSummary";
 import { useFormState, useFormStatus } from "react-dom";
 import {
@@ -39,8 +39,12 @@ import { BalanceInputComponent } from "./form/BalanceInput";
 import { FinalBillComponent } from "./form/FinalBill";
 import { showToast } from "@components/toast/toast";
 import { PaymentType } from "@type/entities/transaction";
+import useSWR from "swr";
+import { fetcher } from "@common/fetcher";
 
 export const CreateTransactionForm = () => {
+  const { data: session } = useSession();
+
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
     isSubmitted: false,
     ok: false,
@@ -48,7 +52,7 @@ export const CreateTransactionForm = () => {
   });
 
   // issue: 連動していない気がする
-  const status = useFormStatus();
+  const formStatus = useFormStatus();
 
   const [validateState, validateAction] = useFormState(validateOnBlur, {
     message: new Map<Keys, string>(),
@@ -77,7 +81,6 @@ export const CreateTransactionForm = () => {
 
   const form = useModalForm();
   const calendarStore = useDatePickerCalendar();
-  const { data: session } = useSession();
 
   // input
   const [amount, setAmount] = useState("");
@@ -98,8 +101,25 @@ export const CreateTransactionForm = () => {
     now: calendarStore.currentYearMonth,
   });
 
-  // dummy
-  const categories: Category[] = [
+  // DBへカテゴリー情報を問い合わせ
+  const {
+    data: dbCategories,
+    error,
+    isLoading,
+  }: {
+    data: CategoryResponse[];
+    error: Error | undefined;
+    isLoading: boolean;
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?groupId=${session?.profile.activeGroupId}`,
+    fetcher,
+    {
+      keepPreviousData: true,
+    }
+  );
+
+  // DBにカテゴリー情報が保存されていないときに使うデフォルト値
+  const defaultCategories: CategoryResponse[] = [
     { id: 1, icon: "", categoryName: "日用品" },
     { id: 2, icon: "", categoryName: "光熱費" },
     { id: 3, icon: "", categoryName: "通信費" },
@@ -114,6 +134,12 @@ export const CreateTransactionForm = () => {
     { id: 12, icon: "", categoryName: "自己啓発" },
     { id: 13, icon: "", categoryName: "分類不能" },
   ];
+
+  // DBにカテゴリー情報が存在しない場合はデフォルト値を代入する
+  const categories = (() => {
+    if (error) return defaultCategories;
+    return dbCategories;
+  })();
 
   const paymentTable = ({ method }: { method: PaymentType }) => {
     const members = session?.profile.activeGroup.members;
@@ -366,8 +392,8 @@ export const CreateTransactionForm = () => {
                 <Button
                   type={"submit"}
                   color={"primary"}
-                  isDisabled={status.pending}
-                  isLoading={status.pending}
+                  isDisabled={formStatus.pending}
+                  isLoading={formStatus.pending}
                 >
                   作成
                 </Button>
