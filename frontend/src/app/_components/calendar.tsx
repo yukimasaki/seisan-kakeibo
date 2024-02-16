@@ -64,7 +64,7 @@ export const CalendarComponent = ({
   const isToday = (date: string) => {
     const today = dayjs();
     const givenDate = dayjs(date);
-    console.log(today);
+    // console.log(today);
 
     return today.isSame(givenDate, "day");
   };
