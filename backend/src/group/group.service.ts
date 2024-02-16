@@ -42,6 +42,8 @@ export class GroupService {
           },
         });
 
+        // todo: カテゴリーをデフォルト値から作成する
+
         return groupWithMembers;
       },
     );
