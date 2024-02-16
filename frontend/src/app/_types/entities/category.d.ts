@@ -3,3 +3,5 @@ export type Category = {
   icon: string;
   categoryName: string;
 };
+
+export type CategoryResponse = Category;
