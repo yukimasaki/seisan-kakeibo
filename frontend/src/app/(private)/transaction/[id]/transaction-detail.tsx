@@ -19,11 +19,15 @@ import {
 import { Transaction } from "@type/entities/transaction";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
+import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import useSWR from "swr";
 
 export const TransactionDetailComponent = () => {
   const router = useRouter();
+
+  const { data: session } = useSession();
+  const groupId = session?.profile?.activeGroupId || 0;
 
   const path = usePathname();
   const transactionId = path.replace("/transaction/", "");

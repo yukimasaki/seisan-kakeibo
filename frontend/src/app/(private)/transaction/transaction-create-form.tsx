@@ -44,6 +44,7 @@ import { fetcher } from "@common/fetcher";
 
 export const CreateTransactionForm = () => {
   const { data: session } = useSession();
+  const groupId = session?.profile?.activeGroupId || 0;
 
   const [messageAfterSubmit, formAction] = useFormState(createTransaction, {
     isSubmitted: false,
@@ -112,7 +113,7 @@ export const CreateTransactionForm = () => {
     isLoading: boolean;
   } = useSWR(
     {
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?groupId=${session?.profile.activeGroupId}`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?groupId=${groupId}`,
       token: null,
     },
     fetcher,

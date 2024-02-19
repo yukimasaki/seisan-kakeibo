@@ -24,7 +24,7 @@ export const TransactionOverviewComponent = () => {
   const router = useRouter();
 
   const { data: session, update } = useSession();
-  const groupId = session?.profile?.activeGroupId;
+  const groupId = session?.profile?.activeGroupId || 0;
 
   const calendarStore = useOverviewCalendar();
   const form = useModalForm();
