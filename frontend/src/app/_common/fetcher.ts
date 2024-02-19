@@ -5,7 +5,6 @@ export const fetcher = async ({
   url: string;
   token: string | null;
 }) => {
-  console.log(token);
   if (token === undefined) throw new Error("Token is undefined");
   const response =
     token === null
