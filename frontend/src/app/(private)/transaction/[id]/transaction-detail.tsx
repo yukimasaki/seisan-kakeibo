@@ -26,7 +26,7 @@ export const TransactionDetailComponent = () => {
   const router = useRouter();
 
   const path = usePathname();
-  const id = path.replace("/transaction/", "");
+  const transactionId = path.replace("/transaction/", "");
 
   const {
     data: transaction,
@@ -38,7 +38,7 @@ export const TransactionDetailComponent = () => {
     isLoading: boolean;
   } = useSWR(
     {
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/${id}`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/${transactionId}`,
       token: null,
     },
     fetcher,
