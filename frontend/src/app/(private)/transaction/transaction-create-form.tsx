@@ -251,7 +251,11 @@ export const CreateTransactionForm = () => {
                     label={"カテゴリー"}
                     name={"categoryId"}
                     value={categoryId}
-                    defaultSelectedKeys={["8"]}
+                    defaultSelectedKeys={[
+                      `${Math.min(
+                        ...categories.map((category) => category.id)
+                      )}`,
+                    ]}
                     items={categories}
                     placeholder={"カテゴリーを選択"}
                     onChange={(e) => {
