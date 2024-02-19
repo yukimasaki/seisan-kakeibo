@@ -37,7 +37,9 @@ export const TransactionDetailComponent = () => {
     error: any;
     isLoading: boolean;
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/${id}`,
+    {
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions/${id}`,
+    },
     fetcher,
     {
       keepPreviousData: true,

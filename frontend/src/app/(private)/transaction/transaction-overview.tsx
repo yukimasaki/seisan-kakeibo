@@ -37,7 +37,9 @@ export const TransactionOverviewComponent = () => {
     error: any;
     isLoading: boolean;
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}`,
+    {
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}`,
+    },
     fetcher,
     {
       keepPreviousData: true,

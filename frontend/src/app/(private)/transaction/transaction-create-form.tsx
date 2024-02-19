@@ -111,7 +111,9 @@ export const CreateTransactionForm = () => {
     error: Error | undefined;
     isLoading: boolean;
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?groupId=${session?.profile.activeGroupId}`,
+    {
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?groupId=${session?.profile.activeGroupId}`,
+    },
     fetcher,
     {
       keepPreviousData: true,
