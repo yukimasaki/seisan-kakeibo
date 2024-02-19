@@ -1,8 +1,9 @@
-import Add from './svg/add.svg';
-import Filter from './svg/filter.svg';
-import Groups from './svg/groups.svg';
-import Back from './svg/back.svg';
-import Forward from './svg/forward.svg';
+import Add from "./svg/add.svg";
+import Filter from "./svg/filter.svg";
+import Groups from "./svg/groups.svg";
+import Back from "./svg/back.svg";
+import Forward from "./svg/forward.svg";
+import Delete from "./svg/delete.svg";
 
 const icons = {
   Add,
@@ -10,14 +11,15 @@ const icons = {
   Groups,
   Back,
   Forward,
+  Delete,
 };
 
 type Name = keyof typeof icons;
 
 type Props = {
-  name: Name
-  size?: number
-  className?: string
+  name: Name;
+  size?: number;
+  className?: string;
 };
 
 const DEFAULT_SIZE = 24;
@@ -31,4 +33,4 @@ export function Icon({ name, size = DEFAULT_SIZE, className }: Props) {
       className={className}
     />
   );
-};
+}
