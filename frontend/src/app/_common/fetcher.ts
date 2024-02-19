@@ -1,3 +1,7 @@
+export class FetchError extends Error {
+  ok: boolean = false;
+}
+
 export const fetcher = async ({
   url,
   token,
@@ -5,7 +9,7 @@ export const fetcher = async ({
   url: string;
   token: string | null;
 }) => {
-  if (token === undefined) throw new Error("Token is undefined");
+  if (token === undefined) throw new FetchError("Token is undefined");
   const response =
     token === null
       ? await fetch(url)
@@ -16,7 +20,8 @@ export const fetcher = async ({
         });
 
   if (!response.ok) {
-    const error = new Error("Failed to fetch");
+    const error = new FetchError("Failed to fetch");
+    error.ok = false;
     throw error;
   }
   return await response.json();

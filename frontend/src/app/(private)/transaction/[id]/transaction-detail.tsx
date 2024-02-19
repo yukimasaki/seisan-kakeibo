@@ -1,6 +1,6 @@
 "use client";
 
-import { fetcher } from "@common/fetcher";
+import { FetchError, fetcher } from "@common/fetcher";
 import { Icon } from "@components/icon/icon";
 import {
   Card,
@@ -38,7 +38,7 @@ export const TransactionDetailComponent = () => {
     isLoading,
   }: {
     data: Transaction;
-    error: any;
+    error: FetchError | undefined;
     isLoading: boolean;
   } = useSWR(
     {
@@ -48,6 +48,9 @@ export const TransactionDetailComponent = () => {
     fetcher,
     {
       keepPreviousData: true,
+      onErrorRetry: (error) => {
+        if (!error.ok) return;
+      },
     }
   );
 

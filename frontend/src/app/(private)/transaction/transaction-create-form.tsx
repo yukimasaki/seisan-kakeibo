@@ -40,7 +40,7 @@ import { FinalBillComponent } from "./form/FinalBill";
 import { showToast } from "@components/toast/toast";
 import { PaymentType } from "@type/entities/transaction";
 import useSWR from "swr";
-import { fetcher } from "@common/fetcher";
+import { FetchError, fetcher } from "@common/fetcher";
 
 export const CreateTransactionForm = () => {
   const { data: session } = useSession();
@@ -109,7 +109,7 @@ export const CreateTransactionForm = () => {
     isLoading,
   }: {
     data: CategoryResponse[];
-    error: Error | undefined;
+    error: FetchError | undefined;
     isLoading: boolean;
   } = useSWR(
     {
@@ -119,6 +119,9 @@ export const CreateTransactionForm = () => {
     fetcher,
     {
       keepPreviousData: true,
+      onErrorRetry: (error) => {
+        if (!error.ok) return;
+      },
     }
   );
 

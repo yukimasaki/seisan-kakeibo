@@ -1,6 +1,6 @@
 "use client";
 
-import { fetcher } from "@common/fetcher";
+import { FetchError, fetcher } from "@common/fetcher";
 import { AddButtonComponent } from "@components/button/add";
 import { FilterButtonComponent } from "@components/button/filter";
 import { Icon } from "@components/icon/icon";
@@ -35,7 +35,7 @@ export const TransactionOverviewComponent = () => {
     isLoading,
   }: {
     data: Transaction[];
-    error: any;
+    error: FetchError | undefined;
     isLoading: boolean;
   } = useSWR(
     {
@@ -45,6 +45,9 @@ export const TransactionOverviewComponent = () => {
     fetcher,
     {
       keepPreviousData: true,
+      onErrorRetry: (error) => {
+        if (!error.ok) return;
+      },
     }
   );
 
