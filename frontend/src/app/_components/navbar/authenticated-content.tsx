@@ -1,7 +1,7 @@
 "use client";
 
 import { LogoutButtonComponent } from "@components/button/logout";
-import { NavMenuComponent } from "@components/navbar/navmenu";
+import { NavMenu } from "@components/navbar/NavMenu";
 import { useNavMenu } from "@hooks/useToggle";
 import {
   Link,
@@ -21,7 +21,7 @@ export const NavBarAuthenticatedContentComponent = () => {
       onMenuOpenChange={navMenu.onClose}
     >
       <NavbarContent justify="start">
-        <NavMenuComponent />
+        <NavMenu />
         <NavbarBrand>
           <NavbarItem>
             <p className="font-bold text-inherit">

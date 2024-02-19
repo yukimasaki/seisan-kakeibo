@@ -10,7 +10,7 @@ import {
 } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 
-export const NavMenuComponent = () => {
+export const NavMenu = () => {
   const navMenu = useNavMenu();
   const currentPath = usePathname();
 
