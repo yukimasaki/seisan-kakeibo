@@ -117,7 +117,15 @@ export class TransactionService {
   //   });
   // }
 
-  async findByPaymentDate(start: string, end: string) {
+  async findByPaymentDate({
+    start,
+    end,
+    groupId,
+  }: {
+    start: string;
+    end: string;
+    groupId: number;
+  }) {
     const jst = -9;
     const queryStart = dayjs(start).add(jst, 'hour').toDate();
     const queryEnd = dayjs(end).add(jst, 'hour').toDate();
@@ -127,6 +135,7 @@ export class TransactionService {
         category: true,
       },
       where: {
+        groupId,
         paymentDate: {
           gte: queryStart,
           lt: queryEnd,

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -14,6 +15,7 @@ import * as dayjs from 'dayjs';
 import {
   ApiOperation,
   ApiProduces,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -49,12 +51,31 @@ export class TransactionController {
   // }
 
   @Get()
+  @ApiProduces('application/json; charset=utf-8')
+  @ApiOperation({ summary: '取引情報取得API' })
+  @ApiQuery({
+    name: 'groupId',
+    type: String,
+    example: '1',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '取引日付で取引情報を返却',
+    type: [Transaction],
+  })
   findByPaymentDate(
     @Query('start')
     start: string = dayjs().startOf('month').format('YYYY-MM-DD'),
     @Query('end') end: string = dayjs().endOf('month').format('YYYY-MM-DD'),
+    @Query('groupId') groupId: string,
   ) {
-    return this.transactionService.findByPaymentDate(start, end);
+    if (!groupId || Number.isNaN(parseInt(groupId)))
+      throw new BadRequestException();
+    return this.transactionService.findByPaymentDate({
+      start,
+      end,
+      groupId: +groupId,
+    });
   }
 
   @Get(':id')
