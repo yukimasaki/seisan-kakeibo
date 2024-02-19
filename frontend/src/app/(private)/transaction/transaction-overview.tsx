@@ -23,7 +23,8 @@ import { useSession } from "next-auth/react";
 export const TransactionOverviewComponent = () => {
   const router = useRouter();
 
-  const { update } = useSession();
+  const { data: session, update } = useSession();
+  const groupId = session?.profile?.activeGroupId;
 
   const calendarStore = useOverviewCalendar();
   const form = useModalForm();
@@ -38,7 +39,8 @@ export const TransactionOverviewComponent = () => {
     isLoading: boolean;
   } = useSWR(
     {
-      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}`,
+      url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions?start=${calendarStore.start}&end=${calendarStore.end}&groupId=${groupId}`,
+      token: null,
     },
     fetcher,
     {

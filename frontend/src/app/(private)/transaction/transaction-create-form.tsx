@@ -113,6 +113,7 @@ export const CreateTransactionForm = () => {
   } = useSWR(
     {
       url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/categories?groupId=${session?.profile.activeGroupId}`,
+      token: null,
     },
     fetcher,
     {
