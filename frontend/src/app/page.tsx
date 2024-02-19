@@ -1,12 +1,12 @@
 "use server";
 
-import { NavbarComponent } from "@components/navbar/navbar";
+import { NavBar } from "@components/navbar/navbar";
 import { HomePageComponent } from "./(public)/home/home";
 
 const RootPage = async () => {
   return (
     <>
-      <NavbarComponent />
+      <NavBar />
       <HomePageComponent />
     </>
   );

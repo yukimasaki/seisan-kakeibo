@@ -1,6 +1,6 @@
 "use server";
 
-import { NavbarComponent } from "@components/navbar/navbar";
+import { NavBar } from "@components/navbar/NavBar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@common/next-auth/options";
 import { UserResponse } from "@type/entities/user";
@@ -29,7 +29,7 @@ const ProfilePage = async () => {
 
   return (
     <>
-      <NavbarComponent />
+      <NavBar />
       <ProfileFormComponent user={user} />
     </>
   );

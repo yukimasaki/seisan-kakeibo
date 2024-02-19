@@ -5,7 +5,7 @@ import { NavBarAuthenticatedContentComponent } from "@components/navbar/authenti
 import { NavBarUnauthenticatedContentComponent } from "@components/navbar/unauthenticated-content";
 import { getServerSession } from "next-auth";
 
-export const NavbarComponent = async () => {
+export const NavBar = async () => {
   const session = await getServerSession(authOptions);
   const content = (() => {
     if (!session?.user) {

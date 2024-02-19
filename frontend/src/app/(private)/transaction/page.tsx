@@ -1,13 +1,13 @@
 "use server";
 
-import { NavbarComponent } from "@components/navbar/navbar";
+import { NavBar } from "@components/navbar/NavBar";
 import { TransactionOverviewComponent } from "./transaction-overview";
 
 const TransactionPage = async () => {
   return (
     <>
       <div className="flex flex-col justify-between h-svh">
-        <NavbarComponent />
+        <NavBar />
         <TransactionOverviewComponent />
       </div>
     </>
