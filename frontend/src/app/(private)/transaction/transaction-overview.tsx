@@ -13,7 +13,7 @@ import { Key, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Transaction } from "@type/entities/transaction";
 import { CreateTransactionForm } from "./transaction-create-form";
-import { CalendarComponent } from "@components/Calendar";
+import { Calendar } from "@components/Calendar";
 import { useOverviewCalendar } from "@hooks/useCalendar";
 import { Summary } from "@type/calendar";
 import { createSummary } from "@utils/createSummary";
@@ -86,10 +86,7 @@ export const TransactionOverviewComponent = () => {
 
           <CreateTransactionForm />
 
-          <CalendarComponent
-            summaries={summaries}
-            store={useOverviewCalendar}
-          />
+          <Calendar summaries={summaries} store={useOverviewCalendar} />
 
           {/* 一覧 開始 */}
           <div>

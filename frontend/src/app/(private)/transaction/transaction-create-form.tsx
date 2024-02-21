@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarComponent } from "@components/Calendar";
+import { Calendar } from "@components/Calendar";
 import { useDatePickerCalendar } from "@hooks/useCalendar";
 import {
   Button,
@@ -348,7 +348,7 @@ export const CreateTransactionForm = () => {
                       />
                     </PopoverTrigger>
                     <PopoverContent>
-                      <CalendarComponent
+                      <Calendar
                         summaries={summaries}
                         store={useDatePickerCalendar}
                       />

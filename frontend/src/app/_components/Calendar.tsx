@@ -49,7 +49,7 @@ const monthsOfYear = Array.from({ length: 12 }, (_, idx) => ({
   value: idx + 1,
 }));
 
-export const CalendarComponent = ({
+export const Calendar = ({
   dayLabels = defaultDayLabels,
   summaries,
   store,
