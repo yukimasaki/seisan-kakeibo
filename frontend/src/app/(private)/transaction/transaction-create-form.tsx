@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarComponent } from "@components/calendar";
+import { CalendarComponent } from "@components/Calendar";
 import { useDatePickerCalendar } from "@hooks/useCalendar";
 import {
   Button,
