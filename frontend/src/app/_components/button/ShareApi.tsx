@@ -1,12 +1,15 @@
 import { Button } from "@nextui-org/react";
 import { Icon } from "@components/icon/icon";
+import { usePathname } from "next/navigation";
 
 // https://zenn.dev/mr_ozin/articles/89329c5209d8da#share-api
 export const ShareApiButton = () => {
+  const path = usePathname();
+
   const data: ShareData = {
     title: "Seisan家計簿",
     text: "Seisan家計簿のリンク",
-    url: `${process.env.NEXTAUTH_URL}`,
+    url: `${path}`,
   };
 
   const share = async () => {
