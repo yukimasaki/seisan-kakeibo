@@ -1,6 +1,6 @@
 "use server";
 
-import { NavBar } from "@components/navbar/navbar";
+import { NavBar } from "@components/navbar/NavBar";
 import { TransactionDetailComponent } from "./transaction-detail";
 
 const TransactionDetailPage = async () => {
