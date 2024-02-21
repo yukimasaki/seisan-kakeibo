@@ -1,11 +1,12 @@
 import { Button } from "@nextui-org/react";
 import { Icon } from "@components/icon/icon";
 
+// https://zenn.dev/mr_ozin/articles/89329c5209d8da#share-api
 export const ShareApiButton = () => {
   const data: ShareData = {
-    title: "Google",
-    text: "Googleのリンク",
-    url: "https://www.google.com/",
+    title: "Seisan家計簿",
+    text: "Seisan家計簿のリンク",
+    url: `${process.env.NEXTAUTH_URL}`,
   };
 
   const share = async () => {
@@ -17,16 +18,8 @@ export const ShareApiButton = () => {
     }
   };
 
-  const isCanShare = "canShare" in navigator && navigator.canShare(data);
-
   return (
-    <Button
-      color={"primary"}
-      radius={"md"}
-      //   isIconOnly
-      disabled={!isCanShare}
-      onPress={share}
-    >
+    <Button color={"primary"} radius={"md"} onPress={share}>
       <div className="flex flex-row items-center">
         <Icon name="Add" className="text-white" />
         <p>メンバーを招待</p>
