@@ -21,6 +21,10 @@ const definition = (
       set({
         isOpen: false,
       }),
+    toggle: () =>
+      set({
+        isOpen: !get().isOpen,
+      }),
   } satisfies Toggle);
 
 export const useModalForm = create<Toggle>(definition);

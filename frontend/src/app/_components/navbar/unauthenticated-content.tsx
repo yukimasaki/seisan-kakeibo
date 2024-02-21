@@ -17,7 +17,8 @@ export const NavBarUnauthenticatedContentComponent = () => {
     <Navbar
       className="shadow"
       maxWidth="full"
-      onMenuOpenChange={navMenu.onClose}
+      isMenuOpen={navMenu.isOpen}
+      onMenuOpenChange={navMenu.toggle}
     >
       <NavbarContent justify="start">
         <NavbarBrand>
