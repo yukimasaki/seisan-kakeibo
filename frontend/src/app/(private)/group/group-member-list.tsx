@@ -1,5 +1,6 @@
 "use client";
 
+import { ShareApiButton } from "@components/button/ShareApi";
 import { DeleteButtonComponent } from "@components/button/delete";
 import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
@@ -26,7 +27,10 @@ export const GroupMemberListComponent = () => {
           <ParagraphComponent>{groupName}</ParagraphComponent>
         </CardHeader>
         <CardBody className="space-y-3">
-          <h5 className={"text-blue-400 font-bold"}>メンバー</h5>
+          <div className="flex flex-row items-center justify-between">
+            <h5 className={"text-blue-400 font-bold"}>メンバー</h5>
+            <ShareApiButton />
+          </div>
           {members && (
             <ListboxWrapperComponent>
               <Listbox
