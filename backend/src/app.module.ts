@@ -9,6 +9,7 @@ import { TransactionModule } from './transaction/transaction.module';
 import { PaymentModule } from './payment/payment.module';
 import { BalanceModule } from './balance/balance.module';
 import { InviteModule } from './invite/invite.module';
+import { RedisService } from './common/redis/redis.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { InviteModule } from './invite/invite.module';
   controllers: [],
   providers: [
     PrismaService,
+    RedisService,
   ],
 })
 export class AppModule { }
