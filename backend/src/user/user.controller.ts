@@ -20,8 +20,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
-import { UtilityService } from '@@nest/common/services/utility.service';
+import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
+import { UtilityService } from 'src/common/services/utility.service';
 
 @Controller('users')
 @ApiTags('/users')

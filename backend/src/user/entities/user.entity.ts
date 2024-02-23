@@ -1,5 +1,5 @@
-import { GroupResponse } from '@@nest/group/entities/group.entity';
-import { Member, MemberResponse } from '@@nest/member/entities/member.entity';
+import { GroupResponse } from 'src/group/entities/group.entity';
+import { MemberResponse } from 'src/member/entities/member.entity';
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger';
 import {
   IsEmail,

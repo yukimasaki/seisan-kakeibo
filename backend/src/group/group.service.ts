@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateGroupAndMemberDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
-import { PrismaService } from '@@nest/common/prisma/prisma.service';
+import { PrismaService } from 'src/common/prisma/prisma.service';
 import { GroupResponse } from './entities/group.entity';
 import { v4 as uuidv4 } from 'uuid';
 

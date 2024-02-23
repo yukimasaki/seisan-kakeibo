@@ -1,4 +1,4 @@
-import { Member } from '@@nest/member/entities/member.entity';
+import { Member } from '@prisma/client';
 import { ApiProperty, IntersectionType } from '@nestjs/swagger';
 import {
   IsInt,

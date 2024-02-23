@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { PrismaService } from '@@nest/common/prisma/prisma.service';
-import { CreatePaymentDto } from '@@nest/payment/dto/create-payment.dto';
-import { CreateBalanceDto } from '@@nest/balance/dto/create-balance.dto';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { CreatePaymentDto } from 'src/payment/dto/create-payment.dto';
+import { CreateBalanceDto } from 'src/balance/dto/create-balance.dto';
 import { TransactionResponse } from './entities/transaction.entity';
 import * as dayjs from 'dayjs';
-import { CreateTransactionDto } from '@@nest/transaction/dto/create-transaction.dto';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
 
 @Injectable()
 export class TransactionService {

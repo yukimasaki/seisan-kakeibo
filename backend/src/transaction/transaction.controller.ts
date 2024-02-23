@@ -19,9 +19,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
+import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
 import { Transaction } from './entities/transaction.entity';
-import { CreateTransactionDto } from '@@nest/transaction/dto/create-transaction.dto';
+import { CreateTransactionDto } from './dto/create-transaction.dto';
 
 @Controller('transactions')
 @ApiTags('/transactions')

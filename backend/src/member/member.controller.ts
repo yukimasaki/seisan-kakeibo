@@ -11,7 +11,7 @@ import {
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
+import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
 import {
   ApiOperation,
   ApiParam,

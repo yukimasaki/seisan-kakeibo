@@ -1,4 +1,4 @@
-import { User, UserResponse } from '@@nest/user/entities/user.entity';
+import { User, UserResponse } from 'src/user/entities/user.entity';
 
 export class AccessToken {
   name: string;

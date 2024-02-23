@@ -1,4 +1,4 @@
-import { AccessToken } from '@@nest/common/interfaces/access-token.interface';
+import { AccessToken } from '@interfaces/access-token.interface';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 

@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from '@@nest/common/prisma/prisma.service';
+import { PrismaService } from 'src/common/prisma/prisma.service';
 import { User, UserResponse } from './entities/user.entity';
-import { AccessToken } from '@@nest/common/interfaces/access-token.interface';
-import { UtilityService } from '@@nest/common/services/utility.service';
+import { AccessToken } from '@interfaces/access-token.interface';
+import { UtilityService } from 'src/common/services/utility.service';
 
 @Injectable()
 export class UserService {

@@ -8,7 +8,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
+import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
 import { Payment } from './entities/payment.entity';
 
 @Controller('payments')
