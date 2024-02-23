@@ -28,16 +28,8 @@ export class InviteService {
     }
   }
 
-  findAll() {
-    return `This action returns all invite`;
-  }
-
   async findOne(key: string) {
     return await this.redisService.findOne(key);
-  }
-
-  update(id: number, updateInviteDto: UpdateInviteDto) {
-    return `This action updates a #${id} invite`;
   }
 
   async remove(key: string) {
