@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
 import { CreateRedisRecordDto } from './dto/create-redis.dto';
 
@@ -15,7 +15,13 @@ export class RedisService {
 
   async setValue(createRedisRecordDto: CreateRedisRecordDto) {
     const { key, value, expires } = createRedisRecordDto;
-    return await this.redis.set(key, value, 'EX', expires);
+    try {
+      const result = await this.redis.set(key, value, 'EX', expires);
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new BadRequestException();
+    }
   }
 
   async delete(key: string): Promise<number> {
