@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateInviteDto } from './dto/create-invite.dto';
 import { UpdateInviteDto } from './dto/update-invite.dto';
-import { RedisService } from '@@nest/common/redis/redis.service';
+import { RedisService } from 'src/common/redis/redis.service';
 
 @Injectable()
 export class InviteService {
