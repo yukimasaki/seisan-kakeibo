@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
+import { CreateRedisRecordDto } from './dto/create-redis.dto';
 
 @Injectable()
 export class RedisService {
@@ -12,8 +13,9 @@ export class RedisService {
     return await this.redis.get(key);
   }
 
-  async setValue(key: string, value: string, expiresIn: number) {
-    return await this.redis.set(key, value, 'EX', expiresIn);
+  async setValue(createRedisRecordDto: CreateRedisRecordDto) {
+    const { key, value, expires } = createRedisRecordDto;
+    return await this.redis.set(key, value, 'EX', expires);
   }
 
   async delete(key: string): Promise<number> {
