@@ -5,9 +5,6 @@ import { PrismaService } from '@@nest/common/prisma/prisma.service';
 
 @Module({
   controllers: [MemberController],
-  providers: [
-    MemberService,
-    PrismaService,
-  ],
+  providers: [MemberService, PrismaService],
 })
 export class MemberModule {}

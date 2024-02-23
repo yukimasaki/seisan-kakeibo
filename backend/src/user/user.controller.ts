@@ -1,8 +1,24 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Request,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { UtilityService } from '@@nest/common/services/utility.service';
@@ -14,7 +30,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly utilityService: UtilityService,
-  ) { }
+  ) {}
 
   @Get('/me')
   @ApiProduces('application/json; charset=utf-8')
@@ -24,13 +40,12 @@ export class UserController {
     description: '自分のプロフィール情報を返却',
     type: User,
   })
-  findMyProfile(
-    @Request() req,
-  ) {
+  findMyProfile(@Request() req) {
     const authorizationHeader: string = req.headers.authorization;
-    if (!authorizationHeader) throw new BadRequestException;
+    if (!authorizationHeader) throw new BadRequestException();
 
-    const bearerToken: string = this.utilityService.getBearerToken(authorizationHeader);
+    const bearerToken: string =
+      this.utilityService.getBearerToken(authorizationHeader);
     return this.userService.findMyProfile(bearerToken);
   }
 
@@ -47,11 +62,9 @@ export class UserController {
     description: '登録済みのプロフィール情報を返却',
     type: User,
   })
-  upsert(
-    @Body() upsertUserDto: CreateUserDto | UpdateUserDto,
-  ) {
+  upsert(@Body() upsertUserDto: CreateUserDto | UpdateUserDto) {
     if (!upsertUserDto.userName || !upsertUserDto.uuid) {
-      throw new BadRequestException;
+      throw new BadRequestException();
     }
     return this.userService.upsert(upsertUserDto);
   }

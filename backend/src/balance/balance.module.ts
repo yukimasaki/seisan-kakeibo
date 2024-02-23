@@ -5,9 +5,6 @@ import { PrismaService } from '@@nest/common/prisma/prisma.service';
 
 @Module({
   controllers: [BalanceController],
-  providers: [
-    BalanceService,
-    PrismaService,
-  ],
+  providers: [BalanceService, PrismaService],
 })
 export class BalanceModule {}

@@ -1,7 +1,13 @@
 import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
-import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { Payment } from './entities/payment.entity';
 
@@ -9,7 +15,7 @@ import { Payment } from './entities/payment.entity';
 @ApiTags('/payments')
 @SummarizeApiResponse()
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) { }
+  constructor(private readonly paymentService: PaymentService) {}
 
   @Get()
   @ApiProduces('application/json; charset=utf-8')

@@ -4,9 +4,7 @@ import { PrismaService } from '@@nest/common/prisma/prisma.service';
 
 @Injectable()
 export class BalanceService {
-  constructor(
-    private readonly prisma: PrismaService,
-  ) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll() {
     return await this.prisma.balance.findMany();
@@ -14,14 +12,14 @@ export class BalanceService {
 
   async findOne(id: number) {
     return await this.prisma.balance.findUnique({
-      where: { id }
+      where: { id },
     });
   }
 
   async update(id: number, updateBalanceDto: UpdateBalanceDto) {
     return await this.prisma.balance.update({
       where: { id },
-      data: updateBalanceDto
+      data: updateBalanceDto,
     });
   }
 }

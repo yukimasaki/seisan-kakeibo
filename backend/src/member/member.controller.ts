@@ -1,16 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
-import { ApiOperation, ApiParam, ApiProduces, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Member } from './entities/member.entity';
 
 @Controller('members')
 @ApiTags('/members')
 @SummarizeApiResponse()
 export class MemberController {
-  constructor(private readonly memberService: MemberService) { }
+  constructor(private readonly memberService: MemberService) {}
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
@@ -37,12 +53,8 @@ export class MemberController {
     type: String,
     example: '1',
   })
-  findByGroupId(
-    @Query('groupId') groupId: string,
-  ) {
-    return this.memberService.findByGroupId(
-      +groupId,
-    );
+  findByGroupId(@Query('groupId') groupId: string) {
+    return this.memberService.findByGroupId(+groupId);
   }
 
   @Get(':userId/:groupId')
@@ -60,17 +72,12 @@ export class MemberController {
   })
   @ApiResponse({
     status: 200,
-    description: '指定されたユーザーIDとグループIDの組み合わせのメンバー情報を返却',
+    description:
+      '指定されたユーザーIDとグループIDの組み合わせのメンバー情報を返却',
     type: Member,
   })
-  findOne(
-    @Param('userId') userId: string,
-    @Param('groupId') groupId: string,
-  ) {
-    return this.memberService.findOne(
-      +userId,
-      +groupId,
-    );
+  findOne(@Param('userId') userId: string, @Param('groupId') groupId: string) {
+    return this.memberService.findOne(+userId, +groupId);
   }
 
   @Patch(':userId/:groupId')
@@ -96,11 +103,7 @@ export class MemberController {
     @Param('groupId') groupId: string,
     @Body() updateMemberDto: UpdateMemberDto,
   ) {
-    return this.memberService.update(
-      +userId,
-      +groupId,
-      updateMemberDto,
-    );
+    return this.memberService.update(+userId, +groupId, updateMemberDto);
   }
 
   @Delete(':userId/:groupId')
@@ -121,13 +124,7 @@ export class MemberController {
     description: '削除後のメンバー情報を返却',
     type: Member,
   })
-  remove(
-    @Param('userId') userId: string,
-    @Param('groupId') groupId: string,
-  ) {
-    return this.memberService.remove(
-      +userId,
-      +groupId,
-    );
+  remove(@Param('userId') userId: string, @Param('groupId') groupId: string) {
+    return this.memberService.remove(+userId, +groupId);
   }
 }

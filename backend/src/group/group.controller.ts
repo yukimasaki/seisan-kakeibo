@@ -1,8 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupAndMemberDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
-import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Group } from './entities/group.entity';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 
@@ -10,7 +24,7 @@ import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-res
 @ApiTags('/groups')
 @SummarizeApiResponse()
 export class GroupController {
-  constructor(private readonly groupService: GroupService) { }
+  constructor(private readonly groupService: GroupService) {}
 
   @Post()
   @ApiProduces('application/json; charset=utf-8')
