@@ -25,9 +25,9 @@ export class InviteController {
     return this.inviteService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.inviteService.findOne(+id);
+  @Get(':key')
+  findOne(@Param('key') key: string) {
+    return this.inviteService.findOne(key);
   }
 
   @Patch(':id')
