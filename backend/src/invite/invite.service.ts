@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInviteDto } from './dto/create-invite.dto';
 import { UpdateInviteDto } from './dto/update-invite.dto';
 import { RedisService } from 'src/common/redis/redis.service';
+import { CreateRedisRecordDto } from 'src/common/redis/dto/create-redis.dto';
 
 @Injectable()
 export class InviteService {
   constructor(private readonly redisService: RedisService) {}
 
-  create(createInviteDto: CreateInviteDto) {
-    return 'This action adds a new invite';
+  async create(createInviteDto: CreateRedisRecordDto) {
+    return await this.redisService.setValue(createInviteDto);
   }
 
   findAll() {
