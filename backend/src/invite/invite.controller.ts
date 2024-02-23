@@ -35,8 +35,8 @@ export class InviteController {
     return this.inviteService.update(+id, updateInviteDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.inviteService.remove(+id);
+  @Delete(':key')
+  remove(@Param('key') key: string) {
+    return this.inviteService.remove(key);
   }
 }
