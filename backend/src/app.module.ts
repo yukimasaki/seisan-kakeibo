@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { PaymentModule } from './payment/payment.module';
 import { BalanceModule } from './balance/balance.module';
+import { InviteModule } from './invite/invite.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { BalanceModule } from './balance/balance.module';
     ConfigModule.forRoot({
       envFilePath: ['.env'],
     }),
+    InviteModule,
   ],
   controllers: [],
   providers: [
