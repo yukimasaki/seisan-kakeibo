@@ -1,7 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InviteService } from './invite.service';
 import { RedisService } from 'src/common/redis/redis.service';
-import { CreateRedisRecordDto } from 'src/common/redis/dto/create-redis.dto';
 
 describe('InviteService', () => {
   let service: InviteService;
@@ -32,15 +31,11 @@ describe('InviteService', () => {
   });
 
   describe('create', () => {
-    it('should call setValue on RedisService with correct parameters', async () => {
-      const createRedisRecordDto: CreateRedisRecordDto = {
-        key: 'newKey',
-        value: 'New Value',
-        expires: 5000,
-      };
-      const result = await service.create(createRedisRecordDto);
-      expect(result).toEqual('OK');
-      expect(redisService.setValue).toHaveBeenCalledWith(createRedisRecordDto);
+    it('should return a value from RedisService', async () => {
+      const result = await service.create({ groupId: 1 });
+      expect(result).toMatch(
+        /([0-9a-f]{8})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{4})-([0-9a-f]{12})/,
+      );
     });
   });
 
