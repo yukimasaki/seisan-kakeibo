@@ -23,7 +23,7 @@ export class InviteService {
     return `This action updates a #${id} invite`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} invite`;
+  async remove(key: string) {
+    return await this.redisService.delete(key);
   }
 }
