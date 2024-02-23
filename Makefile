@@ -6,3 +6,5 @@ front:
 	docker compose exec frontend sh
 back:
 	docker compose exec backend sh
+redis:
+	docker compose exec redis bash
