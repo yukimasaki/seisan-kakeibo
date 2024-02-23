@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import * as dayjs from 'dayjs';
-import { randBetween } from '@@nest/utils/randBetween';
-import { PrismaService } from '@@nest/common/prisma/prisma.service';
-import { TransactionService } from '@@nest/transaction/transaction.service';
-import { CreateTransactionDto } from '@@nest/transaction/dto/create-transaction.dto';
+import { randBetween } from 'src/utils/randBetween';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { TransactionService } from 'src/transaction/transaction.service';
+import { CreateTransactionDto } from 'src/transaction/dto/create-transaction.dto';
 
 const prisma = new PrismaClient();
 
