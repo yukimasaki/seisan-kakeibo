@@ -1,7 +1,13 @@
 import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { BalanceService } from './balance.service';
 import { UpdateBalanceDto } from './dto/update-balance.dto';
-import { ApiOperation, ApiParam, ApiProduces, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiParam,
+  ApiProduces,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@@nest/common/decorators/summarize-api-response.decorator';
 import { Balance } from './entities/balance.entity';
 
@@ -9,7 +15,7 @@ import { Balance } from './entities/balance.entity';
 @ApiTags('/balances')
 @SummarizeApiResponse()
 export class BalanceController {
-  constructor(private readonly balanceService: BalanceService) { }
+  constructor(private readonly balanceService: BalanceService) {}
 
   @Get()
   @ApiProduces('application/json; charset=utf-8')
