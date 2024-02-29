@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export const deleteGroup = async () => {
   await prisma.group.deleteMany();
-}
+};
 
 export const createGroup = async () => {
   await prisma.group.createMany({
@@ -16,7 +16,7 @@ export const createGroup = async () => {
         return {
           uuid,
           displayName: `Group ${index}`,
-        }
+        };
       }),
   });
-}
+};
