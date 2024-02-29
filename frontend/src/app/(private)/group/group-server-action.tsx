@@ -1,7 +1,7 @@
 "use server";
 
 import { authOptions } from "@common/next-auth/options";
-import { GroupResponse } from "@type/entities/group";
+import { CreateGroupAndMemberDto, GroupResponse } from "@type/entities/group";
 import { CreateInviteDto, InviteResponse } from "@type/entities/invite";
 import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
@@ -28,7 +28,14 @@ export const createGroup = async (
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
-  const displayName = formData.get("displayName");
+  if (!session)
+    return {
+      isSubmitted: true,
+      ok: false,
+      message: "セッション取得エラー",
+    };
+
+  const displayName = formData.get("displayName")?.toString() || "";
 
   const profileResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/users/me`,
@@ -42,7 +49,8 @@ export const createGroup = async (
 
   const user: UserResponse = await profileResponse.json();
 
-  const createGroupAndMemberDto = {
+  const createGroupAndMemberDto: CreateGroupAndMemberDto = {
+    creatorId: session?.profile.id,
     displayName,
     userId: user.id,
   };
