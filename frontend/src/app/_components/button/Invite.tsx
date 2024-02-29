@@ -2,19 +2,24 @@
 
 import { Button } from "@nextui-org/react";
 import { Icon } from "@components/icon/icon";
+import { inviteGroup } from "../../(private)/group/group-server-action";
 import { usePathname } from "next/navigation";
 
 // https://zenn.dev/mr_ozin/articles/89329c5209d8da#share-api
-export const Invite = ({ isDisabled = false }: { isDisabled?: boolean }) => {
+export const Invite = ({
+  isDisabled = false,
+  groupId,
+}: {
+  isDisabled?: boolean;
+  groupId: number;
+}) => {
   const path = usePathname();
 
-  const data: ShareData = {
-    title: "Seisan家計簿",
-    text: "Seisan家計簿のリンク",
-    url: `${path}`,
+  const createInviteToken = async () => {
+    return await inviteGroup(groupId);
   };
 
-  const share = async () => {
+  const share = async (data: ShareData) => {
     try {
       await navigator.share(data);
       // 成功時アクション
@@ -23,11 +28,22 @@ export const Invite = ({ isDisabled = false }: { isDisabled?: boolean }) => {
     }
   };
 
+  const handleClick = async () => {
+    const inviteToken = await createInviteToken();
+
+    const data: ShareData = {
+      title: "Seisan家計簿",
+      text: "Seisan家計簿のリンク",
+      url: `${path}/?token=${inviteToken.token}`,
+    };
+    await share(data);
+  };
+
   return (
     <Button
       color={"primary"}
       radius={"md"}
-      onPress={share}
+      onPress={handleClick}
       isDisabled={isDisabled}
     >
       <div className="flex flex-row items-center">

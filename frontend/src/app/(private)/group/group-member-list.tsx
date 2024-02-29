@@ -1,6 +1,6 @@
 "use client";
 
-import { ShareApiButton } from "@components/button/ShareApi";
+import { Invite } from "@components/button/Invite";
 import { DeleteButtonComponent } from "@components/button/delete";
 import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
 import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
@@ -16,6 +16,8 @@ import { useSession } from "next-auth/react";
 
 export const GroupMemberListComponent = () => {
   const { data: session } = useSession();
+
+  const groupId = session?.profile.activeGroupId;
   const groupName = session?.profile.activeGroup.displayName;
   const members = session?.profile.activeGroup.members;
 
@@ -29,7 +31,7 @@ export const GroupMemberListComponent = () => {
         <CardBody className="space-y-3">
           <div className="flex flex-row items-center justify-between">
             <h5 className={"text-blue-400 font-bold"}>メンバー</h5>
-            <ShareApiButton />
+            <Invite groupId={groupId || 0} isDisabled={!groupId} />
           </div>
           {members && (
             <ListboxWrapperComponent>
