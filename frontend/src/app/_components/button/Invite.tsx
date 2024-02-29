@@ -1,9 +1,11 @@
+"use client";
+
 import { Button } from "@nextui-org/react";
 import { Icon } from "@components/icon/icon";
 import { usePathname } from "next/navigation";
 
 // https://zenn.dev/mr_ozin/articles/89329c5209d8da#share-api
-export const ShareApiButton = () => {
+export const Invite = ({ isDisabled = false }: { isDisabled?: boolean }) => {
   const path = usePathname();
 
   const data: ShareData = {
@@ -22,7 +24,12 @@ export const ShareApiButton = () => {
   };
 
   return (
-    <Button color={"primary"} radius={"md"} onPress={share}>
+    <Button
+      color={"primary"}
+      radius={"md"}
+      onPress={share}
+      isDisabled={isDisabled}
+    >
       <div className="flex flex-row items-center">
         <Icon name="Add" className="text-white" />
         <p>メンバーを招待</p>
