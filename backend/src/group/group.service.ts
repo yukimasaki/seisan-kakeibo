@@ -24,6 +24,7 @@ export class GroupService {
           },
           include: {
             members: true,
+            creator: true,
           },
         });
 
@@ -40,6 +41,7 @@ export class GroupService {
           },
           include: {
             members: true,
+            creator: true,
           },
         });
 
@@ -54,7 +56,7 @@ export class GroupService {
 
   async findAll(): Promise<GroupResponse[]> {
     const groups: GroupResponse[] = await this.prisma.group.findMany({
-      include: { members: true },
+      include: { members: true, creator: true },
     });
 
     if (!groups) throw new NotFoundException();
@@ -64,7 +66,7 @@ export class GroupService {
   async findOne(id: number): Promise<GroupResponse> {
     const group: GroupResponse = await this.prisma.group.findUnique({
       where: { id },
-      include: { members: true },
+      include: { members: true, creator: true },
     });
 
     if (!group) throw new NotFoundException();
@@ -77,7 +79,7 @@ export class GroupService {
   ): Promise<GroupResponse> {
     const group: GroupResponse = await this.prisma.group.update({
       where: { id },
-      include: { members: true },
+      include: { members: true, creator: true },
       data: updateGroupDto,
     });
 
@@ -88,7 +90,7 @@ export class GroupService {
   async remove(id: number): Promise<GroupResponse> {
     const group: GroupResponse = await this.prisma.group.delete({
       where: { id },
-      include: { members: true },
+      include: { members: true, creator: true },
     });
 
     if (!group) throw new NotFoundException();

@@ -8,7 +8,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
-import { InviteResponse } from './entities/invite.entity';
+import {
+  CreateInviteResponse,
+  FindInviteResponse,
+} from './entities/invite.entity';
 
 @Controller('invites')
 @ApiTags('/invites')
@@ -22,7 +25,7 @@ export class InviteController {
   @ApiResponse({
     status: 201,
     description: '生成したトークンを返却',
-    type: InviteResponse,
+    type: CreateInviteResponse,
   })
   create(@Body() createInviteDto: CreateInviteDto) {
     return this.inviteService.create(createInviteDto);
@@ -34,7 +37,7 @@ export class InviteController {
   @ApiResponse({
     status: 201,
     description: '指定したトークンに対応するグループIDを返却',
-    type: InviteResponse,
+    type: FindInviteResponse,
   })
   findOne(@Param('token') token: string) {
     return this.inviteService.findOne(token);
@@ -46,7 +49,7 @@ export class InviteController {
   @ApiResponse({
     status: 201,
     description: '削除後のメンバー招待情報を返却',
-    type: InviteResponse,
+    type: FindInviteResponse,
   })
   remove(@Param('token') token: string) {
     return this.inviteService.remove(token);
