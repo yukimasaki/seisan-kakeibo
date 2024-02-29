@@ -7,7 +7,11 @@ export type Invite = {
 
 export type CreateInviteResponse = Invite;
 
-export type FindInviteResponse = Invite & GroupResponse;
+type AdditionalGroupInfo = {
+  group: GroupResponse;
+};
+
+export type FindInviteResponse = Invite & AdditionalGroupInfo;
 
 export type CreateInviteDto = {
   groupId: number;

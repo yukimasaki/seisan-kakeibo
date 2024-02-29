@@ -8,7 +8,6 @@ import {
   FindInviteResponse,
 } from './entities/invite.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { group } from 'console';
 import { GroupResponse } from 'src/group/entities/group.entity';
 
 @Injectable()
@@ -49,7 +48,7 @@ export class InviteService {
           creator: true,
         },
       });
-    return { token: token, groupId, ...groupResponse };
+    return { token: token, groupId, group: groupResponse };
   }
 
   async remove(token: string) {

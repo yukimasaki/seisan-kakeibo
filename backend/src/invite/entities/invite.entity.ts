@@ -8,7 +8,11 @@ export class Invite {
 
 export class CreateInviteResponse extends Invite {}
 
+class AdditionalGroupInfo {
+  group: GroupResponse;
+}
+
 export class FindInviteResponse extends IntersectionType(
   Invite,
-  GroupResponse,
+  AdditionalGroupInfo,
 ) {}
