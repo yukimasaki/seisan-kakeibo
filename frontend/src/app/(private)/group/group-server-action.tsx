@@ -2,6 +2,7 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { GroupResponse } from "@type/entities/group";
+import { CreateInviteDto, InviteResponse } from "@type/entities/invite";
 import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
 import { getServerSession } from "next-auth";
@@ -119,4 +120,26 @@ export const validateOnBlurDisplayName = async (
       };
     }
   }
+};
+
+export const inviteGroup = async (groupId: number): Promise<InviteResponse> => {
+  const session = await getServerSession(authOptions);
+  const token = session?.user.accessToken;
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/invites`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        groupId,
+      } satisfies CreateInviteDto),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const inviteToken = await response.json();
+  return inviteToken;
 };
