@@ -18,6 +18,10 @@ type AdditionalUserInfo = {
 
 export type GroupResponse = Group & AddtionalGroupInfo & User;
 
-export type CreateGroupDto = Omit<Group, "id">;
+export type CreateGroupDto = Omit<Group, "id" | "uuid">;
 
 export type UpdateGroupDto = Partial<Group>;
+
+export type CreateGroupAndMemberDto = CreateGroupDto & {
+  userId: number;
+};
