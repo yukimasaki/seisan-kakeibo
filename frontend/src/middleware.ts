@@ -13,12 +13,16 @@ export default withAuth(
 
     const myProfile = req.nextauth.token?.profile;
     if (!myProfile && path !== "/profile") {
-      return NextResponse.redirect(new URL("/profile", req.url));
+      const redirectUrl = new URL("/profile", req.url);
+      redirectUrl.searchParams.append("from", req.url);
+      return NextResponse.redirect(redirectUrl);
     }
 
     const activeGroup = req.nextauth.token?.profile?.activeGroup;
     if (myProfile && !activeGroup && path !== "/group") {
-      return NextResponse.redirect(new URL("/group", req.url));
+      const redirectUrl = new URL("/group", req.url);
+      redirectUrl.searchParams.append("from", req.url);
+      return NextResponse.redirect(redirectUrl);
     }
   },
   {
