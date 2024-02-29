@@ -24,12 +24,15 @@ model User {
   borrowers       Balance[]     @relation("borrower")
   activeGroup     Group?        @relation(fields: [activeGroupId], references: [id])
   activeGroupId   Int?
+  Group           Group[]       @relation("creator")
 }
 
 model Group {
   id           Int           @id @default(autoincrement())
   uuid         String        @unique
   displayName  String
+  creator      User          @relation("creator", fields: [creatorId], references: [id])
+  creatorId    Int
   members      Member[]
   categories   Category[]
   transactions Transaction[]
