@@ -18,6 +18,7 @@ export class GroupService {
         // reason: groupIdが必要なので先にグループを作成する
         const group = await this.prisma.group.create({
           data: {
+            creatorId: createGroupAndMemberDto.creatorId,
             displayName: createGroupAndMemberDto.displayName,
             uuid: uuidv4() as string,
           },

@@ -14,6 +14,7 @@ export const createGroup = async () => {
       .map((_, index) => {
         const uuid: string = uuidv4();
         return {
+          creatorId: 1,
           uuid,
           displayName: `Group ${index}`,
         };
