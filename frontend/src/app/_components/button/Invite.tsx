@@ -4,6 +4,7 @@ import { Button } from "@nextui-org/react";
 import { Icon } from "@components/icon/icon";
 import { inviteGroup } from "../../(private)/group/group-server-action";
 import { usePathname } from "next/navigation";
+import { useRootPath } from "@hooks/useRootPath";
 
 // https://zenn.dev/mr_ozin/articles/89329c5209d8da#share-api
 export const Invite = ({
@@ -13,7 +14,7 @@ export const Invite = ({
   isDisabled?: boolean;
   groupId: number;
 }) => {
-  const path = usePathname();
+  const rootPath = useRootPath();
 
   const createInviteToken = async () => {
     return await inviteGroup(groupId);
@@ -34,7 +35,7 @@ export const Invite = ({
     const data: ShareData = {
       title: "Seisan家計簿",
       text: "Seisan家計簿のリンク",
-      url: `${path}/?token=${inviteToken.token}`,
+      url: `${rootPath}/join/?token=${inviteToken.token}`,
     };
     await share(data);
   };
