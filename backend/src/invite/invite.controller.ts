@@ -28,7 +28,7 @@ export class InviteController {
     return this.inviteService.create(createInviteDto);
   }
 
-  @Get(':key')
+  @Get(':token')
   @ApiProduces('application/json; charset=utf-8')
   @ApiOperation({ summary: 'グループID取得API' })
   @ApiResponse({
@@ -36,11 +36,11 @@ export class InviteController {
     description: '指定したトークンに対応するグループIDを返却',
     type: InviteResponse,
   })
-  findOne(@Param('key') key: string) {
-    return this.inviteService.findOne(key);
+  findOne(@Param('token') token: string) {
+    return this.inviteService.findOne(token);
   }
 
-  @Delete(':key')
+  @Delete(':token')
   @ApiProduces('application/json; charset=utf-8')
   @ApiOperation({ summary: 'メンバー招待情報削除API' })
   @ApiResponse({
@@ -48,7 +48,7 @@ export class InviteController {
     description: '削除後のメンバー招待情報を返却',
     type: InviteResponse,
   })
-  remove(@Param('key') key: string) {
-    return this.inviteService.remove(key);
+  remove(@Param('token') token: string) {
+    return this.inviteService.remove(token);
   }
 }

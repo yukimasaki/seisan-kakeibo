@@ -21,18 +21,19 @@ export class InviteService {
 
     try {
       await this.redisService.setValue(createRedisRecordDto);
-      return { token };
+      return { token, groupId };
     } catch (error) {
       console.log(error);
       throw new BadRequestException();
     }
   }
 
-  async findOne(key: string) {
-    return await this.redisService.findOne(key);
+  async findOne(token: string): Promise<InviteResponse> {
+    const groupId = parseInt(await this.redisService.findOne(token));
+    return { token: token, groupId };
   }
 
-  async remove(key: string) {
-    return await this.redisService.delete(key);
+  async remove(token: string) {
+    return await this.redisService.delete(token);
   }
 }
