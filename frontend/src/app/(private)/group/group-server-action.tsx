@@ -2,7 +2,7 @@
 
 import { authOptions } from "@common/next-auth/options";
 import { CreateGroupAndMemberDto, GroupResponse } from "@type/entities/group";
-import { CreateInviteDto, InviteResponse } from "@type/entities/invite";
+import { CreateInviteDto, CreateInviteResponse } from "@type/entities/invite";
 import { UserResponse } from "@type/entities/user";
 import { ServerActionResult } from "@type/server-actions";
 import { getServerSession } from "next-auth";
@@ -130,7 +130,9 @@ export const validateOnBlurDisplayName = async (
   }
 };
 
-export const inviteGroup = async (groupId: number): Promise<InviteResponse> => {
+export const inviteGroup = async (
+  groupId: number
+): Promise<CreateInviteResponse> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
 
