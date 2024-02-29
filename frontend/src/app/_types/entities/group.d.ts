@@ -8,7 +8,7 @@ export type Group = {
   displayName: string;
 };
 
-type AddtionalGroupInfo = {
+type AdditionalGroupInfo = {
   members: MemberResponse[];
 };
 
@@ -16,7 +16,7 @@ type AdditionalUserInfo = {
   creator: User;
 };
 
-export type GroupResponse = Group & AddtionalGroupInfo & User;
+export type GroupResponse = Group & AdditionalGroupInfo & AdditionalUserInfo;
 
 export type CreateGroupDto = Omit<Group, "id" | "uuid">;
 

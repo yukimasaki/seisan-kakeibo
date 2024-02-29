@@ -7,6 +7,7 @@ import {
   IsUUID,
   MaxLength,
 } from 'class-validator';
+import { User } from 'src/user/entities/user.entity';
 
 export class Group {
   @ApiProperty({
@@ -45,7 +46,12 @@ class AddtionalGroupInfo {
   members: Member[];
 }
 
+class AdditionalUserInfo {
+  creator: User;
+}
+
 export class GroupResponse extends IntersectionType(
   Group,
   AddtionalGroupInfo,
+  AdditionalUserInfo,
 ) {}

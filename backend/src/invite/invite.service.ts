@@ -3,13 +3,24 @@ import { RedisService } from 'src/common/redis/redis.service';
 import { CreateRedisRecordDto } from 'src/common/redis/dto/create-redis.dto';
 import { v4 as uuid } from 'uuid';
 import { CreateInviteDto } from './dto/create-invite.dto';
-import { InviteResponse } from './entities/invite.entity';
+import {
+  CreateInviteResponse,
+  FindInviteResponse,
+} from './entities/invite.entity';
+import { PrismaService } from 'src/common/prisma/prisma.service';
+import { group } from 'console';
+import { GroupResponse } from 'src/group/entities/group.entity';
 
 @Injectable()
 export class InviteService {
-  constructor(private readonly redisService: RedisService) {}
+  constructor(
+    private readonly redisService: RedisService,
+    private readonly prismaService: PrismaService,
+  ) {}
 
-  async create(createInviteDto: CreateInviteDto): Promise<InviteResponse> {
+  async create(
+    createInviteDto: CreateInviteDto,
+  ): Promise<CreateInviteResponse> {
     const token = uuid();
     const { groupId } = createInviteDto;
 
@@ -28,9 +39,17 @@ export class InviteService {
     }
   }
 
-  async findOne(token: string): Promise<InviteResponse> {
+  async findOne(token: string): Promise<FindInviteResponse> {
     const groupId = parseInt(await this.redisService.findOne(token));
-    return { token: token, groupId };
+    const groupResponse: GroupResponse =
+      await this.prismaService.group.findUnique({
+        where: { id: groupId },
+        include: {
+          members: true,
+          creator: true,
+        },
+      });
+    return { token: token, groupId, ...groupResponse };
   }
 
   async remove(token: string) {
