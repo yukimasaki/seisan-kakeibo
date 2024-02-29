@@ -18,6 +18,14 @@ export class Group {
   id: number;
 
   @ApiProperty({
+    example: '1',
+    description: '作成者ID',
+  })
+  @IsInt()
+  @IsPositive()
+  creatorId: number;
+
+  @ApiProperty({
     example: 'b3d7a9bc-bf21-49d3-a7f8-b15b85d69ea4',
     description: 'Webアプリケーション用の固有ID (UUIDv4)',
   })
