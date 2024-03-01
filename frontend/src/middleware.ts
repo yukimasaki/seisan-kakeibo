@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export const config = {
   // reason: "$" は "/" (ルートパス)を表している
-  matcher: ["/((?!register|api|login|$).*)"],
+  matcher: ["/((?!register|api|login|$|about).*)"],
 };
 
 export default withAuth(
