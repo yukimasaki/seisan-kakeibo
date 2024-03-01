@@ -19,7 +19,7 @@ import {
   validateOnBlurEmail,
   validateOnBlurUserName,
 } from "./profile-server-action";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
@@ -63,8 +63,11 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
         timer: 5000,
       });
       // URLに`from`クエリパラメータが存在する場合はリダイレクトする
-      const fromUrl = searchParams.get("from")?.toString();
-      if (fromUrl) router.push(fromUrl);
+      const fromUrl = searchParams.get("from");
+      if (fromUrl) {
+        console.log(fromUrl);
+        router.push(fromUrl);
+      }
     } else if (messageAfterSubmit.isSubmitted && !messageAfterSubmit.ok) {
       showToast({
         message: messageAfterSubmit.message || "",
