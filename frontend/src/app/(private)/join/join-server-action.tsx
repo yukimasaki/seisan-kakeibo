@@ -50,6 +50,18 @@ export const joinGroup = async (
     }
   );
 
+  // グループ参加後に、activeGroupIdを更新する
+  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      activeGroupId: parseInt(groupId),
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   if (!response.ok)
     return {
       isSubmitted: true,
