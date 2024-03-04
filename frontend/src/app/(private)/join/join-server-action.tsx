@@ -23,6 +23,7 @@ export const joinGroup = async (
 
   const userId = session?.profile.id;
   const groupId = formData.get("groupId") as string;
+  const inviteToken = formData.get("inviteToken") as string;
 
   if (!groupId)
     return {
@@ -61,6 +62,18 @@ export const joinGroup = async (
       Authorization: `Bearer ${token}`,
     },
   });
+
+  // トークンをRedisから削除
+  await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/invites/${inviteToken}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 
   if (!response.ok)
     return {
