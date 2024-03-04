@@ -19,6 +19,7 @@ import { joinGroup } from "./join-server-action";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { showToast } from "@components/toast/toast";
+import { InvalidInviteToken } from "./InvalidInviteToken";
 
 export const JoinGroup = () => {
   const searchParams = useSearchParams();
@@ -75,6 +76,7 @@ export const JoinGroup = () => {
 
   if (isLoading) return <Spinner />;
 
+  if (error) return <InvalidInviteToken />;
   return (
     <PositionCenterWrapperComponent>
       <Card className="flex justify-between w-full h-fit max-w-[500px]">
@@ -94,6 +96,7 @@ export const JoinGroup = () => {
               hidden
               readOnly
             />
+            <input name={"inviteToken"} value={token} hidden readOnly />
           </CardBody>
           <CardFooter className="justify-center space-x-4 pb-4">
             <Button color={"danger"} variant={"light"}>

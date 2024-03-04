@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { RedisService } from 'src/common/redis/redis.service';
 import { CreateRedisRecordDto } from 'src/common/redis/dto/create-redis.dto';
 import { v4 as uuid } from 'uuid';
@@ -40,7 +44,9 @@ export class InviteService {
 
   async findOne(token: string): Promise<FindInviteResponse> {
     const groupId = parseInt(await this.redisService.findOne(token));
-    const groupResponse: GroupResponse =
+    if (isNaN(groupId)) throw new NotFoundException();
+
+    const groupResponse: GroupResponse | null =
       await this.prismaService.group.findUnique({
         where: { id: groupId },
         include: {
@@ -48,7 +54,9 @@ export class InviteService {
           creator: true,
         },
       });
-    return { token: token, groupId, group: groupResponse };
+
+    if (!groupResponse) throw new NotFoundException();
+    return { token, groupId, group: groupResponse };
   }
 
   async remove(token: string) {
