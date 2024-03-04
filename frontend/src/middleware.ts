@@ -1,4 +1,5 @@
 import { withAuth } from "next-auth/middleware";
+import { getSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 export const config = {
@@ -14,7 +15,10 @@ export default withAuth(
     const search = req.nextUrl.search;
     const fromPath = host + path + search;
 
+    // issue: プロフィール保存後、myProfileがnullとして扱われてしまう
     const myProfile = req.nextauth.token?.profile;
+    console.log(myProfile); //なぜnullになる？
+
     if (!myProfile && path !== "/profile") {
       const redirectUrl = new URL("/profile", req.url);
       redirectUrl.searchParams.append("from", fromPath);
