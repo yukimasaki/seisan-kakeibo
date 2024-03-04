@@ -17,7 +17,6 @@ export default withAuth(
 
     // issue: プロフィール保存後、myProfileがnullとして扱われてしまう
     const myProfile = req.nextauth.token?.profile;
-    console.log(myProfile); //なぜnullになる？
 
     if (!myProfile && path !== "/profile") {
       const redirectUrl = new URL("/profile", req.url);

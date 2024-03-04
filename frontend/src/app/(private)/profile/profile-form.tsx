@@ -62,6 +62,7 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
         timerProgressBar: true,
         timer: 5000,
       });
+      router.refresh();
     } else if (messageAfterSubmit.isSubmitted && !messageAfterSubmit.ok) {
       showToast({
         message: messageAfterSubmit.message || "",
@@ -71,7 +72,7 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
       });
     }
     messageAfterSubmit.isSubmitted = false;
-  }, [messageAfterSubmit, session]);
+  }, [messageAfterSubmit]);
 
   useEffect(() => {
     if (!user.userName) {
@@ -85,18 +86,12 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
   }, [user.userName]);
 
   useEffect(() => {
-    console.log(`Session has updated.`);
-
     // URLに`from`クエリパラメータが存在する場合はリダイレクトする
     const fromUrl = searchParams.get("from");
     if (fromUrl) {
-      console.log(fromUrl);
-      console.log(session?.profile);
-
-      // issue: router.pushするときに最新のセッション情報をミドルウェアに渡せていない
       router.push(fromUrl);
     }
-  }, [session]);
+  }, [session, router]);
 
   return (
     <>
