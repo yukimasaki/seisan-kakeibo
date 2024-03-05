@@ -3,7 +3,7 @@
 import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
 import {
-  CommonInput,
+  CreateTransactionDto,
   CreateTransactionComplex,
   PaymentType,
 } from "@type/entities/transaction";
@@ -12,7 +12,7 @@ import { ZodError, z } from "zod";
 
 // **************************** スキーマ ****************************
 // オブジェクト単位
-const CommonInputSchema = z.object({
+const CreateTransactionDtoSchema = z.object({
   amount: z.number({ required_error: "数値を入力してください" }), // formData
   categoryId: z.number({
     required_error: "カテゴリーを選択してください",
@@ -26,9 +26,9 @@ const CommonInputSchema = z.object({
   memo: z.string().optional(), // formData
   status: z.string(),
   groupId: z.coerce.number(), // session
-}) satisfies z.ZodType<CommonInput>;
+}) satisfies z.ZodType<CreateTransactionDto>;
 
-const CreateTransactionSchema = CommonInputSchema.extend({
+const CreateTransactionSchema = CreateTransactionDtoSchema.extend({
   method: z.union([
     z.literal("ratio"),
     z.literal("even"),

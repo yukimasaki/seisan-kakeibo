@@ -17,11 +17,11 @@ export class TransactionService {
     // 1. Prismaのトランザクション処理を開始
     return await this.prisma.$transaction(async (prisma) => {
       // 2. Transactionを作成
-      const { member, ...commonInput } = createTransactionComplex;
+      const { member, ...createTransactionDto } = createTransactionComplex;
 
       const transaction: TransactionResponse =
         await this.prisma.transaction.create({
-          data: commonInput,
+          data: createTransactionDto,
         });
 
       // todo: フロントエンドから渡されてきたcreateTransactionComplexをトランザクション処理に利用できる形式に変換する処理を書く
@@ -32,7 +32,7 @@ export class TransactionService {
       const totalAmount = createTransactionComplex.amount;
 
       const createPaymentDto: CreatePaymentDto[] = (() => {
-        switch (commonInput.method) {
+        switch (createTransactionDto.method) {
           case 'RATIO':
             return createTransactionComplex.member.map((eachMember) => {
               const actualPaymentAmount = eachMember.finalBill;

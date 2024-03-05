@@ -7,7 +7,7 @@ import { PaymentType } from "../../(private)/transaction/transaction-server-acti
 export type PaymentType = "ratio" | "even" | "amount_basis";
 
 // 共通
-export type CommonInput = Omit<
+export type CreateTransactionDto = Omit<
   Transaction,
   "id" | "editorId" | "payments" | "balances" | "category"
 >;
@@ -38,6 +38,6 @@ export type Transaction = {
   balances: Balance[]; // Omit
 };
 
-export type CreateTransactionComplex = CommonInput & BalanceInput;
+export type CreateTransactionComplex = CreateTransactionDto & BalanceInput;
 
 export type UpdateTransactionDto = Partial<CreateTransactionComplex>;
