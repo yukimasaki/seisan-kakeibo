@@ -5,27 +5,36 @@ import { CreatePaymentDto } from 'src/payment/dto/create-payment.dto';
 import { CreateBalanceDto } from 'src/balance/dto/create-balance.dto';
 import { TransactionResponse } from './entities/transaction.entity';
 import * as dayjs from 'dayjs';
-import { CreateTransactionComplex } from './dto/create-transaction.dto';
+import {
+  CreateTransactionComplex,
+  CreateTransactionDto,
+} from './dto/create-transaction.dto';
 
 @Injectable()
 export class TransactionService {
   constructor(private readonly prisma: PrismaService) {}
+
+  private createTransactionDto(
+    createTransactionComplex: CreateTransactionComplex,
+  ): CreateTransactionDto {
+    const { member, ...createTransactionDto } = createTransactionComplex;
+    return createTransactionDto;
+  }
 
   async createWithTransaction(
     createTransactionComplex: CreateTransactionComplex,
   ) {
     // 1. Prismaのトランザクション処理を開始
     return await this.prisma.$transaction(async (prisma) => {
-      // 2. Transactionを作成
-      const { member, ...createTransactionDto } = createTransactionComplex;
+      // 2. CreateTransactionDtoを作成
+      const createTransactionDto: CreateTransactionDto =
+        this.createTransactionDto(createTransactionComplex);
 
+      // 3. transactionIdを取得
       const transaction: TransactionResponse =
         await this.prisma.transaction.create({
           data: createTransactionDto,
         });
-
-      // todo: フロントエンドから渡されてきたcreateTransactionComplexをトランザクション処理に利用できる形式に変換する処理を書く
-      // 3. transactionIdを取得
       const transactionId = transaction.id;
 
       // 4. CreatePaymentDto[]を作成
