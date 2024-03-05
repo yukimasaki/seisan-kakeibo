@@ -5,10 +5,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as path from 'path';
 import { writeFileSync } from 'fs';
 import { dump } from 'js-yaml';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-  });
+  const app = await NestFactory.create(AppModule, {});
+
+  app.useGlobalPipes(new ValidationPipe());
 
   app.use(cookieParser());
 
@@ -25,7 +27,10 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
-  const outputPath = path.resolve(`${process.cwd()}/test/dredd/`, 'openapi.yml');
+  const outputPath = path.resolve(
+    `${process.cwd()}/test/dredd/`,
+    'openapi.yml',
+  );
   writeFileSync(outputPath, dump(document, {}));
 
   await app.listen(3000);
