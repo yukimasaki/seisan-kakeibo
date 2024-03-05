@@ -39,7 +39,7 @@ export const joinGroup = async (
 
   console.log(createMemberDto);
 
-  const response = await fetch(
+  const createMemberResponse = await fetch(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
     {
       method: "POST",
@@ -50,6 +50,20 @@ export const joinGroup = async (
       },
     }
   );
+  if (!createMemberResponse.ok) {
+    if (createMemberResponse.status === 409) {
+      return {
+        isSubmitted: true,
+        ok: false,
+        message: "既にグループに参加済みです",
+      };
+    }
+    return {
+      isSubmitted: true,
+      ok: false,
+      message: "APIリクエストに失敗しました",
+    };
+  }
 
   // グループ参加後に、activeGroupIdを更新する
   await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/users/${userId}`, {
@@ -74,13 +88,6 @@ export const joinGroup = async (
       },
     }
   );
-
-  if (!response.ok)
-    return {
-      isSubmitted: true,
-      ok: false,
-      message: "APIリクエストに失敗しました",
-    };
 
   return {
     isSubmitted: true,
