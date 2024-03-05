@@ -15,7 +15,7 @@ export class TransactionService {
     // 1. Prismaのトランザクション処理を開始
     return await this.prisma.$transaction(async (prisma) => {
       // 2. Transactionを作成
-      const { member, method, ...commonInput } = createTransactionDto;
+      const { member, ...commonInput } = createTransactionDto;
 
       const transaction: TransactionResponse =
         await this.prisma.transaction.create({
@@ -30,8 +30,8 @@ export class TransactionService {
       const totalAmount = createTransactionDto.amount;
 
       const createPaymentDto: CreatePaymentDto[] = (() => {
-        switch (method) {
-          case 'ratio':
+        switch (commonInput.method) {
+          case 'RATIO':
             return createTransactionDto.member.map((eachMember) => {
               const actualPaymentAmount = eachMember.finalBill;
               const defaultPaymentAmount = Math.round(
@@ -43,7 +43,6 @@ export class TransactionService {
                 actualPaymentAmount,
                 defaultPaymentAmount,
                 difference: actualPaymentAmount - defaultPaymentAmount,
-                method,
                 ratio: eachMember.balance / 100,
                 transactionId,
               };
@@ -59,7 +58,6 @@ export class TransactionService {
                 actualPaymentAmount,
                 defaultPaymentAmount,
                 difference: actualPaymentAmount - defaultPaymentAmount,
-                method,
                 ratio: eachMember.balance / 100,
                 transactionId,
               };
@@ -81,13 +79,16 @@ export class TransactionService {
       // 支払いが多いユーザー・支払いが少ないユーザーごとにループ処理で賃借記録を作成する
       const createBalanceDto: CreateBalanceDto[] = lowPaymentUsers
         .map((lowPaymentUser) => {
-          return highPaymentUsers.map((highPaymentUser) => ({
-            lenderId: highPaymentUser.payerId,
-            borrowerId: lowPaymentUser.payerId,
-            amount: Math.abs(lowPaymentUser.difference),
-            status: `未精算`,
-            transactionId,
-          }));
+          return highPaymentUsers.map(
+            (highPaymentUser) =>
+              ({
+                lenderId: highPaymentUser.payerId,
+                borrowerId: lowPaymentUser.payerId,
+                amount: Math.abs(lowPaymentUser.difference),
+                status: `PENDING`,
+                transactionId,
+              }) satisfies CreateBalanceDto,
+          );
         })
         .flat();
 

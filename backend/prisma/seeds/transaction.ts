@@ -27,10 +27,10 @@ export const createTransaction = async () => {
       paymentDate: randomDate(start, end),
       title: `取引 #${randBetween(1, 100)}`,
       memo: `備考`,
-      status: `未精算`,
+      status: `PENDING`,
       categoryId: randBetween(1, 4),
       groupId: 1,
-      method: 'ratio',
+      method: 'RATIO',
       member: [
         {
           userId: 1,
