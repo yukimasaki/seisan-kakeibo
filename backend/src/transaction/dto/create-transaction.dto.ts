@@ -12,7 +12,7 @@ class BalanceInput {
   }[];
 }
 
-export class CreateTransactionDto extends IntersectionType(
+export class CreateTransactionComplex extends IntersectionType(
   CommonInput,
   BalanceInput,
 ) {}

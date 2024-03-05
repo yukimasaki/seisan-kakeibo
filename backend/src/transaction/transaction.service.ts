@@ -5,34 +5,36 @@ import { CreatePaymentDto } from 'src/payment/dto/create-payment.dto';
 import { CreateBalanceDto } from 'src/balance/dto/create-balance.dto';
 import { TransactionResponse } from './entities/transaction.entity';
 import * as dayjs from 'dayjs';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { CreateTransactionComplex } from './dto/create-transaction.dto';
 
 @Injectable()
 export class TransactionService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createWithTransaction(createTransactionDto: CreateTransactionDto) {
+  async createWithTransaction(
+    createTransactionComplex: CreateTransactionComplex,
+  ) {
     // 1. Prismaのトランザクション処理を開始
     return await this.prisma.$transaction(async (prisma) => {
       // 2. Transactionを作成
-      const { member, ...commonInput } = createTransactionDto;
+      const { member, ...commonInput } = createTransactionComplex;
 
       const transaction: TransactionResponse =
         await this.prisma.transaction.create({
           data: commonInput,
         });
 
-      // todo: フロントエンドから渡されてきたcreateTransactionDtoをトランザクション処理に利用できる形式に変換する処理を書く
+      // todo: フロントエンドから渡されてきたcreateTransactionComplexをトランザクション処理に利用できる形式に変換する処理を書く
       // 3. transactionIdを取得
       const transactionId = transaction.id;
 
       // 4. CreatePaymentDto[]を作成
-      const totalAmount = createTransactionDto.amount;
+      const totalAmount = createTransactionComplex.amount;
 
       const createPaymentDto: CreatePaymentDto[] = (() => {
         switch (commonInput.method) {
           case 'RATIO':
-            return createTransactionDto.member.map((eachMember) => {
+            return createTransactionComplex.member.map((eachMember) => {
               const actualPaymentAmount = eachMember.finalBill;
               const defaultPaymentAmount = Math.round(
                 totalAmount * (eachMember.balance / 100),
@@ -49,7 +51,7 @@ export class TransactionService {
             }) satisfies CreatePaymentDto[];
           default:
             // todo: ratio以外の場合の処理を書く
-            return createTransactionDto.member.map((eachMember) => {
+            return createTransactionComplex.member.map((eachMember) => {
               const actualPaymentAmount = eachMember.finalBill;
               const defaultPaymentAmount = eachMember.balance;
 

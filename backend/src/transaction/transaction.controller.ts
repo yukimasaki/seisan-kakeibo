@@ -21,7 +21,7 @@ import {
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
 import { Transaction } from './entities/transaction.entity';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { CreateTransactionComplex } from './dto/create-transaction.dto';
 
 @Controller('transactions')
 @ApiTags('/transactions')
@@ -38,7 +38,7 @@ export class TransactionController {
     type: Transaction,
   })
   createWithTransaction(
-    @Body() createTransactionFormData: CreateTransactionDto,
+    @Body() createTransactionFormData: CreateTransactionComplex,
   ) {
     return this.transactionService.createWithTransaction(
       createTransactionFormData,

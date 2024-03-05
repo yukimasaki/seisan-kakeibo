@@ -4,7 +4,7 @@ import { authOptions } from "@common/next-auth/options";
 import { ServerActionResult } from "@type/server-actions";
 import {
   CommonInput,
-  CreateTransactionDto,
+  CreateTransactionComplex,
   PaymentType,
 } from "@type/entities/transaction";
 import { getServerSession } from "next-auth";
@@ -41,7 +41,7 @@ const CreateTransactionSchema = CommonInputSchema.extend({
       balance: z.number(),
     })
   ),
-}) satisfies z.ZodType<CreateTransactionDto>;
+}) satisfies z.ZodType<CreateTransactionComplex>;
 
 // **************************** Server Actions ****************************
 export const createTransaction = async (
@@ -74,7 +74,7 @@ export const createTransaction = async (
     balance: Number(formData.get(`member.${idx}.balance`)),
   }));
 
-  const preValidateData: Partial<CreateTransactionDto> = {
+  const preValidateData: Partial<CreateTransactionComplex> = {
     creatorId,
     groupId,
     status,
@@ -88,9 +88,9 @@ export const createTransaction = async (
   };
 
   // 1. 入力値が型として正しいかどうかのバリデーション
-  const createTransactionDto =
+  const createTransactionComplex =
     CreateTransactionSchema.safeParse(preValidateData);
-  if (!createTransactionDto.success)
+  if (!createTransactionComplex.success)
     return {
       isSubmitted: true,
       ok: false,
@@ -141,7 +141,7 @@ export const createTransaction = async (
   await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`, {
     method: "POST",
     body: JSON.stringify(
-      createTransactionDto.data satisfies CreateTransactionDto
+      createTransactionComplex.data satisfies CreateTransactionComplex
     ),
     headers: {
       "Content-Type": "application/json",

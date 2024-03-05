@@ -3,7 +3,7 @@ import * as dayjs from 'dayjs';
 import { randBetween } from 'src/utils/randBetween';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { TransactionService } from 'src/transaction/transaction.service';
-import { CreateTransactionDto } from 'src/transaction/dto/create-transaction.dto';
+import { CreateTransactionComplex } from 'src/transaction/dto/create-transaction.dto';
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,7 @@ export const createTransaction = async () => {
     const start = dayjs().startOf('year').format('YYYY-MM-DD');
     const end = dayjs().endOf('month').format('YYYY-MM-DD');
 
-    const formData: CreateTransactionDto = {
+    const formData: CreateTransactionComplex = {
       creatorId: 1,
       amount,
       paymentDate: randomDate(start, end),
