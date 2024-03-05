@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
@@ -9,14 +14,19 @@ export class MemberService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createMemberDto: CreateMemberDto): Promise<MemberResponse> {
-    const member: MemberResponse = await this.prisma.member.create({
-      data: createMemberDto,
-      include: {
-        user: true,
-        group: true,
-      },
-    });
-    return member;
+    try {
+      const member: MemberResponse = await this.prisma.member.create({
+        data: createMemberDto,
+        include: {
+          user: true,
+          group: true,
+        },
+      });
+      return member;
+    } catch (error) {
+      if ((error.code = 'P2002')) throw new ConflictException();
+      throw new InternalServerErrorException();
+    }
   }
 
   async findByGroupId(groupId: number): Promise<MemberResponse[]> {
