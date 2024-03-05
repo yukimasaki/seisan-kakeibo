@@ -1,12 +1,10 @@
-import { Transaction } from '../entities/transaction.entity';
+import { PaymentMethod, Transaction } from '../entities/transaction.entity';
 import { IntersectionType, OmitType } from '@nestjs/swagger';
-
-type PaymentType = 'ratio' | 'even' | 'amount_basis';
 
 class CommonInput extends OmitType(Transaction, ['id', 'editorId']) {}
 
 class BalanceInput {
-  method: PaymentType;
+  method: PaymentMethod;
   member: {
     userId: number;
     finalBill: number;

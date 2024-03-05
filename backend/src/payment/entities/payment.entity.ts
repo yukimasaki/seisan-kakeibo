@@ -1,5 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsInt, IsNumber, IsPositive, IsString, Max, Min } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class Payment {
   @ApiProperty({
@@ -40,21 +47,14 @@ export class Payment {
   difference: number;
 
   @ApiProperty({
-    example: '比率',
-    description: '負担方法',
-    enum: ['均等', '比率', '金額指定', 'なし'],
-  })
-  @IsString()
-  method: string;
-
-  @ApiProperty({
     example: '0.25',
     description: '負担割合 (最小値: 0、最大値: 1)',
   })
   @IsNumber()
+  @IsOptional()
   @Min(0)
   @Max(1)
-  ratio: number;
+  ratio?: number;
 
   @ApiProperty({
     example: '1',
@@ -65,4 +65,4 @@ export class Payment {
   transactionId: number;
 }
 
-export class PaymentResponse extends Payment { }
+export class PaymentResponse extends Payment {}

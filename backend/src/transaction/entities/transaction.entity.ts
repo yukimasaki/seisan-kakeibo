@@ -1,5 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsInt, IsPositive, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDate, IsInt, IsPositive, IsString } from 'class-validator';
+
+export type PaymentStatus = 'PENDING' | 'PROPOSED' | 'COMPLETED';
+export type PaymentMethod = 'RATIO' | 'EVEN' | 'AMOUNT_BASIS' | 'NONE';
 
 export class Transaction {
   @ApiProperty({
@@ -55,12 +58,19 @@ export class Transaction {
   memo: string;
 
   @ApiProperty({
-    example: '完了',
-    description: '',
-    enum: ['未完了', '提案中', '完了'],
+    example: 'completed',
+    description: '取引の状況を表すステータス',
+    enum: ['PENDING', 'PROPOSED', 'COMPLETED'],
   })
   @IsString()
-  status: string;
+  status: PaymentStatus;
+
+  @ApiProperty({
+    example: 'ratio',
+    description: '割り勘方法',
+    enum: ['RATIO', 'EVEN', 'AMOUNT_BASIS', 'NONE'],
+  })
+  method: PaymentMethod;
 
   @ApiProperty({
     example: '1',
@@ -79,4 +89,4 @@ export class Transaction {
   groupId: number;
 }
 
-export class TransactionResponse extends Transaction { }
+export class TransactionResponse extends Transaction {}
