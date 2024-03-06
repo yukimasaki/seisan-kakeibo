@@ -163,8 +163,7 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
               <div className="space-y-2">
                 <Button
                   type="submit"
-                  color="primary"
-                  variant="flat"
+                  color="warning"
                   isDisabled={
                     !!emailValidateState.message ||
                     !!userNameValidateState.message

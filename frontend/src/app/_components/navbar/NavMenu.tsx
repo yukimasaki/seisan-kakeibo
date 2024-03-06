@@ -23,7 +23,7 @@ export const NavMenu = () => {
         {pages.map((page, idx) => (
           <NavbarMenuItem key={`${page}-${idx}`}>
             <Link
-              color={currentPath === page.path ? "primary" : "foreground"}
+              color={currentPath === page.path ? "success" : "foreground"}
               className={"w-full"}
               href={page.path}
               size={"lg"}

@@ -90,7 +90,7 @@ export const TransactionOverviewComponent = () => {
 
           {/* 一覧 開始 */}
           <div>
-            {loadingState === "loading" && <Spinner />}
+            {loadingState === "loading" && <Spinner color="warning" />}
             {transactions && (
               <ListboxWrapperComponent>
                 <Listbox

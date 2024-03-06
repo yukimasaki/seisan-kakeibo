@@ -26,7 +26,9 @@ export const NavBarAuthenticatedContentComponent = () => {
         <NavbarBrand>
           <NavbarItem>
             <p className="font-bold text-inherit">
-              <Link href="/transaction">Seisan家計簿</Link>
+              <Link color="success" href="/transaction">
+                Seisan家計簿
+              </Link>
             </p>
           </NavbarItem>
         </NavbarBrand>

@@ -45,7 +45,7 @@ export const HomePage = () => {
         </ParagraphComponent>
         <div className="px-4 flex flex-col justify-center w-full gap-8 sm:flex-row">
           <Card
-            className="py-4 bg-blue-200 w-full sm:max-w-[320px]"
+            className="shadow-none py-4 w-full sm:max-w-[320px]"
             shadow="sm"
           >
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -62,7 +62,7 @@ export const HomePage = () => {
           </Card>
 
           <Card
-            className="py-4 bg-blue-200 w-full sm:max-w-[320px]"
+            className="shadow-none py-4 w-full sm:max-w-[320px]"
             shadow="sm"
           >
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -79,7 +79,7 @@ export const HomePage = () => {
           </Card>
 
           <Card
-            className="py-4 bg-blue-200 w-full sm:max-w-[320px]"
+            className="shadow-none py-4 w-full sm:max-w-[320px]"
             shadow="sm"
           >
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">

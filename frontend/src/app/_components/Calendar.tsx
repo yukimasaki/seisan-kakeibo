@@ -124,7 +124,7 @@ export const Calendar = ({
                     variant="flat"
                     color={
                       month.value === calendarStore.selectedMonth
-                        ? "primary"
+                        ? "warning"
                         : "default"
                     }
                   >
@@ -164,13 +164,13 @@ export const Calendar = ({
       {/* 年月ピッカー ここまで */}
 
       {/* カレンダー ここから */}
-      <div className="rounded-md shadow w-full">
-        <div className="grid grid-cols-7 gap-2 py-1 bg-gray-400 rounded-t-md">
+      <div className="rounded-md w-full">
+        <div className="grid grid-cols-7 gap-2 py-1 bg-amber-400 rounded-t-md">
           {dayLabels.map((dayLabel) => {
             return (
               <span
                 key={dayLabel.key}
-                className="self-center justify-self-center border-gray-300 text-gray-50 text-xs pt-0.5 px-2"
+                className="self-center justify-self-center text-gray-50 text-xs pt-0.5 px-2"
               >
                 {dayLabel.label}
               </span>
@@ -181,9 +181,9 @@ export const Calendar = ({
           {summaries.map((summary) => {
             return (
               <div
-                className={`flex flex-col h-10 mx-auto justify-center min-w-full rounded-md ${
+                className={`flex flex-col h-10 w-10 mx-auto justify-center rounded-full ${
                   calendarStore.selectedDate === summary.date
-                    ? "bg-blue-100 shadow-sm"
+                    ? "bg-amber-200 shadow-sm"
                     : ""
                 }`}
                 key={summary.id}
