@@ -138,16 +138,25 @@ export const createTransaction = async (
   }
 
   // 3. すべてのバリデーションに通過した場合、APIへPOSTリクエストを送信する
-  await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`, {
-    method: "POST",
-    body: JSON.stringify(
-      createTransactionComplex.data satisfies CreateTransactionComplex
-    ),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`,
+    {
+      method: "POST",
+      body: JSON.stringify(
+        createTransactionComplex.data satisfies CreateTransactionComplex
+      ),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  if (!response.ok)
+    return {
+      isSubmitted: true,
+      ok: false,
+      message: "APIリクエストに失敗しました",
+    };
 
   // 成功のメッセージを返す
   return {
