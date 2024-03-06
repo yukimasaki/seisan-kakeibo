@@ -31,11 +31,11 @@ export class TransactionService {
         this.createTransactionDto(createTransactionComplex);
 
       // 3. transactionIdを取得
-      const transaction: TransactionResponse =
+      const transactionResponse: TransactionResponse =
         await this.prisma.transaction.create({
           data: createTransactionDto,
         });
-      const transactionId = transaction.id;
+      const transactionId = transactionResponse.id;
 
       // 4. CreatePaymentDto[]を作成
       const totalAmount = createTransactionComplex.amount;
@@ -117,7 +117,7 @@ export class TransactionService {
         console.log(err);
       });
 
-      return transaction;
+      return transactionResponse;
     });
   }
 
