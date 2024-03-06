@@ -24,7 +24,9 @@ export const NavBarUnauthenticatedContentComponent = () => {
         <NavbarBrand>
           <NavbarItem>
             <p className="font-bold text-inherit">
-              <Link href="/">Seisan家計簿</Link>
+              <Link color="success" href="/">
+                Seisan家計簿
+              </Link>
             </p>
           </NavbarItem>
         </NavbarBrand>

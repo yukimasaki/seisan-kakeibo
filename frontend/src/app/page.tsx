@@ -1,13 +1,13 @@
 "use server";
 
 import { NavBar } from "@components/navbar/NavBar";
-import { HomePageComponent } from "./(public)/home/home";
+import { HomePage } from "./(public)/home/HomePage";
 
 const RootPage = async () => {
   return (
     <>
       <NavBar />
-      <HomePageComponent />
+      <HomePage />
     </>
   );
 };

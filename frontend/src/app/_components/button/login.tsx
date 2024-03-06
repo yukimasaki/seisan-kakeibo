@@ -8,7 +8,7 @@ export const LoginButtonComponent = () => {
   return (
     <Button
       as={Link}
-      color="primary"
+      color="warning"
       href="#"
       onClick={() => signIn("keycloak", { callbackUrl: "/transaction" })}
     >

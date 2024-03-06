@@ -84,8 +84,7 @@ export const GroupCreateFormComponent = ({}: {}) => {
       <div className="flex flex-col">
         <Button
           type="submit"
-          color="primary"
-          variant="flat"
+          color="warning"
           isDisabled={
             !!displayNameValidateState.message || !!messageAfterSubmit.ok
           }

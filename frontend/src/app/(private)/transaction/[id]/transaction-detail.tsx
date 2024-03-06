@@ -124,7 +124,7 @@ export const TransactionDetailComponent = () => {
                     <TableBody
                       items={transaction.payments ?? []}
                       loadingState={loadingState}
-                      loadingContent={<Spinner />}
+                      loadingContent={<Spinner color="warning" />}
                     >
                       {(item) => (
                         <TableRow key={item.id}>

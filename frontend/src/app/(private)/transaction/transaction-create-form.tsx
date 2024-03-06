@@ -154,12 +154,12 @@ export const CreateTransactionForm = () => {
     return (
       <>
         <MetaInfoComponent />
-        <h5 className="text-base font-bold text-blue-400">
+        <h5 className="text-base font-bold text-amber-400">
           誰といくら割り勘する？
         </h5>
         <BalanceInputComponent method={method} />
         <Spacer y={4} />
-        <h5 className="text-base font-bold text-blue-400">
+        <h5 className="text-base font-bold text-amber-400">
           誰がいくら立て替えた？
         </h5>
         <FinalBillComponent />
@@ -402,7 +402,7 @@ export const CreateTransactionForm = () => {
                 </Button>
                 <Button
                   type={"submit"}
-                  color={"primary"}
+                  color={"warning"}
                   isDisabled={formStatus.pending}
                   isLoading={formStatus.pending}
                 >

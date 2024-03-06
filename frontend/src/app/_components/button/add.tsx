@@ -3,15 +3,11 @@
 import { Icon } from "@components/icon/icon";
 import { Button } from "@nextui-org/react";
 
-export const AddButtonComponent = ({
-  onClick,
-}: {
-  onClick: () => void,
-}) => {
+export const AddButtonComponent = ({ onClick }: { onClick: () => void }) => {
   return (
     <>
       <Button
-        color={"primary"}
+        color={"warning"}
         radius={"md"}
         isIconOnly
         onClick={() => onClick()}
@@ -20,4 +16,4 @@ export const AddButtonComponent = ({
       </Button>
     </>
   );
-}
+};

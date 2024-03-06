@@ -7,7 +7,7 @@ export const DeleteButtonComponent = ({ onClick }: { onClick: () => void }) => {
   return (
     <>
       <Button
-        color={"primary"}
+        color={"warning"}
         radius={"md"}
         isIconOnly
         onClick={() => onClick()}

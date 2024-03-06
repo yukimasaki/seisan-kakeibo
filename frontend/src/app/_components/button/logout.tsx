@@ -8,7 +8,7 @@ export const LogoutButtonComponent = () => {
   return (
     <Button
       as={Link}
-      color="primary"
+      color="warning"
       href="#"
       onClick={() => signOut({ callbackUrl: "/" })}
       variant="flat"

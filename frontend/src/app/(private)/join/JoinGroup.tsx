@@ -74,7 +74,7 @@ export const JoinGroup = () => {
     messageAfterSubmit.isSubmitted = false;
   }, [messageAfterSubmit]);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner color="warning" />;
 
   if (error) return <InvalidInviteToken />;
   return (

@@ -42,14 +42,14 @@ export const Invite = ({
 
   return (
     <Button
-      color={"primary"}
+      color={"warning"}
       radius={"md"}
       onPress={handleClick}
       isDisabled={isDisabled}
     >
       <div className="flex flex-row items-center">
         <Icon name="Add" className="text-white" />
-        <p>メンバーを招待</p>
+        <p className="text-white">メンバーを招待</p>
       </div>
     </Button>
   );

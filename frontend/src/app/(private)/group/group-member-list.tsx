@@ -25,12 +25,12 @@ export const GroupMemberListComponent = () => {
     <PositionCenterWrapperComponent>
       <Card className="w-full h-fit max-w-[720px]">
         <CardHeader className="flex flex-col items-start gap-3">
-          <h5 className={"text-blue-400 font-bold"}>選択中のグループ</h5>
+          <h5 className={"text-amber-400 font-bold"}>選択中のグループ</h5>
           <ParagraphComponent>{groupName}</ParagraphComponent>
         </CardHeader>
         <CardBody className="space-y-3">
           <div className="flex flex-row items-center justify-between">
-            <h5 className={"text-blue-400 font-bold"}>メンバー</h5>
+            <h5 className={"text-amber-400 font-bold"}>メンバー</h5>
             <Invite groupId={groupId || 0} isDisabled={!groupId} />
           </div>
           {members && (
