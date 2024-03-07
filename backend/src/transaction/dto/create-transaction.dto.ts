@@ -30,7 +30,7 @@ class Member {
 
   @IsNumber()
   @IsOptional()
-  balance?: number;
+  balance: number;
 }
 
 export class BalanceInput {
