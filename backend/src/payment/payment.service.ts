@@ -105,6 +105,19 @@ export class PaymentService {
       // 作成者が全額負担していることを確認
       if (!this.isCreatorFullyPaying({ createTransactionComplex }))
         throw new BadRequestException();
+
+      const createPaymentDto: CreatePaymentDto[] =
+        createTransactionComplex.member.map((dto) => {
+          return {
+            payerId: dto.userId,
+            finalBill: dto.finalBill,
+            balance: dto.balance,
+            difference: dto.finalBill - dto.balance,
+            ratio: dto.ratio || null,
+            transactionId,
+          };
+        });
+      return createPaymentDto;
     }
 
     // 1-B. method=AMOUNT_BASIS の場合
@@ -112,6 +125,19 @@ export class PaymentService {
       // 一人当たりの金額の合計と総額が等しいことを確認
       if (!this.isDividedTotalEqualToAmount({ createTransactionComplex }))
         throw new BadRequestException();
+
+      const createPaymentDto: CreatePaymentDto[] =
+        createTransactionComplex.member.map((dto) => {
+          return {
+            payerId: dto.userId,
+            finalBill: dto.finalBill,
+            balance: dto.balance,
+            difference: dto.finalBill - dto.balance,
+            ratio: dto.ratio || null,
+            transactionId,
+          };
+        });
+      return createPaymentDto;
     }
 
     // 1-C. その他 (method=RATIO または EVEN) の場合
@@ -123,7 +149,6 @@ export class PaymentService {
     )
       throw new BadRequestException();
 
-    // 2. バリデーションに通過したらデータを返却する
     const createPaymentDto: CreatePaymentDto[] =
       createTransactionComplex.member.map((dto) => {
         return {
@@ -135,7 +160,6 @@ export class PaymentService {
           transactionId,
         };
       });
-
     return createPaymentDto;
   }
 
