@@ -113,7 +113,7 @@ export class PaymentService {
             finalBill: dto.finalBill,
             balance: dto.balance,
             difference: dto.finalBill - dto.balance,
-            ratio: dto.ratio || null,
+            ratio: dto.ratio,
             transactionId,
           };
         });
@@ -133,7 +133,7 @@ export class PaymentService {
             finalBill: dto.finalBill,
             balance: dto.balance,
             difference: dto.finalBill - dto.balance,
-            ratio: dto.ratio || null,
+            ratio: null,
             transactionId,
           };
         });
@@ -156,7 +156,7 @@ export class PaymentService {
           finalBill: dto.finalBill,
           balance: dto.balance,
           difference: dto.finalBill - dto.balance,
-          ratio: dto.ratio || null,
+          ratio: dto.ratio,
           transactionId,
         };
       });
