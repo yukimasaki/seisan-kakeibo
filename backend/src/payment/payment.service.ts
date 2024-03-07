@@ -81,12 +81,12 @@ export class PaymentService {
     }
 
     // 1-C. その他 (method=RATIO または EVEN) の場合
-    // 一人当たりの比率の合計が1と等しいことを確認
-    if (!this.isTotalRatiosEqualToOne({ createTransactionComplex }))
-      throw new BadRequestException();
-
-    // 一人当たりの金額の合計と総額が等しいことを確認
-    if (!this.isDividedTotalEqualToAmount({ createTransactionComplex }))
+    if (
+      // 一人当たりの比率の合計が1と等しいことを確認
+      !this.isTotalRatiosEqualToOne({ createTransactionComplex }) ||
+      // 一人当たりの金額の合計と総額が等しいことを確認
+      !this.isDividedTotalEqualToAmount({ createTransactionComplex })
+    )
       throw new BadRequestException();
 
     // 2. バリデーションに通過したらデータを返却する
