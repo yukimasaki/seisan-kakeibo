@@ -287,6 +287,34 @@ describe('createPaymentDto', () => {
     ).toThrow('作成者のfinalBillと総額が一致しません');
   });
 
+  test('[1-B] 複数人でかつ、method=AMOUNT_BASISの際、一人当たりの金額の合計と総額が一致しない場合に例外をスローすること', () => {
+    const createTransactionComplex: CreateTransactionComplex = {
+      // CreateTransactionDto
+      creatorId: 1,
+      amount: 1000,
+      paymentDate: new Date(),
+      title: 'テストデータ',
+      memo: 'テストです。',
+      status: 'PENDING',
+      method: 'AMOUNT_BASIS',
+      categoryId: 1,
+      groupId: 1,
+
+      // BalanceInput
+      member: [
+        { userId: 1, finalBill: 1, balance: 500 },
+        { userId: 2, finalBill: 1, balance: 500 },
+      ],
+    };
+
+    expect(() =>
+      paymentService.createPaymentDto({
+        createTransactionComplex,
+        transactionId,
+      }),
+    ).toThrow('一人当たりの金額の合計と総額が一致しません');
+  });
+
   test.todo(
     '[1-B] method=AMOUNT_BASISの際、一人当たりの金額の合計と総額が等しくない場合に例外をスローすること',
   );
