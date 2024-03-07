@@ -9,10 +9,14 @@ import {
   CreateTransactionComplex,
   CreateTransactionDto,
 } from './dto/create-transaction.dto';
+import { PaymentService } from 'src/payment/payment.service';
 
 @Injectable()
 export class TransactionService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly paymentService: PaymentService,
+  ) {}
 
   private createTransactionDto(
     createTransactionComplex: CreateTransactionComplex,
@@ -38,43 +42,11 @@ export class TransactionService {
       const transactionId = transactionResponse.id;
 
       // 4. CreatePaymentDto[]を作成
-      const totalAmount = createTransactionComplex.amount;
-
-      const createPaymentDto: CreatePaymentDto[] = (() => {
-        switch (createTransactionDto.method) {
-          case 'RATIO':
-            return createTransactionComplex.member.map((eachMember) => {
-              const actualPaymentAmount = eachMember.finalBill;
-              const defaultPaymentAmount = Math.round(
-                totalAmount * (eachMember.balance / 100),
-              );
-
-              return {
-                payerId: eachMember.userId,
-                actualPaymentAmount,
-                defaultPaymentAmount,
-                difference: actualPaymentAmount - defaultPaymentAmount,
-                ratio: eachMember.balance / 100,
-                transactionId,
-              };
-            }) satisfies CreatePaymentDto[];
-          default:
-            // todo: ratio以外の場合の処理を書く
-            return createTransactionComplex.member.map((eachMember) => {
-              const actualPaymentAmount = eachMember.finalBill;
-              const defaultPaymentAmount = eachMember.balance;
-
-              return {
-                payerId: eachMember.userId,
-                actualPaymentAmount,
-                defaultPaymentAmount,
-                difference: actualPaymentAmount - defaultPaymentAmount,
-                ratio: eachMember.balance / 100,
-                transactionId,
-              };
-            }) satisfies CreatePaymentDto[];
-        }
-      })();
+      const createPaymentDto: CreatePaymentDto[] =
+        this.paymentService.createPaymentDto({
+          createTransactionComplex,
+          transactionId,
+        });
 
       // 5. CreateBalanceDto[]を作成
       // 規定額より支払いが多いユーザーを抽出

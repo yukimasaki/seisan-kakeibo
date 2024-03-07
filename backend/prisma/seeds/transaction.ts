@@ -4,6 +4,7 @@ import { randBetween } from 'src/utils/randBetween';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { CreateTransactionComplex } from 'src/transaction/dto/create-transaction.dto';
+import { PaymentService } from 'src/payment/payment.service';
 
 const prisma = new PrismaClient();
 
@@ -14,7 +15,11 @@ export const deleteTransaction = async () => {
 export const createTransaction = async () => {
   Array.from({ length: 30 }, async (_, index) => {
     const prismaService = new PrismaService();
-    const transactionService = new TransactionService(prismaService);
+    const paymentService = new PaymentService(prismaService);
+    const transactionService = new TransactionService(
+      prismaService,
+      paymentService,
+    );
 
     const amount = randBetween(1000, 49999);
 
