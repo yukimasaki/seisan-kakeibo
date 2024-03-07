@@ -89,6 +89,47 @@ describe('createPaymentDto', () => {
     });
   });
 
+  test('[1-B] 複数人でかつ、method=AMOUNT_BASISの場合にCreatePaymentDto[]型のデータを返却すること', () => {
+    const createTransactionComplex: CreateTransactionComplex = {
+      // CreateTransactionDto
+      creatorId: 1,
+      amount: 1000,
+      paymentDate: new Date(),
+      title: 'テストデータ',
+      memo: 'テストです。',
+      status: 'PENDING',
+      method: 'AMOUNT_BASIS',
+      categoryId: 1,
+      groupId: 1,
+
+      // BalanceInput
+      member: [
+        { userId: 1, finalBill: 250, balance: 500 },
+        { userId: 2, finalBill: 750, balance: 500 },
+      ],
+    };
+
+    const createPaymentDto: CreatePaymentDto[] =
+      paymentService.createPaymentDto({
+        createTransactionComplex,
+        transactionId,
+      });
+
+    // 要素が1以上の配列を返すことを確認
+    expect(Array.isArray(createPaymentDto)).toBeTruthy();
+    expect(createPaymentDto.length).toBeGreaterThan(0);
+
+    // 各要素が適切なプロパティを持っていることを確認
+    createPaymentDto.forEach((dto) => {
+      expect(dto).toHaveProperty('payerId');
+      expect(dto).toHaveProperty('finalBill');
+      expect(dto).toHaveProperty('balance');
+      expect(dto).toHaveProperty('difference');
+      expect(dto).toHaveProperty('ratio');
+      expect(dto).toHaveProperty('transactionId');
+    });
+  });
+
   // 異常系
   test('[1-A] ratioの指定が必要にもかかわらず未指定の場合に例外をスローすること', () => {
     const createTransactionComplex: CreateTransactionComplex = {
