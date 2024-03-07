@@ -20,7 +20,7 @@ export class TransactionService {
     private readonly balanceService: BalanceService,
   ) {}
 
-  private createTransactionDto(
+  createTransactionDto(
     createTransactionComplex: CreateTransactionComplex,
   ): CreateTransactionDto {
     const { member, ...createTransactionDto } = createTransactionComplex;
