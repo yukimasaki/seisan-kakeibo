@@ -20,9 +20,11 @@ export class TransactionService {
     private readonly balanceService: BalanceService,
   ) {}
 
-  createTransactionDto(
-    createTransactionComplex: CreateTransactionComplex,
-  ): CreateTransactionDto {
+  createTransactionDto({
+    createTransactionComplex,
+  }: {
+    createTransactionComplex: CreateTransactionComplex;
+  }): CreateTransactionDto {
     const { member, ...createTransactionDto } = createTransactionComplex;
     return createTransactionDto;
   }
@@ -34,7 +36,7 @@ export class TransactionService {
     return await this.prisma.$transaction(async (prisma) => {
       // 2. CreateTransactionDtoを作成
       const createTransactionDto: CreateTransactionDto =
-        this.createTransactionDto(createTransactionComplex);
+        this.createTransactionDto({ createTransactionComplex });
 
       // 3. transactionIdを取得
       const transactionResponse: TransactionResponse =
