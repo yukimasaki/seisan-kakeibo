@@ -15,13 +15,35 @@ export class PaymentService {
   }: {
     createTransactionComplex: CreateTransactionComplex;
   }): boolean {
+    // reason: 他の誰かが負担している場合は、ユーザーの目的と異なるデータが渡っているため早期リターンする
+    if (
+      // 一人当たりの金額の合計と総額が等しいことを確認
+      !this.isDividedTotalEqualToAmount({ createTransactionComplex }) ||
+      // 一人当たりの比率の合計が1と等しいことを確認する関数
+      !this.isTotalRatiosEqualToOne({ createTransactionComplex })
+    )
+      return false;
+
     const creatorId: number = createTransactionComplex.creatorId;
     const totalAmount: number = createTransactionComplex.amount;
     const creatorFinalBill: number = createTransactionComplex.member.find(
       (dto) => dto.userId === creatorId,
     ).finalBill;
+    const creatorBalance: number = createTransactionComplex.member.find(
+      (dto) => dto.userId === creatorId,
+    ).balance;
+    const creatorRatio: number = createTransactionComplex.member.find(
+      (dto) => dto.userId === creatorId,
+    ).ratio;
 
-    return totalAmount === creatorFinalBill;
+    return (
+      // 作成者の比率が1と等しいこと
+      creatorRatio === 1 &&
+      // 作成者の支払額と規定額が等しいこと
+      creatorFinalBill === creatorBalance &&
+      // 作成者の支払額と総額が等しいこと
+      creatorFinalBill === totalAmount
+    );
   }
 
   // 一人当たりの金額の合計と総額が等しいことを確認する関数
@@ -97,6 +119,7 @@ export class PaymentService {
           finalBill: dto.finalBill,
           balance: dto.balance,
           difference: dto.finalBill - dto.balance,
+          ratio: dto.ratio || null,
           transactionId,
         };
       });
