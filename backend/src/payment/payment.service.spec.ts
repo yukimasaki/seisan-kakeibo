@@ -287,7 +287,7 @@ describe('createPaymentDto', () => {
     ).toThrow('作成者のfinalBillと総額が一致しません');
   });
 
-  test('[1-B] 複数人でかつ、method=AMOUNT_BASISの際、一人当たりの金額の合計と総額が一致しない場合に例外をスローすること', () => {
+  test('[1-B] method=AMOUNT_BASISの際、一人当たりの金額の合計と総額が等しくない場合に例外をスローすること', () => {
     const createTransactionComplex: CreateTransactionComplex = {
       // CreateTransactionDto
       creatorId: 1,
@@ -314,10 +314,6 @@ describe('createPaymentDto', () => {
       }),
     ).toThrow('一人当たりの金額の合計と総額が一致しません');
   });
-
-  test.todo(
-    '[1-B] method=AMOUNT_BASISの際、一人当たりの金額の合計と総額が等しくない場合に例外をスローすること',
-  );
 
   test.todo(
     '[1-C] その他(method=RATIO または EVEN)の際、一人当たりの比率の合計が1と等しくない場合に例外をスローすること',
