@@ -17,12 +17,12 @@ export class BalanceService {
   }): CreateBalanceDto[] {
     // 規定額より支払いが多いユーザーを抽出
     const highPaymentUsers = createPaymentDto.filter(
-      (payment) => payment.actualPaymentAmount > payment.defaultPaymentAmount,
+      (payment) => payment.finalBill > payment.balance,
     );
 
     // 規定額より支払いが少ないユーザーを抽出
     const lowPaymentUsers = createPaymentDto.filter(
-      (payment) => payment.actualPaymentAmount < payment.defaultPaymentAmount,
+      (payment) => payment.finalBill < payment.balance,
     );
 
     // 支払いが多いユーザー・支払いが少ないユーザーごとにループ処理で賃借記録を作成する

@@ -19,16 +19,14 @@ export class PaymentService {
     switch (createTransactionComplex.method) {
       case 'RATIO':
         return createTransactionComplex.member.map((eachMember) => {
-          const actualPaymentAmount = eachMember.finalBill;
-          const defaultPaymentAmount = Math.round(
-            totalAmount * (eachMember.balance / 100),
-          );
+          const finalBill = eachMember.finalBill;
+          const balance = Math.round(totalAmount * (eachMember.balance / 100));
 
           return {
             payerId: eachMember.userId,
-            actualPaymentAmount,
-            defaultPaymentAmount,
-            difference: actualPaymentAmount - defaultPaymentAmount,
+            finalBill,
+            balance,
+            difference: finalBill - balance,
             ratio: eachMember.balance / 100,
             transactionId,
           };
@@ -36,14 +34,14 @@ export class PaymentService {
       default:
         // todo: ratio以外の場合の処理を書く
         return createTransactionComplex.member.map((eachMember) => {
-          const actualPaymentAmount = eachMember.finalBill;
-          const defaultPaymentAmount = eachMember.balance;
+          const finalBill = eachMember.finalBill;
+          const balance = eachMember.balance;
 
           return {
             payerId: eachMember.userId,
-            actualPaymentAmount,
-            defaultPaymentAmount,
-            difference: actualPaymentAmount - defaultPaymentAmount,
+            finalBill,
+            balance,
+            difference: finalBill - balance,
             ratio: eachMember.balance / 100,
             transactionId,
           };
