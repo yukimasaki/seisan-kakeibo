@@ -103,8 +103,7 @@ export class PaymentService {
       createTransactionComplex.method === 'NONE'
     ) {
       // 作成者が全額負担していることを確認
-      if (!this.isCreatorFullyPaying({ createTransactionComplex }))
-        throw new BadRequestException();
+      this.isCreatorFullyPaying({ createTransactionComplex });
 
       const createPaymentDto: CreatePaymentDto[] =
         createTransactionComplex.member.map((dto) => {
@@ -123,8 +122,7 @@ export class PaymentService {
     // 1-B. method=AMOUNT_BASIS の場合
     if (createTransactionComplex.method === 'AMOUNT_BASIS') {
       // 一人当たりの金額の合計と総額が等しいことを確認
-      if (!this.isDividedTotalEqualToAmount({ createTransactionComplex }))
-        throw new BadRequestException();
+      this.isDividedTotalEqualToAmount({ createTransactionComplex });
 
       const createPaymentDto: CreatePaymentDto[] =
         createTransactionComplex.member.map((dto) => {
@@ -141,13 +139,10 @@ export class PaymentService {
     }
 
     // 1-C. その他 (method=RATIO または EVEN) の場合
-    if (
-      // 一人当たりの比率の合計が1と等しいことを確認
-      !this.isTotalRatiosEqualToOne({ createTransactionComplex }) ||
-      // 一人当たりの金額の合計と総額が等しいことを確認
-      !this.isDividedTotalEqualToAmount({ createTransactionComplex })
-    )
-      throw new BadRequestException();
+    // 一人当たりの比率の合計が1と等しいことを確認
+    this.isTotalRatiosEqualToOne({ createTransactionComplex });
+    // 一人当たりの金額の合計と総額が等しいことを確認
+    this.isDividedTotalEqualToAmount({ createTransactionComplex });
 
     const createPaymentDto: CreatePaymentDto[] =
       createTransactionComplex.member.map((dto) => {
