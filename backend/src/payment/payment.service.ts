@@ -14,7 +14,7 @@ export class PaymentService {
   }: {
     createTransactionComplex: CreateTransactionComplex;
     transactionId: number;
-  }) {
+  }): CreatePaymentDto[] {
     const totalAmount = createTransactionComplex.amount;
     switch (createTransactionComplex.method) {
       case 'RATIO':
