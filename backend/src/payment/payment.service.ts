@@ -16,13 +16,11 @@ export class PaymentService {
     createTransactionComplex: CreateTransactionComplex;
   }): boolean {
     // reason: 他の誰かが負担している場合は、ユーザーの目的と異なるデータが渡っているため早期リターンする
-    if (
-      // 一人当たりの金額の合計と総額が等しいことを確認
-      !this.isDividedTotalEqualToAmount({ createTransactionComplex }) ||
-      // 一人当たりの比率の合計が1と等しいことを確認する関数
-      !this.isTotalRatiosEqualToOne({ createTransactionComplex })
-    )
-      return false;
+    // 一人当たりの金額の合計と総額が等しいことを確認
+    this.isDividedTotalEqualToAmount({ createTransactionComplex });
+
+    // 一人当たりの比率の合計が1と等しいことを確認
+    this.isTotalRatiosEqualToOne({ createTransactionComplex });
 
     const creatorId: number = createTransactionComplex.creatorId;
     const totalAmount: number = createTransactionComplex.amount;
@@ -36,14 +34,18 @@ export class PaymentService {
       (dto) => dto.userId === creatorId,
     ).ratio;
 
-    return (
-      // 作成者の比率が1と等しいこと
-      creatorRatio === 1 &&
-      // 作成者の支払額と規定額が等しいこと
-      creatorFinalBill === creatorBalance &&
-      // 作成者の支払額と総額が等しいこと
-      creatorFinalBill === totalAmount
-    );
+    // 作成者の比率が1と等しくない場合は例外をスロー
+    if (creatorRatio !== 1)
+      throw new BadRequestException('作成者のratioが1未満です');
+    // 作成者の支払額と規定額が等しいこと
+    if (creatorFinalBill !== creatorBalance)
+      throw new BadRequestException('作成者のfinalBillとbalanceが一致しません');
+    // 作成者の支払額と総額が等しいこと
+    if (creatorFinalBill !== totalAmount)
+      throw new BadRequestException('作成者のfinalBillと総額が一致しません');
+
+    // すべてのバリデーションに通過したらtrueを返却
+    return true;
   }
 
   // 一人当たりの金額の合計と総額が等しいことを確認する関数
@@ -58,7 +60,12 @@ export class PaymentService {
       0,
     );
 
-    return totalAmount === dividedTotal;
+    if (totalAmount !== dividedTotal)
+      throw new BadRequestException(
+        '一人当たりの金額の合計と総額が一致しません',
+      );
+
+    return true;
   }
 
   // 一人当たりの比率の合計が1と等しいことを確認する関数
@@ -70,12 +77,16 @@ export class PaymentService {
     const totalRatios: number = createTransactionComplex.member.reduce(
       (acc, dto) => {
         if (dto.ratio === null || dto.ratio === undefined)
-          throw new BadRequestException();
+          throw new BadRequestException('ratioの指定が必要です');
         return acc + dto.ratio;
       },
       0,
     );
-    return totalRatios === 1;
+
+    if (totalRatios !== 1)
+      throw new BadRequestException('一人当たりの比率の合計が1ではありません');
+
+    return true;
   }
 
   createPaymentDto({
