@@ -10,12 +10,14 @@ import {
   CreateTransactionDto,
 } from './dto/create-transaction.dto';
 import { PaymentService } from 'src/payment/payment.service';
+import { BalanceService } from 'src/balance/balance.service';
 
 @Injectable()
 export class TransactionService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly paymentService: PaymentService,
+    private readonly balanceService: BalanceService,
   ) {}
 
   private createTransactionDto(
@@ -49,31 +51,11 @@ export class TransactionService {
         });
 
       // 5. CreateBalanceDto[]を作成
-      // 規定額より支払いが多いユーザーを抽出
-      const highPaymentUsers = createPaymentDto.filter(
-        (payment) => payment.actualPaymentAmount > payment.defaultPaymentAmount,
-      );
-
-      // 規定額より支払いが少ないユーザーを抽出
-      const lowPaymentUsers = createPaymentDto.filter(
-        (payment) => payment.actualPaymentAmount < payment.defaultPaymentAmount,
-      );
-
-      // 支払いが多いユーザー・支払いが少ないユーザーごとにループ処理で賃借記録を作成する
-      const createBalanceDto: CreateBalanceDto[] = lowPaymentUsers
-        .map((lowPaymentUser) => {
-          return highPaymentUsers.map(
-            (highPaymentUser) =>
-              ({
-                lenderId: highPaymentUser.payerId,
-                borrowerId: lowPaymentUser.payerId,
-                amount: Math.abs(lowPaymentUser.difference),
-                status: `PENDING`,
-                transactionId,
-              }) satisfies CreateBalanceDto,
-          );
-        })
-        .flat();
+      const createBalanceDto: CreateBalanceDto[] =
+        this.balanceService.createBalanceDto({
+          createPaymentDto,
+          transactionId,
+        });
 
       await Promise.all([
         // 6. Paymentを作成
@@ -92,14 +74,6 @@ export class TransactionService {
       return transactionResponse;
     });
   }
-
-  // async findAll() {
-  //   return await this.prisma.transaction.findMany({
-  //     include: {
-  //       category: true,
-  //     },
-  //   });
-  // }
 
   async findByPaymentDate({
     start,

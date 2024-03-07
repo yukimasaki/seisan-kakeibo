@@ -5,6 +5,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import { TransactionService } from 'src/transaction/transaction.service';
 import { CreateTransactionComplex } from 'src/transaction/dto/create-transaction.dto';
 import { PaymentService } from 'src/payment/payment.service';
+import { BalanceService } from 'src/balance/balance.service';
 
 const prisma = new PrismaClient();
 
@@ -16,9 +17,12 @@ export const createTransaction = async () => {
   Array.from({ length: 30 }, async (_, index) => {
     const prismaService = new PrismaService();
     const paymentService = new PaymentService(prismaService);
+    const balanceService = new BalanceService(prismaService);
+
     const transactionService = new TransactionService(
       prismaService,
       paymentService,
+      balanceService,
     );
 
     const amount = randBetween(1000, 49999);
