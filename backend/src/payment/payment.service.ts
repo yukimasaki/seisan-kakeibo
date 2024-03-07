@@ -69,7 +69,8 @@ export class PaymentService {
   }): boolean {
     const totalRatios: number = createTransactionComplex.member.reduce(
       (acc, dto) => {
-        if (!dto.ratio) throw new BadRequestException();
+        if (dto.ratio === null || dto.ratio === undefined)
+          throw new BadRequestException();
         return acc + dto.ratio;
       },
       0,
