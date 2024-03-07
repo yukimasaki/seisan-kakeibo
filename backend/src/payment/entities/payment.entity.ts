@@ -29,15 +29,15 @@ export class Payment {
     example: '1200',
     description: '実際の支払額',
   })
-  @IsInt()
-  actualPaymentAmount: number;
+  @IsNumber()
+  finalBill: number;
 
   @ApiProperty({
     example: '1000',
     description: '既定の支払額',
   })
-  @IsInt()
-  defaultPaymentAmount: number;
+  @IsNumber()
+  balance: number;
 
   @ApiProperty({
     example: '200',

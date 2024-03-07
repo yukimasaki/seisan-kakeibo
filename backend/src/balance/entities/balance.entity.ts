@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsPositive, IsString } from 'class-validator';
+import { IsInt, IsNumber, IsPositive, IsString } from 'class-validator';
 import { PaymentStatus } from 'src/transaction/entities/transaction.entity';
 
 export class Balance {
@@ -31,7 +31,7 @@ export class Balance {
     example: '200',
     description: '残高',
   })
-  @IsInt()
+  @IsNumber()
   amount: number;
 
   @ApiProperty({
