@@ -315,11 +315,115 @@ describe('createPaymentDto', () => {
     ).toThrow('一人当たりの金額の合計と総額が一致しません');
   });
 
-  test.todo(
-    '[1-C] その他(method=RATIO または EVEN)の際、一人当たりの比率の合計が1と等しくない場合に例外をスローすること',
-  );
+  test('[1-C] method=RATIOの際、一人当たりの比率の合計が1と等しくない場合に例外をスローすること', () => {
+    const createTransactionComplex: CreateTransactionComplex = {
+      // CreateTransactionDto
+      creatorId: 1,
+      amount: 1000,
+      paymentDate: new Date(),
+      title: 'テストデータ',
+      memo: 'テストです。',
+      status: 'PENDING',
+      method: 'RATIO',
+      categoryId: 1,
+      groupId: 1,
 
-  test.todo(
-    '[1-C] その他(method=RATIO または EVEN)の際、一人当たりの金額の合計と総額が等しくない場合に例外をスローすること',
-  );
+      // BalanceInput
+      member: [
+        { userId: 1, ratio: 0.25, finalBill: 500, balance: 500 },
+        { userId: 2, ratio: 0, finalBill: 500, balance: 500 },
+      ],
+    };
+
+    expect(() =>
+      paymentService.createPaymentDto({
+        createTransactionComplex,
+        transactionId,
+      }),
+    ).toThrow('一人当たりの比率の合計が1ではありません');
+  });
+
+  test('[1-C] method=RATIOの際、一人当たりの金額の合計と総額が等しくない場合に例外をスローすること', () => {
+    const createTransactionComplex: CreateTransactionComplex = {
+      // CreateTransactionDto
+      creatorId: 1,
+      amount: 1000,
+      paymentDate: new Date(),
+      title: 'テストデータ',
+      memo: 'テストです。',
+      status: 'PENDING',
+      method: 'RATIO',
+      categoryId: 1,
+      groupId: 1,
+
+      // BalanceInput
+      member: [
+        { userId: 1, ratio: 0.25, finalBill: 499, balance: 500 },
+        { userId: 2, ratio: 0.75, finalBill: 500, balance: 500 },
+      ],
+    };
+
+    expect(() =>
+      paymentService.createPaymentDto({
+        createTransactionComplex,
+        transactionId,
+      }),
+    ).toThrow('一人当たりの金額の合計と総額が一致しません');
+  });
+
+  test('[1-C] method=EVENの際、一人当たりの比率の合計が1と等しくない場合に例外をスローすることと', () => {
+    const createTransactionComplex: CreateTransactionComplex = {
+      // CreateTransactionDto
+      creatorId: 1,
+      amount: 1000,
+      paymentDate: new Date(),
+      title: 'テストデータ',
+      memo: 'テストです。',
+      status: 'PENDING',
+      method: 'EVEN',
+      categoryId: 1,
+      groupId: 1,
+
+      // BalanceInput
+      member: [
+        { userId: 1, ratio: 0.25, finalBill: 500, balance: 500 },
+        { userId: 2, ratio: 0, finalBill: 500, balance: 500 },
+      ],
+    };
+
+    expect(() =>
+      paymentService.createPaymentDto({
+        createTransactionComplex,
+        transactionId,
+      }),
+    ).toThrow('一人当たりの比率の合計が1ではありません');
+  });
+
+  test('[1-C] method=EVENの際、一人当たりの金額の合計と総額が等しくない場合に例外をスローすること', () => {
+    const createTransactionComplex: CreateTransactionComplex = {
+      // CreateTransactionDto
+      creatorId: 1,
+      amount: 1000,
+      paymentDate: new Date(),
+      title: 'テストデータ',
+      memo: 'テストです。',
+      status: 'PENDING',
+      method: 'EVEN',
+      categoryId: 1,
+      groupId: 1,
+
+      // BalanceInput
+      member: [
+        { userId: 1, ratio: 0.5, finalBill: 499, balance: 500 },
+        { userId: 2, ratio: 0.5, finalBill: 500, balance: 500 },
+      ],
+    };
+
+    expect(() =>
+      paymentService.createPaymentDto({
+        createTransactionComplex,
+        transactionId,
+      }),
+    ).toThrow('一人当たりの金額の合計と総額が一致しません');
+  });
 });
