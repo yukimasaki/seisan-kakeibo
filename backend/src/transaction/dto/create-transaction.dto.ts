@@ -1,4 +1,4 @@
-import { PaymentMethod, Transaction } from '../entities/transaction.entity';
+import { Transaction } from '../entities/transaction.entity';
 import { IntersectionType, OmitType } from '@nestjs/swagger';
 
 export class CreateTransactionDto extends OmitType(Transaction, [
@@ -7,7 +7,6 @@ export class CreateTransactionDto extends OmitType(Transaction, [
 ]) {}
 
 class BalanceInput {
-  method: PaymentMethod;
   member: {
     userId: number;
     finalBill: number;
