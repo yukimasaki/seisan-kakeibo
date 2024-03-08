@@ -3,6 +3,7 @@ import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { CreateTransactionComplex } from 'src/transaction/dto/create-transaction.dto';
 import { CreatePaymentDto } from './dto/create-payment.dto';
+import { dot } from 'node:test/reporters';
 
 @Injectable()
 export class PaymentService {
@@ -89,6 +90,27 @@ export class PaymentService {
     return true;
   }
 
+  private validateTransactionComplex({
+    createTransactionComplex,
+  }: {
+    createTransactionComplex: CreateTransactionComplex;
+  }): void {
+    // 一人当たりの金額の合計と総額が等しいことを確認
+    this.isDividedTotalEqualToAmount({ createTransactionComplex });
+
+    // 一人当たりの比率の合計が1と等しいことを確認
+    if (createTransactionComplex.method !== 'AMOUNT_BASIS')
+      this.isTotalRatiosEqualToOne({ createTransactionComplex });
+
+    // 作成者が全額負担している場合の追加バリデーション
+    if (
+      createTransactionComplex.member.length === 1 ||
+      createTransactionComplex.method === 'NONE'
+    ) {
+      this.isCreatorFullyPaying({ createTransactionComplex });
+    }
+  }
+
   createPaymentDto({
     createTransactionComplex,
     transactionId,
@@ -96,66 +118,24 @@ export class PaymentService {
     createTransactionComplex: CreateTransactionComplex;
     transactionId: number;
   }): CreatePaymentDto[] {
-    // 1. バリデーション
-    // 1-A. 人数=1 または method=NONE の場合
-    if (
-      createTransactionComplex.member.length === 1 ||
-      createTransactionComplex.method === 'NONE'
-    ) {
-      // 作成者が全額負担していることを確認
-      this.isCreatorFullyPaying({ createTransactionComplex });
+    this.validateTransactionComplex({ createTransactionComplex });
 
-      const createPaymentDto: CreatePaymentDto[] =
-        createTransactionComplex.member.map((dto) => {
-          return {
-            payerId: dto.userId,
-            finalBill: dto.finalBill,
-            balance: dto.balance,
-            difference: dto.finalBill - dto.balance,
-            ratio: dto.ratio,
-            transactionId,
-          };
-        });
+    return createTransactionComplex.member.map((dto) => {
+      const baseDto: Omit<CreatePaymentDto, 'ratio'> = {
+        payerId: dto.userId,
+        finalBill: dto.finalBill,
+        balance: dto.balance,
+        difference: dto.finalBill - dto.balance,
+        transactionId,
+      };
+
+      const ratio =
+        createTransactionComplex.method === 'AMOUNT_BASIS' ? null : dto.ratio;
+
+      const createPaymentDto: CreatePaymentDto = { ...baseDto, ratio };
+
       return createPaymentDto;
-    }
-
-    // 1-B. method=AMOUNT_BASIS の場合
-    if (createTransactionComplex.method === 'AMOUNT_BASIS') {
-      // 一人当たりの金額の合計と総額が等しいことを確認
-      this.isDividedTotalEqualToAmount({ createTransactionComplex });
-
-      const createPaymentDto: CreatePaymentDto[] =
-        createTransactionComplex.member.map((dto) => {
-          return {
-            payerId: dto.userId,
-            finalBill: dto.finalBill,
-            balance: dto.balance,
-            difference: dto.finalBill - dto.balance,
-            ratio: null,
-            transactionId,
-          };
-        });
-      return createPaymentDto;
-    }
-
-    // 1-C. その他 (method=RATIO または EVEN) の場合
-    // 一人当たりの比率の合計が1と等しいことを確認
-    this.isTotalRatiosEqualToOne({ createTransactionComplex });
-    // 一人当たりの金額の合計と総額が等しいことを確認
-    this.isDividedTotalEqualToAmount({ createTransactionComplex });
-
-    const createPaymentDto: CreatePaymentDto[] =
-      createTransactionComplex.member.map((dto) => {
-        return {
-          payerId: dto.userId,
-          finalBill: dto.finalBill,
-          balance: dto.balance,
-          difference: dto.finalBill - dto.balance,
-          ratio: dto.ratio,
-          transactionId,
-        };
-      });
-    return createPaymentDto;
+    });
   }
 
   async findAll() {
