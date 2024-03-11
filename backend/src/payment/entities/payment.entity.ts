@@ -51,10 +51,9 @@ export class Payment {
     description: '負担割合 (最小値: 0、最大値: 1)',
   })
   @IsNumber()
-  @IsOptional()
   @Min(0)
   @Max(1)
-  ratio?: number;
+  ratio: number | null;
 
   @ApiProperty({
     example: '1',

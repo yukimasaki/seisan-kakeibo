@@ -25,8 +25,7 @@ class Member {
   @IsNumber()
   @Min(0)
   @Max(1)
-  @IsOptional()
-  ratio?: number;
+  ratio: number | null;
 
   @IsNumber()
   @IsOptional()
