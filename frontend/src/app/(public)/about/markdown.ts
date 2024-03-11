@@ -34,6 +34,7 @@ Keycloakによる認証・認可に対応しています。
 
 ### バックエンド
 - NestJS (TypeScript)
+- Prisma
 - PostgreSQL
 - Redis
 - Swagger
@@ -44,4 +45,5 @@ Keycloakによる認証・認可に対応しています。
 
 ### エディタ
 - Cursor
+- GPT-4 API
 `;
