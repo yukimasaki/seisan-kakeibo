@@ -39,6 +39,6 @@ export type Transaction = {
   balances: Balance[]; // Omit
 };
 
-export type CreateTransactionComplex = Transaction & BalanceInput;
+export type CreateTransactionComplex = CreateTransactionDto & BalanceInput;
 
 export type UpdateTransactionDto = Partial<CreateTransactionComplex>;
