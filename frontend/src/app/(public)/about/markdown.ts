@@ -44,7 +44,7 @@ Keycloakによる認証・認可に対応しています。
 - Keycloak
 
 ### テスト
-Jest
+- Jest
 
 ### エディタ
 - Cursor
