@@ -7,7 +7,7 @@ export type Payment = {
   defaultPaymentAmount: number;
   difference: number;
   method: string;
-  ratio: number;
+  ratio: number | null;
   transactionId: number;
   payer: User;
 };

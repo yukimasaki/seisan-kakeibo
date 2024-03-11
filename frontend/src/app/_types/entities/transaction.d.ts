@@ -1,10 +1,10 @@
 import { Balance } from "@type/entities/balance";
 import { Category } from "@type/entities/category";
 import { Payment } from "@type/entities/payment";
-import { PaymentType } from "../../(private)/transaction/transaction-server-action";
 
 // 割り勘方法
-export type PaymentType = "ratio" | "even" | "amount_basis";
+export type PaymentStatus = "PENDING" | "PROPOSED" | "COMPLETED";
+export type PaymentMethod = "RATIO" | "EVEN" | "AMOUNT_BASIS" | "NONE";
 
 // 共通
 export type CreateTransactionDto = Omit<
@@ -14,10 +14,10 @@ export type CreateTransactionDto = Omit<
 
 // 比率
 export type BalanceInput = {
-  method: PaymentType;
   member: {
     userId: number;
     finalBill: number;
+    ratio: number | null;
     balance: number;
   }[];
 };
@@ -30,7 +30,8 @@ export type Transaction = {
   paymentDate: Date;
   title: string;
   memo?: string;
-  status: string;
+  status: PaymentStatus;
+  method: PaymentMethod;
   categoryId: number;
   groupId: number;
   category: Category; // Omit
@@ -38,6 +39,6 @@ export type Transaction = {
   balances: Balance[]; // Omit
 };
 
-export type CreateTransactionComplex = CreateTransactionDto & BalanceInput;
+export type CreateTransactionComplex = Transaction & BalanceInput;
 
 export type UpdateTransactionDto = Partial<CreateTransactionComplex>;
