@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && pm2 startOrRestart ecosystem.config.cjs"
+    "deploy": "next build && pm2 startOrRestart ecosystem.config.cjs",
+    "test": "jest",
+    "test:cov": "jest --coverage"
   },
   "dependencies": {
     "@nextui-org/react": "^2.2.9",
