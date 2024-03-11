@@ -4,14 +4,18 @@ import { ParagraphComponent } from "@components/text/paragraph";
 import { Input } from "@nextui-org/react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { PaymentType } from "@type/entities/transaction";
+import { PaymentMethod } from "@type/entities/transaction";
 
-export const BalanceInputComponent = ({ method }: { method: PaymentType }) => {
+export const BalanceInputComponent = ({
+  method,
+}: {
+  method: PaymentMethod;
+}) => {
   const { data: session } = useSession();
   const members = session?.profile.activeGroup.members;
 
   const unit = (() => {
-    if (method === "ratio") return "%";
+    if (method === "RATIO") return "%";
     return "円";
   })();
 
