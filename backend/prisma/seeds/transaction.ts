@@ -43,22 +43,26 @@ export const createTransaction = async () => {
       member: [
         {
           userId: 1,
-          balance: 0.25,
+          ratio: 0.25,
+          balance: null,
           finalBill: amount * 0.25,
         },
         {
           userId: 2,
-          balance: 0.25,
+          ratio: 0.25,
+          balance: null,
           finalBill: amount * 0.25,
         },
         {
           userId: 3,
-          balance: 0.25,
+          ratio: 0.25,
+          balance: null,
           finalBill: amount * 0.25,
         },
         {
           userId: 4,
-          balance: 0.25,
+          ratio: 0.25,
+          balance: null,
           finalBill: amount * 0.25,
         },
       ],
