@@ -18,10 +18,11 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@prisma*": ["prisma*"],
-      "@decorators*": ["src/common/decorators*"],
-      "@interfaces*": ["src/common/interfaces*"],
-      "@master*": ["src/common/master*"]
+      "@root/*": ["../common/*"],
+      "@backend/prisma*": ["prisma*"],
+      "@backend/decorators*": ["src/common/decorators*"],
+      "@backend/interfaces*": ["src/common/interfaces*"],
+      "@backend/master*": ["src/common/master*"]
     }
   }
 }
