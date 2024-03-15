@@ -3,7 +3,7 @@
   "workspaces": [
     "backend",
     "frontend",
-    "types"
+    "common"
   ],
   "scripts": {
     "front:dev": "yarn workspace frontend next dev",
