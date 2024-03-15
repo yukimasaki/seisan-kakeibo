@@ -18,6 +18,6 @@
     "back:deploy": "yarn back:build && yarn back:start",
     "back:test": "yarn workspace backend nest jest",
     "back:test:cov": "yarn workspace backend jest --coverage",
-    "back:share": "yarn workspace backend npx tsc -w -p ./tsconfig.share.json --emitDeclarationOnly"
+    "back:share": "yarn workspace backend tsc -w -p ../backend/tsconfig.share.json --emitDeclarationOnly"
   }
 }
