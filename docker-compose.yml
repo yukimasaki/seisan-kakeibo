@@ -10,26 +10,30 @@ volumes:
     driver: local
 
 services:
-  # frontend
-  frontend:
-    container_name: seisan-kakeibo-frontend
+  root:
+    container_name: seisan-kakeibo-root
     networks:
       default:
       reverse-proxy-network:
         aliases:
-          - seisan-kakeibo-frontend-container
+          - seisan-kakeibo-root-container
     build:
       context: .
       dockerfile: ./Dockerfile.frontend
     ports:
+      # Next.js
       - 3002:3000
+      # NestJS
+      - 3003:3030
+      # Prisma Studio
+      - 5555:5555
     volumes:
-      - ./frontend:/work
-      - seisan-kakeibo-frontend_node_modules:/work/node_modules
+      - ./project:/work
+      - seisan-kakeibo-frontend_node_modules:/work/frontend/node_modules
     tty: true
     restart: always
 
-  # backend
+  # db
   backend-postgres:
     container_name: seisan-kakeibo-backend-postgres
     networks:
@@ -49,26 +53,6 @@ services:
     tty: true
     restart: always
 
-  backend:
-    container_name: seisan-kakeibo-backend
-    networks:
-      default:
-      reverse-proxy-network:
-        aliases:
-          - seisan-kakeibo-backend-container
-    build:
-      context: .
-      dockerfile: ./Dockerfile.backend
-    ports:
-      # for NestJS
-      - 3003:3000
-      # for Prisma Studio
-      - 5555:5555
-    volumes:
-      - ./backend:/work
-    tty: true
-    restart: always
-
   redis:
     container_name: redis
     networks:
@@ -80,5 +64,5 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ./backend/redis-data:/data
+      - ./project/backend/redis-data:/data
     restart: always
