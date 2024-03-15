@@ -1,6 +1,6 @@
-import { Balance } from "@type/entities/balance";
-import { Category } from "@type/entities/category";
-import { Payment } from "@type/entities/payment";
+import { Balance } from "@frontend/types/entities/balance";
+import { Category } from "@frontend/types/entities/category";
+import { Payment } from "@frontend/types/entities/payment";
 
 // 割り勘方法
 export type PaymentStatus = "PENDING" | "PROPOSED" | "COMPLETED";

@@ -1,9 +1,9 @@
 "use server";
 
-import { NavBar } from "@components/navbar/NavBar";
+import { NavBar } from "@frontend/components/navbar/NavBar";
 import { GroupCreateFormComponent } from "./group-create-form";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@common/next-auth/options";
+import { authOptions } from "@frontend/common/next-auth/options";
 import { GroupMemberListComponent } from "./group-member-list";
 import { SelectActiveGroup } from "./select-active-group";
 

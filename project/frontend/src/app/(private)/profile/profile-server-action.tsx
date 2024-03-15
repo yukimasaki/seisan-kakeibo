@@ -1,7 +1,7 @@
 "use server";
 
-import { authOptions } from "@common/next-auth/options";
-import { ServerActionResult } from "@type/server-actions";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { ServerActionResult } from "@frontend/types/server-actions";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -26,7 +26,7 @@ export const upsertProfile = async (
   prevState: {
     message: string | null;
   },
-  formData: FormData
+  formData: FormData,
 ): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
@@ -73,7 +73,7 @@ export const validateOnBlurEmail = async (
   prevState: {
     message: string | null;
   },
-  value: string
+  value: string,
 ) => {
   try {
     EmailSchema.parse({
@@ -99,7 +99,7 @@ export const validateOnBlurUserName = async (
   prevState: {
     message: string | null;
   },
-  value: string
+  value: string,
 ) => {
   try {
     UserNameSchema.parse({

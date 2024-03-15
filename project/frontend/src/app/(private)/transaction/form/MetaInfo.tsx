@@ -1,6 +1,6 @@
 "use client";
 
-import { MemberResponse } from "@type/entities/member";
+import { MemberResponse } from "@frontend/types/entities/member";
 import { useSession } from "next-auth/react";
 
 export const MetaInfoComponent = () => {

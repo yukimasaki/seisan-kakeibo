@@ -1,12 +1,12 @@
 "use server";
 
-import { authOptions } from "@common/next-auth/options";
-import { ServerActionResult } from "@type/server-actions";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { ServerActionResult } from "@frontend/types/server-actions";
 import {
   CreateTransactionDto,
   CreateTransactionComplex,
   PaymentType,
-} from "@type/entities/transaction";
+} from "@frontend/types/entities/transaction";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -39,7 +39,7 @@ const CreateTransactionSchema = CreateTransactionDtoSchema.extend({
       userId: z.number(),
       finalBill: z.number(),
       balance: z.number(),
-    })
+    }),
   ),
 }) satisfies z.ZodType<CreateTransactionComplex>;
 
@@ -48,7 +48,7 @@ export const createTransaction = async (
   prevState: {
     message: string | null;
   },
-  formData: FormData
+  formData: FormData,
 ): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
@@ -101,7 +101,7 @@ export const createTransaction = async (
   const initialValue = 0;
   const totalFinalBill = member.reduce(
     (accumulator, currentValue) => accumulator + currentValue.finalBill,
-    initialValue
+    initialValue,
   );
 
   if (totalFinalBill !== amount) {
@@ -115,7 +115,7 @@ export const createTransaction = async (
 
   const totalBalance = member.reduce(
     (accumulator, currentValue) => accumulator + currentValue.balance,
-    initialValue
+    initialValue,
   );
   if (method === "ratio") {
     if (totalBalance !== 100) {
@@ -143,13 +143,13 @@ export const createTransaction = async (
     {
       method: "POST",
       body: JSON.stringify(
-        createTransactionComplex.data satisfies CreateTransactionComplex
+        createTransactionComplex.data satisfies CreateTransactionComplex,
       ),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
   if (!response.ok)
     return {
@@ -186,7 +186,7 @@ export const validateOnBlur = async (
     method: PaymentType;
     key: Keys;
     value: unknown;
-  }
+  },
 ): Promise<{ message: Map<Keys, string> }> => {
   const schema = CreateTransactionSchema.pick({ [key]: true });
 

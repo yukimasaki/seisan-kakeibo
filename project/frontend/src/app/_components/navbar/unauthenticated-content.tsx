@@ -1,7 +1,7 @@
 "use client";
 
-import { LoginButtonComponent } from "@components/button/login";
-import { useNavMenu } from "@hooks/useToggle";
+import { LoginButtonComponent } from "@frontend/components/button/login";
+import { useNavMenu } from "@frontend/hooks/useToggle";
 import {
   Link,
   Navbar,

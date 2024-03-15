@@ -1,7 +1,7 @@
 "use client";
 
-import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
-import { showToast } from "@components/toast/toast";
+import { ListboxWrapperComponent } from "@frontend/components/layout/list-box-wrapper";
+import { showToast } from "@frontend/components/toast/toast";
 import { Button, Listbox, ListboxItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";

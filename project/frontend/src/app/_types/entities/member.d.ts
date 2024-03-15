@@ -1,5 +1,5 @@
-import { Group } from "@type/entities/group";
-import { User } from "@type/entities/user";
+import { Group } from "@frontend/types/entities/group";
+import { User } from "@frontend/types/entities/user";
 
 export type Member = {
   userId: number;

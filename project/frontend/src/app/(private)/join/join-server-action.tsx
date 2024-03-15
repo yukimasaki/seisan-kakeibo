@@ -1,15 +1,15 @@
 "use server";
 
-import { authOptions } from "@common/next-auth/options";
-import { CreateMemberDto } from "@type/entities/member";
-import { ServerActionResult } from "@type/server-actions";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { CreateMemberDto } from "@frontend/types/entities/member";
+import { ServerActionResult } from "@frontend/types/server-actions";
 import { getServerSession } from "next-auth";
 
 export const joinGroup = async (
   prevState: {
     message: string | null;
   },
-  formData: FormData
+  formData: FormData,
 ): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
@@ -48,7 +48,7 @@ export const joinGroup = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
   if (!createMemberResponse.ok) {
     if (createMemberResponse.status === 409) {
@@ -86,7 +86,7 @@ export const joinGroup = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   return {

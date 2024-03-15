@@ -1,4 +1,4 @@
-import { Toggle } from "@type/toggle";
+import { Toggle } from "@frontend/types/toggle";
 import { create } from "zustand";
 
 const definition = (
@@ -7,9 +7,9 @@ const definition = (
       | Toggle
       | Partial<Toggle>
       | ((state: Toggle) => Toggle | Partial<Toggle>),
-    replace?: boolean | undefined
+    replace?: boolean | undefined,
   ) => void,
-  get: () => Toggle
+  get: () => Toggle,
 ) =>
   ({
     isOpen: false,
@@ -25,7 +25,7 @@ const definition = (
       set({
         isOpen: !get().isOpen,
       }),
-  } satisfies Toggle);
+  }) satisfies Toggle;
 
 export const useModalForm = create<Toggle>(definition);
 export const useNavMenu = create<Toggle>(definition);

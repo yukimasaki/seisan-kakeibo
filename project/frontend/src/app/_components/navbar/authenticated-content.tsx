@@ -1,8 +1,8 @@
 "use client";
 
-import { LogoutButtonComponent } from "@components/button/logout";
-import { NavMenu } from "@components/navbar/NavMenu";
-import { useNavMenu } from "@hooks/useToggle";
+import { LogoutButtonComponent } from "@frontend/components/button/logout";
+import { NavMenu } from "@frontend/components/navbar/NavMenu";
+import { useNavMenu } from "@frontend/hooks/useToggle";
 import {
   Link,
   Navbar,

@@ -1,5 +1,5 @@
-import { authOptions } from "@common/next-auth/options";
-import { UserResponse } from "@type/entities/user";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { UserResponse } from "@frontend/types/entities/user";
 import { getServerSession } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
@@ -52,7 +52,7 @@ export const fetchMyProfile = async (token: JWT): Promise<UserResponse> => {
       headers: {
         Authorization: `Bearer ${token.accessToken}`,
       },
-    }
+    },
   );
 
   const data: UserResponse =

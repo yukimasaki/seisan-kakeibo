@@ -1,5 +1,5 @@
-import { GroupResponse } from "@type/entities/group";
-import { Member, MemberResponse } from "@type/entities/member";
+import { GroupResponse } from "@frontend/types/entities/group";
+import { Member, MemberResponse } from "@frontend/types/entities/member";
 
 export type User = {
   id: number;

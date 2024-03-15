@@ -1,6 +1,6 @@
 "use client";
 
-import { ParagraphComponent } from "@components/text/paragraph";
+import { ParagraphComponent } from "@frontend/components/text/paragraph";
 import { Input } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { useState } from "react";

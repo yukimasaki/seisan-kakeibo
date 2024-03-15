@@ -1,7 +1,7 @@
 "use client";
 
-import { pages } from "@components/navbar/pages";
-import { useNavMenu } from "@hooks/useToggle";
+import { pages } from "@frontend/components/navbar/pages";
+import { useNavMenu } from "@frontend/hooks/useToggle";
 import {
   Link,
   NavbarMenu,

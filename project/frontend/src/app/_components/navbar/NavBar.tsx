@@ -1,8 +1,8 @@
 "use server";
 
-import { authOptions } from "@common/next-auth/options";
-import { NavBarAuthenticatedContentComponent } from "@components/navbar/authenticated-content";
-import { NavBarUnauthenticatedContentComponent } from "@components/navbar/unauthenticated-content";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { NavBarAuthenticatedContentComponent } from "@frontend/components/navbar/authenticated-content";
+import { NavBarUnauthenticatedContentComponent } from "@frontend/components/navbar/unauthenticated-content";
 import { getServerSession } from "next-auth";
 
 export const NavBar = async () => {

@@ -1,7 +1,7 @@
 "use client";
 
-import { FetchError, fetcher } from "@common/fetcher";
-import { Icon } from "@components/icon/icon";
+import { FetchError, fetcher } from "@frontend/common/fetcher";
+import { Icon } from "@frontend/components/icon/icon";
 import {
   Card,
   CardHeader,
@@ -16,7 +16,7 @@ import {
   TableRow,
   TableCell,
 } from "@nextui-org/react";
-import { Transaction } from "@type/entities/transaction";
+import { Transaction } from "@frontend/types/entities/transaction";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { useSession } from "next-auth/react";
@@ -51,7 +51,7 @@ export const TransactionDetailComponent = () => {
       onErrorRetry: (error) => {
         if (!error.ok) return;
       },
-    }
+    },
   );
 
   const loadingState =

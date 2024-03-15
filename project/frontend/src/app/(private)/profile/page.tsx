@@ -1,9 +1,9 @@
 "use server";
 
-import { NavBar } from "@components/navbar/NavBar";
+import { NavBar } from "@frontend/components/navbar/NavBar";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@common/next-auth/options";
-import { UserResponse } from "@type/entities/user";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { UserResponse } from "@frontend/types/entities/user";
 import { ProfileFormComponent } from "./profile-form";
 
 const ProfilePage = async () => {
@@ -17,7 +17,7 @@ const ProfilePage = async () => {
       headers: {
         Authorization: `Bearer ${session?.user.accessToken}`,
       },
-    }
+    },
   );
 
   const data: UserResponse = await response.json();

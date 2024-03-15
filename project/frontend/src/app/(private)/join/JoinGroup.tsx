@@ -1,8 +1,8 @@
 "use client";
 
-import { FetchError, fetcher } from "@common/fetcher";
-import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
-import { ParagraphComponent } from "@components/text/paragraph";
+import { FetchError, fetcher } from "@frontend/common/fetcher";
+import { PositionCenterWrapperComponent } from "@frontend/components/layout/position-center-wrapper";
+import { ParagraphComponent } from "@frontend/components/text/paragraph";
 import {
   Button,
   Card,
@@ -11,14 +11,14 @@ import {
   CardHeader,
   Spinner,
 } from "@nextui-org/react";
-import { FindInviteResponse } from "@type/entities/invite";
+import { FindInviteResponse } from "@frontend/types/entities/invite";
 import { useSearchParams } from "next/navigation";
 import { useFormState } from "react-dom";
 import useSWR from "swr";
 import { joinGroup } from "./join-server-action";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { showToast } from "@components/toast/toast";
+import { showToast } from "@frontend/components/toast/toast";
 import { InvalidInviteToken } from "./InvalidInviteToken";
 
 export const JoinGroup = () => {
@@ -44,7 +44,7 @@ export const JoinGroup = () => {
       onErrorRetry: (error) => {
         if (!error.ok) return;
       },
-    }
+    },
   );
 
   const [messageAfterSubmit, formAction] = useFormState(joinGroup, {

@@ -10,10 +10,10 @@ import {
 } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
-import { UserResponse } from "@type/entities/user";
+import { PositionCenterWrapperComponent } from "@frontend/components/layout/position-center-wrapper";
+import { UserResponse } from "@frontend/types/entities/user";
 import { useSession } from "next-auth/react";
-import { showToast } from "@components/toast/toast";
+import { showToast } from "@frontend/components/toast/toast";
 import {
   upsertProfile,
   validateOnBlurEmail,
@@ -36,14 +36,14 @@ export const ProfileFormComponent = ({ user }: { user: UserResponse }) => {
     validateOnBlurEmail,
     {
       message: null,
-    }
+    },
   );
 
   const [userNameValidateState, validateUserNameAction] = useFormState(
     validateOnBlurUserName,
     {
       message: null,
-    }
+    },
   );
 
   const uuid = user.uuid;

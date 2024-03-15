@@ -1,4 +1,4 @@
-import { Icon } from "@components/icon/icon";
+import { Icon } from "@frontend/components/icon/icon";
 
 const iconClasses = "text-xl text-blue-500 pointer-events-none flex-shrink-0";
 

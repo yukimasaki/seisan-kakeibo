@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@components/icon/icon";
+import { Icon } from "@frontend/components/icon/icon";
 import {
   Button,
   Input,
@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
   useDisclosure,
 } from "@nextui-org/react";
-import { CalendarStore, DayLabel, Summary } from "@type/calendar";
+import { CalendarStore, DayLabel, Summary } from "@frontend/types/calendar";
 import dayjs from "dayjs";
 import { StoreApi, UseBoundStore } from "zustand";
 
@@ -142,7 +142,7 @@ export const Calendar = ({
             variant="flat"
             onPress={() =>
               calendarStore.setCurrentYearMonth(
-                calendarStore.currentYearMonth.subtract(1, "month")
+                calendarStore.currentYearMonth.subtract(1, "month"),
               )
             }
           >
@@ -153,7 +153,7 @@ export const Calendar = ({
             variant="flat"
             onPress={() =>
               calendarStore.setCurrentYearMonth(
-                calendarStore.currentYearMonth.add(1, "month")
+                calendarStore.currentYearMonth.add(1, "month"),
               )
             }
           >

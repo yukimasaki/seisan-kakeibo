@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@nextui-org/react";
-import { Icon } from "@components/icon/icon";
+import { Icon } from "@frontend/components/icon/icon";
 import { inviteGroup } from "../../(private)/group/group-server-action";
 import { usePathname } from "next/navigation";
-import { useRootPath } from "@hooks/useRootPath";
+import { useRootPath } from "@frontend/hooks/useRootPath";
 
 // https://zenn.dev/mr_ozin/articles/89329c5209d8da#share-api
 export const Invite = ({

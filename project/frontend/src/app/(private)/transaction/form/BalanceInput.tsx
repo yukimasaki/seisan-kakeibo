@@ -1,10 +1,10 @@
 "use client";
 
-import { ParagraphComponent } from "@components/text/paragraph";
+import { ParagraphComponent } from "@frontend/components/text/paragraph";
 import { Input } from "@nextui-org/react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
-import { PaymentMethod } from "@type/entities/transaction";
+import { PaymentMethod } from "@frontend/types/entities/transaction";
 
 export const BalanceInputComponent = ({
   method,

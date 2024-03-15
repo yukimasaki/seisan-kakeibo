@@ -1,5 +1,5 @@
-import { Summary } from "@type/calendar";
-import { Transaction } from "@type/entities/transaction";
+import { Summary } from "@frontend/types/calendar";
+import { Transaction } from "@frontend/types/entities/transaction";
 import dayjs from "dayjs";
 
 const reduce = (transactions: Transaction[]): Map<string, number> => {
@@ -13,7 +13,7 @@ const reduce = (transactions: Transaction[]): Map<string, number> => {
       // Map内に既に存在する日付の場合、金額を加算
       summaryMap.set(
         paymentDateStr,
-        (summaryMap.get(paymentDateStr) || 0) + amount
+        (summaryMap.get(paymentDateStr) || 0) + amount,
       );
     } else {
       // Map内に存在しない日付の場合、金額を初期化
@@ -45,7 +45,7 @@ export const createSummary = ({
         label: "",
         date: "",
         amount: 0,
-      })
+      }),
     );
 
     const reducedAmountPerDay = reduce(transactions);
@@ -72,7 +72,7 @@ export const createSummary = ({
         id: idx + 1,
         label: "",
         date: "",
-      })
+      }),
     );
 
     const filledData: Summary[] = Array.from({ length: endDate }, (_, idx) => {

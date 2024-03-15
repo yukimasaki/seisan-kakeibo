@@ -1,8 +1,8 @@
 "use server";
 
-import { authOptions } from "@common/next-auth/options";
-import { LoginButtonComponent } from "@components/button/login";
-import { LogoutButtonComponent } from "@components/button/logout";
+import { authOptions } from "@frontend/common/next-auth/options";
+import { LoginButtonComponent } from "@frontend/components/button/login";
+import { LogoutButtonComponent } from "@frontend/components/button/logout";
 import { getServerSession } from "next-auth";
 
 export const SwitchButton = async () => {

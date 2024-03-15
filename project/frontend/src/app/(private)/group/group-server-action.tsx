@@ -1,10 +1,16 @@
 "use server";
 
-import { authOptions } from "@common/next-auth/options";
-import { CreateGroupAndMemberDto, GroupResponse } from "@type/entities/group";
-import { CreateInviteDto, CreateInviteResponse } from "@type/entities/invite";
-import { UserResponse } from "@type/entities/user";
-import { ServerActionResult } from "@type/server-actions";
+import { authOptions } from "@frontend/common/next-auth/options";
+import {
+  CreateGroupAndMemberDto,
+  GroupResponse,
+} from "@frontend/types/entities/group";
+import {
+  CreateInviteDto,
+  CreateInviteResponse,
+} from "@frontend/types/entities/invite";
+import { UserResponse } from "@frontend/types/entities/user";
+import { ServerActionResult } from "@frontend/types/server-actions";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -23,7 +29,7 @@ export const createGroup = async (
   prevState: {
     message: string | null;
   },
-  formData: FormData
+  formData: FormData,
 ): Promise<ServerActionResult> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
@@ -44,7 +50,7 @@ export const createGroup = async (
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   const user: UserResponse = await profileResponse.json();
@@ -76,7 +82,7 @@ export const createGroup = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   const parsedGroupResponse: GroupResponse = await groupResponse.json();
@@ -93,7 +99,7 @@ export const createGroup = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   const result: ServerActionResult = {
@@ -108,7 +114,7 @@ export const validateOnBlurDisplayName = async (
   prevState: {
     message: string | null;
   },
-  value: string
+  value: string,
 ) => {
   try {
     DisplayNameSchema.parse({
@@ -131,7 +137,7 @@ export const validateOnBlurDisplayName = async (
 };
 
 export const inviteGroup = async (
-  groupId: number
+  groupId: number,
 ): Promise<CreateInviteResponse> => {
   const session = await getServerSession(authOptions);
   const token = session?.user.accessToken;
@@ -147,7 +153,7 @@ export const inviteGroup = async (
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   const inviteToken = await response.json();

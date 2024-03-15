@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@components/icon/icon";
+import { Icon } from "@frontend/components/icon/icon";
 import { Button } from "@nextui-org/react";
 
 export const FilterButtonComponent = () => {

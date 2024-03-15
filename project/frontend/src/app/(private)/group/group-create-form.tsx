@@ -5,7 +5,7 @@ import { useFormState } from "react-dom";
 import { createGroup, validateOnBlurDisplayName } from "./group-server-action";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { showToast } from "@components/toast/toast";
+import { showToast } from "@frontend/components/toast/toast";
 
 export const GroupCreateFormComponent = ({}: {}) => {
   const [messageAfterSubmit, formAction] = useFormState(createGroup, {
@@ -18,7 +18,7 @@ export const GroupCreateFormComponent = ({}: {}) => {
     validateOnBlurDisplayName,
     {
       message: null,
-    }
+    },
   );
 
   const [displayName, setDisplayName] = useState<string>("");

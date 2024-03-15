@@ -1,4 +1,4 @@
-import { Member, MemberResponse } from "@type/entities/member";
+import { Member, MemberResponse } from "@frontend/types/entities/member";
 import { User } from "./user";
 
 export type Group = {

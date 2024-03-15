@@ -1,7 +1,7 @@
 "use client";
 
-import { H1Component } from "@components/text/heading";
-import { ParagraphComponent } from "@components/text/paragraph";
+import { H1Component } from "@frontend/components/text/heading";
+import { ParagraphComponent } from "@frontend/components/text/paragraph";
 import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
 
 export const HomePage = () => {

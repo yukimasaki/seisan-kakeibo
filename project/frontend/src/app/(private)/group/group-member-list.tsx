@@ -1,10 +1,10 @@
 "use client";
 
-import { Invite } from "@components/button/Invite";
-import { DeleteButtonComponent } from "@components/button/delete";
-import { ListboxWrapperComponent } from "@components/layout/list-box-wrapper";
-import { PositionCenterWrapperComponent } from "@components/layout/position-center-wrapper";
-import { ParagraphComponent } from "@components/text/paragraph";
+import { Invite } from "@frontend/components/button/Invite";
+import { DeleteButtonComponent } from "@frontend/components/button/delete";
+import { ListboxWrapperComponent } from "@frontend/components/layout/list-box-wrapper";
+import { PositionCenterWrapperComponent } from "@frontend/components/layout/position-center-wrapper";
+import { ParagraphComponent } from "@frontend/components/text/paragraph";
 import {
   Card,
   CardBody,

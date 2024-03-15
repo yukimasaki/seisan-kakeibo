@@ -1,6 +1,6 @@
 "use server";
 
-import { NavBar } from "@components/navbar/NavBar";
+import { NavBar } from "@frontend/components/navbar/NavBar";
 import { JoinGroup } from "./JoinGroup";
 
 const JoinPage = async () => {
