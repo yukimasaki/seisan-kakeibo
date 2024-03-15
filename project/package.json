@@ -4,5 +4,15 @@
     "backend",
     "frontend",
     "types"
-  ]
+  ],
+  "scripts": {
+    "front:dev": "yarn workspace frontend next dev",
+    "front:deploy": "yarn workspace frontend next build && pm2 startOrRestart ./frontend/ecosystem.config.cjs",
+    "front:test": "yarn workspace frontend jest",
+    "front:test:cov": "yarn workspace frontend jest --coverage",
+    "back:dev": "yarn workspace backend nest start --watch",
+    "back:deploy": "yarn workspace backend nest build && pm2 startOrRestart ./backend/ecosystem.config.cjs",
+    "back:test": "yarn workspace backend nest jest",
+    "back:test:cov": "yarn workspace backend jest --coverage"
+  }
 }
