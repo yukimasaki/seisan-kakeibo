@@ -19,10 +19,9 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@root/*": ["../common/*"],
-      "@backend/prisma*": ["prisma*"],
-      "@backend/decorators*": ["src/common/decorators*"],
-      "@backend/interfaces*": ["src/common/interfaces*"],
-      "@backend/master*": ["src/common/master*"]
+      "@backend/decorators/*": ["src/common/decorators/*"],
+      "@backend/interfaces/*": ["src/common/interfaces/*"],
+      "@backend/master/*": ["src/common/master/*"]
     }
   }
 }
