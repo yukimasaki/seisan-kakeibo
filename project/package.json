@@ -7,12 +7,17 @@
   ],
   "scripts": {
     "front:dev": "yarn workspace frontend next dev",
-    "front:deploy": "yarn workspace frontend next build && pm2 startOrRestart ./frontend/ecosystem.config.cjs",
+    "front:build": "yarn workspace frontend next build",
+    "front:start": "pm2 startOrRestart ./frontend/ecosystem.config.cjs",
+    "front:deploy": "yarn front:build && yarn front:start",
     "front:test": "yarn workspace frontend jest",
     "front:test:cov": "yarn workspace frontend jest --coverage",
     "back:dev": "yarn workspace backend nest start --watch",
-    "back:deploy": "yarn workspace backend nest build && pm2 startOrRestart ./backend/ecosystem.config.cjs",
+    "back:build": "yarn workspace backend next build",
+    "back:start": "pm2 startOrRestart ./backend/ecosystem.config.cjs",
+    "back:deploy": "yarn back:build && yarn back:start",
     "back:test": "yarn workspace backend nest jest",
-    "back:test:cov": "yarn workspace backend jest --coverage"
+    "back:test:cov": "yarn workspace backend jest --coverage",
+    "back:share": "yarn workspace backend npx tsc -w -p ./tsconfig.share.json --emitDeclarationOnly"
   }
 }
