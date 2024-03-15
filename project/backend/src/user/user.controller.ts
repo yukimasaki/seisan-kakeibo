@@ -20,7 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
+import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
 import { UtilityService } from 'src/common/services/utility.service';
 
 @Controller('users')

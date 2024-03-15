@@ -18,7 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Group } from './entities/group.entity';
-import { SummarizeApiResponse } from '@decorators/summarize-api-response.decorator';
+import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
 
 @Controller('groups')
 @ApiTags('/groups')

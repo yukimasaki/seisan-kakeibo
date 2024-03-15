@@ -8,7 +8,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { User, UserResponse } from './entities/user.entity';
-import { AccessToken } from '@interfaces/access-token.interface';
+import { AccessToken } from '@backend/interfaces/access-token.interface';
 import { UtilityService } from 'src/common/services/utility.service';
 
 @Injectable()
