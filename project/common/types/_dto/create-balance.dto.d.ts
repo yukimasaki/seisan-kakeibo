@@ -1,4 +1,4 @@
-import { Balance } from "../entities/balance.entity";
+import { Balance } from '@entity/balance.entity';
 declare const CreateBalanceDto_base: import("@nestjs/common").Type<Omit<Balance, "id">>;
 export declare class CreateBalanceDto extends CreateBalanceDto_base {
 }

@@ -1,5 +1,5 @@
 import { Member } from '@prisma/client';
-import { User } from 'src/user/entities/user.entity';
+import { User } from './user.entity';
 export declare class Group {
     id: number;
     creatorId: number;

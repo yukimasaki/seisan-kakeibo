@@ -1,4 +1,4 @@
-import { Group } from '../entities/group.entity';
+import { Group } from '@entity/group.entity';
 declare const CreateGroupDto_base: import("@nestjs/common").Type<Omit<Group, "id" | "uuid">>;
 export declare class CreateGroupDto extends CreateGroupDto_base {
 }

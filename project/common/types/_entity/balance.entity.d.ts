@@ -1,4 +1,4 @@
-import { PaymentStatus } from 'src/transaction/entities/transaction.entity';
+import { PaymentStatus } from './transaction.entity';
 export declare class Balance {
     id: number;
     lenderId: number;

@@ -1,5 +1,5 @@
-import { GroupResponse } from 'src/group/entities/group.entity';
-import { MemberResponse } from 'src/member/entities/member.entity';
+import { MemberResponse } from './member.entity';
+import { GroupResponse } from './group.entity';
 export declare class User {
     id: number;
     uuid: string;

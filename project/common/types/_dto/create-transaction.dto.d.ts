@@ -1,4 +1,4 @@
-import { Transaction } from '../entities/transaction.entity';
+import { Transaction } from '@entity/transaction.entity';
 declare const CreateTransactionDto_base: import("@nestjs/common").Type<Omit<Transaction, "id" | "editorId">>;
 export declare class CreateTransactionDto extends CreateTransactionDto_base {
 }

@@ -1,5 +1,5 @@
-import { Group } from 'src/group/entities/group.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Group } from './group.entity';
+import { User } from './user.entity';
 export declare class Member {
     userId: number;
     groupId: number;

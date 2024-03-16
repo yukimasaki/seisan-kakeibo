@@ -1,4 +1,4 @@
-import { GroupResponse } from 'src/group/entities/group.entity';
+import { GroupResponse } from './group.entity';
 export declare class Invite {
     token: string;
     groupId: number;
