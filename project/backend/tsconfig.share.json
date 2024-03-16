@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["./src/**/*.dto.ts", "./src/**/*.entity.ts"],
+  "include": ["./src/_dto/*.dto.ts", "./src/_entity/*.entity.ts"],
   "compilerOptions": {
     "outDir": "../common/types"
   }
