@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNumber, IsPositive, IsString } from 'class-validator';
-import { PaymentStatus } from 'src/transaction/entities/transaction.entity';
+import { PaymentStatus } from './transaction.entity';
 
 export class Balance {
   @ApiProperty({

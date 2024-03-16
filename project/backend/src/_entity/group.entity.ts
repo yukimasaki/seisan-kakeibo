@@ -7,7 +7,7 @@ import {
   IsUUID,
   MaxLength,
 } from 'class-validator';
-import { User } from 'src/user/entities/user.entity';
+import { User } from './user.entity';
 
 export class Group {
   @ApiProperty({

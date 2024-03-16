@@ -1,5 +1,5 @@
 import { IntersectionType, OmitType, PickType } from '@nestjs/swagger';
-import { Group } from '../entities/group.entity';
+import { Group } from '@entity/group.entity';
 
 export class CreateGroupDto extends OmitType(Group, ['id', 'uuid']) {}
 

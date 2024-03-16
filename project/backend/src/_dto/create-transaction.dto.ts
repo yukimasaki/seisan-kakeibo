@@ -6,7 +6,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { Transaction } from '../entities/transaction.entity';
+import { Transaction } from '@entity/transaction.entity';
 import { IntersectionType, OmitType } from '@nestjs/swagger';
 
 export class CreateTransactionDto extends OmitType(Transaction, [

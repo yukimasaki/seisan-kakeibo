@@ -1,5 +1,3 @@
-import { GroupResponse } from 'src/group/entities/group.entity';
-import { MemberResponse } from 'src/member/entities/member.entity';
 import { ApiProperty, IntersectionType, OmitType } from '@nestjs/swagger';
 import {
   IsEmail,
@@ -9,6 +7,8 @@ import {
   IsUUID,
   MaxLength,
 } from 'class-validator';
+import { MemberResponse } from './member.entity';
+import { GroupResponse } from './group.entity';
 
 export class User {
   @ApiProperty({

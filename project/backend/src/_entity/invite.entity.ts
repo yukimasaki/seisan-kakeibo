@@ -1,5 +1,5 @@
 import { IntersectionType } from '@nestjs/swagger';
-import { GroupResponse } from 'src/group/entities/group.entity';
+import { GroupResponse } from './group.entity';
 
 export class Invite {
   token: string;
