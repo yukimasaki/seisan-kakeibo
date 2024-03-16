@@ -2,7 +2,7 @@ import { PrismaService } from 'src/common/prisma/prisma.service';
 import {
   CreateTransactionComplex,
   CreateTransactionDto,
-} from './dto/create-transaction.dto';
+} from '@dto/create-transaction.dto';
 import { TransactionService } from './transaction.service';
 import { PaymentService } from 'src/payment/payment.service';
 import { BalanceService } from 'src/balance/balance.service';

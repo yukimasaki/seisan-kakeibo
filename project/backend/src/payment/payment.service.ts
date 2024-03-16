@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { UpdatePaymentDto } from '@dto/update-payment.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { CreateTransactionComplex } from 'src/transaction/dto/create-transaction.dto';
-import { CreatePaymentDto } from './dto/create-payment.dto';
+import { CreateTransactionComplex } from '@dto/create-transaction.dto';
+import { CreatePaymentDto } from '@dto/create-payment.dto';
 import { dot } from 'node:test/reporters';
 
 @Injectable()

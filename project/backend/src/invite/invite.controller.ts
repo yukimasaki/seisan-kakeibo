@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { InviteService } from './invite.service';
-import { CreateInviteDto } from './dto/create-invite.dto';
+import { CreateInviteDto } from '@dto/create-invite.dto';
 import {
   ApiOperation,
   ApiProduces,
@@ -11,7 +11,7 @@ import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response
 import {
   CreateInviteResponse,
   FindInviteResponse,
-} from './entities/invite.entity';
+} from '@entity/invite.entity';
 
 @Controller('invites')
 @ApiTags('/invites')

@@ -9,8 +9,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { MemberService } from './member.service';
-import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
+import { CreateMemberDto } from '@dto/create-member.dto';
+import { UpdateMemberDto } from '@dto/update-member.dto';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
 import {
   ApiOperation,
@@ -20,7 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Member } from './entities/member.entity';
+import { Member } from '@entity/member.entity';
 
 @Controller('members')
 @ApiTags('/members')

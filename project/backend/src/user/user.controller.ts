@@ -10,8 +10,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from '@dto/create-user.dto';
+import { UpdateUserDto } from '@dto/update-user.dto';
 import {
   ApiOperation,
   ApiParam,
@@ -19,7 +19,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from './entities/user.entity';
+import { User } from '@entity/user.entity';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
 import { UtilityService } from 'src/common/services/utility.service';
 

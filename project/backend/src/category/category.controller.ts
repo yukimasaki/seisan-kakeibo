@@ -10,8 +10,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
+import { CreateCategoryDto } from '@dto/create-category.dto';
+import { UpdateCategoryDto } from '@dto/update-category.dto';
 import {
   ApiOperation,
   ApiParam,
@@ -21,7 +21,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
-import { Category } from './entities/category.entity';
+import { Category } from '@entity/category.entity';
 
 @Controller('categories')
 @ApiTags('/categories')

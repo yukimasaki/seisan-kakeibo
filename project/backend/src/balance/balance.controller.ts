@@ -1,6 +1,5 @@
 import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { BalanceService } from './balance.service';
-import { UpdateBalanceDto } from './dto/update-balance.dto';
 import {
   ApiOperation,
   ApiParam,
@@ -9,7 +8,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
-import { Balance } from './entities/balance.entity';
+import { Balance } from '@entity/balance.entity';
+import { UpdateBalanceDto } from '@dto/update-balance.dto';
 
 @Controller('balances')
 @ApiTags('/balances')

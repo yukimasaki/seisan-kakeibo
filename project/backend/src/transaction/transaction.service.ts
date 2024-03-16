@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { UpdateTransactionDto } from '@dto/update-transaction.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { CreatePaymentDto } from 'src/payment/dto/create-payment.dto';
-import { CreateBalanceDto } from 'src/balance/dto/create-balance.dto';
-import { TransactionResponse } from './entities/transaction.entity';
+import { CreatePaymentDto } from '@dto/create-payment.dto';
+import { CreateBalanceDto } from '@dto/create-balance.dto';
+import { TransactionResponse } from '@entity/transaction.entity';
 import * as dayjs from 'dayjs';
 import {
   CreateTransactionComplex,
   CreateTransactionDto,
-} from './dto/create-transaction.dto';
+} from '@dto/create-transaction.dto';
 import { PaymentService } from 'src/payment/payment.service';
 import { BalanceService } from 'src/balance/balance.service';
 

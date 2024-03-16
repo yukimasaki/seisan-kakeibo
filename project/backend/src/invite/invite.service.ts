@@ -4,15 +4,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { RedisService } from 'src/common/redis/redis.service';
-import { CreateRedisRecordDto } from 'src/common/redis/dto/create-redis.dto';
 import { v4 as uuid } from 'uuid';
-import { CreateInviteDto } from './dto/create-invite.dto';
+import { CreateInviteDto } from '@dto/create-invite.dto';
 import {
   CreateInviteResponse,
   FindInviteResponse,
-} from './entities/invite.entity';
+} from '@entity/invite.entity';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { GroupResponse } from 'src/group/entities/group.entity';
+import { CreateRedisRecordDto } from 'src/common/redis/dto/create-redis.dto';
+import { GroupResponse } from '@entity/group.entity';
 
 @Injectable()
 export class InviteService {

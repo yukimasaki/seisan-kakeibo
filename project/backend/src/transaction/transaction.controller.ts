@@ -10,7 +10,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+import { UpdateTransactionDto } from '@dto/update-transaction.dto';
 import * as dayjs from 'dayjs';
 import {
   ApiOperation,
@@ -20,8 +20,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
-import { Transaction } from './entities/transaction.entity';
-import { CreateTransactionComplex } from './dto/create-transaction.dto';
+import { Transaction } from '@entity/transaction.entity';
+import { CreateTransactionComplex } from '@dto/create-transaction.dto';
 
 @Controller('transactions')
 @ApiTags('/transactions')

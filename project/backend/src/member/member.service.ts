@@ -4,10 +4,10 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateMemberDto } from './dto/create-member.dto';
-import { UpdateMemberDto } from './dto/update-member.dto';
+import { CreateMemberDto } from '@dto/create-member.dto';
+import { UpdateMemberDto } from '@dto/update-member.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { MemberResponse } from './entities/member.entity';
+import { MemberResponse } from '@entity/member.entity';
 
 @Injectable()
 export class MemberService {

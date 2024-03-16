@@ -1,7 +1,7 @@
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { PaymentService } from './payment.service';
-import { CreateTransactionComplex } from 'src/transaction/dto/create-transaction.dto';
-import { CreatePaymentDto } from './dto/create-payment.dto';
+import { CreateTransactionComplex } from '@dto/create-transaction.dto';
+import { CreatePaymentDto } from '@dto/create-payment.dto';
 
 const prismaService = new PrismaService();
 const paymentService = new PaymentService(prismaService);

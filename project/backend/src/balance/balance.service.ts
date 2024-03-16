@@ -1,8 +1,8 @@
+import { CreateBalanceDto } from '@dto/create-balance.dto';
+import { UpdateBalanceDto } from '@dto/update-balance.dto';
 import { Injectable } from '@nestjs/common';
-import { UpdateBalanceDto } from './dto/update-balance.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
-import { CreatePaymentDto } from 'src/payment/dto/create-payment.dto';
-import { CreateBalanceDto } from './dto/create-balance.dto';
+import { CreatePaymentDto } from '@dto/create-payment.dto';
 
 @Injectable()
 export class BalanceService {

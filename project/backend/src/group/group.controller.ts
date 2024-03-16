@@ -8,8 +8,8 @@ import {
   Delete,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
-import { CreateGroupAndMemberDto } from './dto/create-group.dto';
-import { UpdateGroupDto } from './dto/update-group.dto';
+import { CreateGroupAndMemberDto } from '@dto/create-group.dto';
+import { UpdateGroupDto } from '@dto/update-group.dto';
 import {
   ApiOperation,
   ApiParam,
@@ -17,7 +17,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Group } from './entities/group.entity';
+import { Group } from '@entity/group.entity';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
 
 @Controller('groups')

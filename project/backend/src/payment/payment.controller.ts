@@ -1,6 +1,6 @@
 import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { PaymentService } from './payment.service';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { UpdatePaymentDto } from '@dto/update-payment.dto';
 import {
   ApiOperation,
   ApiParam,
@@ -9,7 +9,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { SummarizeApiResponse } from '@backend/decorators/summarize-api-response.decorator';
-import { Payment } from './entities/payment.entity';
+import { Payment } from '@entity/payment.entity';
 
 @Controller('payments')
 @ApiTags('/payments')
