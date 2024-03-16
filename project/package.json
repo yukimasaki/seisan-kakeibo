@@ -6,6 +6,7 @@
     "common"
   ],
   "scripts": {
+    "clean:types": "rimraf ./common/types/*",
     "front:dev": "yarn workspace frontend next dev",
     "front:build": "yarn workspace frontend next build",
     "front:start": "pm2 startOrRestart ./frontend/ecosystem.config.cjs",
@@ -19,5 +20,8 @@
     "back:test": "yarn workspace backend nest jest",
     "back:test:cov": "yarn workspace backend jest --coverage",
     "back:share": "yarn workspace backend tsc -w -p ../backend/tsconfig.share.json --emitDeclarationOnly"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5"
   }
 }
