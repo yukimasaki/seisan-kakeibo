@@ -3,7 +3,7 @@ import { PaymentMethod } from "@entity/transaction.entity";
 import { ServerActionResult } from "@frontend/types/server-actions";
 import { z } from "zod";
 
-// todo: フォームからデータを取得する関数
+// フォームからデータを取得する関数
 export const extractFormData = (formData: FormData) => {
   const amount = Number(formData.get("amount"));
   const categoryId = Number(formData.get("categoryId"));
@@ -34,7 +34,7 @@ export const extractFormData = (formData: FormData) => {
   };
 };
 
-// todo: バリデーションを行う関数
+// バリデーションを行う関数
 const isTypeValid = (unvalidatedData: CreateTransactionComplex): boolean => {
   const CreateTransactionComplexSchema = z.object({
     amount: z.number({ required_error: "数値を入力してください" }), // formData
