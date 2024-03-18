@@ -89,4 +89,6 @@ describe("extractFormData", () => {
       ],
     });
   });
+
+  test.todo("index.ts > validate関数のテスト");
 });
