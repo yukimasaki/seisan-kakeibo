@@ -26,7 +26,7 @@ const CreateTransactionDtoSchema = z.object({
   memo: z.string().optional(), // formData
   status: z.string(),
   groupId: z.coerce.number(), // session
-}) satisfies z.ZodType<CreateTransactionDto>;
+});
 
 const CreateTransactionSchema = CreateTransactionDtoSchema.extend({
   method: z.union([
@@ -41,28 +41,9 @@ const CreateTransactionSchema = CreateTransactionDtoSchema.extend({
       balance: z.number(),
     }),
   ),
-}) satisfies z.ZodType<CreateTransactionComplex>;
+});
 
 // **************************** Server Actions ****************************
-// todo: フォームからデータを取得する関数
-const extractFormData = <T,>(
-  formData: FormData,
-  fields: (keyof T)[],
-): Partial<T> => {
-  const result: Partial<T> = {};
-  fields.forEach((field) => {
-    const value = formData.get(field as string);
-    if (value !== null) {
-      result[field] = value as any;
-    }
-  });
-  return result;
-};
-
-// todo: バリデーション前のデータを作成する関数
-// todo: バリデーションを行う関数
-// todo: バリデーション後のデータを作成する関数
-
 export const createTransaction = async (
   prevState: {
     message: string | null;
@@ -74,7 +55,7 @@ export const createTransaction = async (
 
   const creatorId = session?.profile?.id;
   const groupId = session?.profile.activeGroup?.id;
-  const status = "未精算";
+  const status = "PENDING";
 
   const amount = Number(formData.get("amount"));
   const categoryId = Number(formData.get("categoryId"));
@@ -161,9 +142,7 @@ export const createTransaction = async (
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/transactions`,
     {
       method: "POST",
-      body: JSON.stringify(
-        createTransactionComplex.data satisfies CreateTransactionComplex,
-      ),
+      body: JSON.stringify(createTransactionComplex.data),
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
