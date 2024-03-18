@@ -3,10 +3,10 @@
 import { authOptions } from "@frontend/common/next-auth/options";
 import { ServerActionResult } from "@frontend/types/server-actions";
 import {
-  CreateTransactionDto,
   CreateTransactionComplex,
-  PaymentType,
-} from "@frontend/types/entities/transaction";
+  CreateTransactionDto,
+} from "@root/types/_dto/create-transaction.dto";
+import { PaymentMethod } from "@root/types/_entity/transaction.entity";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -30,10 +30,10 @@ const CreateTransactionDtoSchema = z.object({
 
 const CreateTransactionSchema = CreateTransactionDtoSchema.extend({
   method: z.union([
-    z.literal("ratio"),
-    z.literal("even"),
-    z.literal("amount_basis"),
-  ]) satisfies z.ZodType<PaymentType>,
+    z.literal("RATIO"),
+    z.literal("EVEN"),
+    z.literal("AMOUNT_BASIS"),
+  ]) satisfies z.ZodType<PaymentMethod>,
   member: z.array(
     z.object({
       userId: z.number(),
@@ -60,7 +60,7 @@ export const createTransaction = async (
   const amount = Number(formData.get("amount"));
   const categoryId = Number(formData.get("categoryId"));
   const title = formData.get("title") as string;
-  const method = formData.get("method") as PaymentType;
+  const method = formData.get("method") as PaymentMethod;
   const paymentDate = (() => {
     const paymentDate = formData.get("paymentDate")?.toString();
     if (!paymentDate) return new Date();
@@ -117,7 +117,7 @@ export const createTransaction = async (
     (accumulator, currentValue) => accumulator + currentValue.balance,
     initialValue,
   );
-  if (method === "ratio") {
+  if (method === "RATIO") {
     if (totalBalance !== 100) {
       // console.log("ratioの合計が100%ではありません");
       return {
@@ -183,7 +183,7 @@ export const validateOnBlur = async (
     key,
     value,
   }: {
-    method: PaymentType;
+    method: PaymentMethod;
     key: Keys;
     value: unknown;
   },
