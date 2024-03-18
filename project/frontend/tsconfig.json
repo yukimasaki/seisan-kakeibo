@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@root/*": ["../common/*"],
+      "@dto/*": ["../common/types/_dto/*"],
+      "@entity/*": ["../common/types/_entity/*"],
       "@frontend/common/*": ["./src/app/_common/*"],
       "@frontend/components/*": ["./src/app/_components/*"],
       "@frontend/types/*": ["./src/app/_types/*"],
