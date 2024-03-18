@@ -53,7 +53,8 @@ export class Payment {
   @IsNumber()
   @Min(0)
   @Max(1)
-  ratio: number | null;
+  @IsOptional()
+  ratio?: number;
 
   @ApiProperty({
     example: '1',

@@ -3,7 +3,6 @@ import { UpdatePaymentDto } from '@dto/update-payment.dto';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { CreateTransactionComplex } from '@dto/create-transaction.dto';
 import { CreatePaymentDto } from '@dto/create-payment.dto';
-import { dot } from 'node:test/reporters';
 
 @Injectable()
 export class PaymentService {
@@ -130,7 +129,7 @@ export class PaymentService {
       };
 
       const ratio =
-        createTransactionComplex.method === 'AMOUNT_BASIS' ? null : dto.ratio;
+        createTransactionComplex.method === 'RATIO' ? dto.ratio : null;
 
       const createPaymentDto: CreatePaymentDto = { ...baseDto, ratio };
 
