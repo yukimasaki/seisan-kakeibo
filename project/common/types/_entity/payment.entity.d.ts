@@ -4,7 +4,7 @@ export declare class Payment {
     finalBill: number;
     balance: number;
     difference: number;
-    ratio: number | null;
+    ratio?: number;
     transactionId: number;
 }
 export declare class PaymentResponse extends Payment {
