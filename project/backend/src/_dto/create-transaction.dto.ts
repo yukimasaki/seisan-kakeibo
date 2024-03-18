@@ -14,7 +14,7 @@ export class CreateTransactionDto extends OmitType(Transaction, [
   'editorId',
 ]) {}
 
-class Member {
+export class Member {
   @IsInt()
   @IsPositive()
   userId: number;
@@ -25,7 +25,8 @@ class Member {
   @IsNumber()
   @Min(0)
   @Max(1)
-  ratio: number | null;
+  @IsOptional()
+  ratio?: number;
 
   @IsNumber()
   @IsOptional()

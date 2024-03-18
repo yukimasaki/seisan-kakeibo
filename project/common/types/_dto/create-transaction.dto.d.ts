@@ -2,10 +2,10 @@ import { Transaction } from '@entity/transaction.entity';
 declare const CreateTransactionDto_base: import("@nestjs/common").Type<Omit<Transaction, "id" | "editorId">>;
 export declare class CreateTransactionDto extends CreateTransactionDto_base {
 }
-declare class Member {
+export declare class Member {
     userId: number;
     finalBill: number;
-    ratio: number | null;
+    ratio?: number;
     balance: number;
 }
 export declare class BalanceInput {
