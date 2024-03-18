@@ -9,6 +9,7 @@ import {
 import { PaymentMethod } from "@entity/transaction.entity";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
+import { extractFormData } from "./server-actions";
 
 // **************************** スキーマ ****************************
 // オブジェクト単位
@@ -57,34 +58,13 @@ export const createTransaction = async (
   const groupId = session?.profile.activeGroup?.id;
   const status = "PENDING";
 
-  const amount = Number(formData.get("amount"));
-  const categoryId = Number(formData.get("categoryId"));
-  const title = formData.get("title") as string;
-  const method = formData.get("method") as PaymentMethod;
-  const paymentDate = (() => {
-    const paymentDate = formData.get("paymentDate")?.toString();
-    if (!paymentDate) return new Date();
-    return new Date(paymentDate);
-  })();
-  const memo = formData.get("memo") as string;
-  const memberCount = formData.get("memberCount");
-  const member = Array.from({ length: Number(memberCount) }, (_, idx) => ({
-    userId: Number(formData.get(`member.${idx}.userId`)),
-    finalBill: Number(formData.get(`member.${idx}.finalBill`)),
-    balance: Number(formData.get(`member.${idx}.balance`)),
-  }));
+  const extractedFormData = extractFormData(formData);
 
   const preValidateData: Partial<CreateTransactionComplex> = {
     creatorId,
     groupId,
     status,
-    amount,
-    categoryId,
-    title,
-    method,
-    paymentDate,
-    memo,
-    member,
+    ...extractedFormData,
   };
 
   // 1. 入力値が型として正しいかどうかのバリデーション
