@@ -17,7 +17,7 @@
     "back:build": "yarn workspace backend next build",
     "back:start": "pm2 startOrRestart ./backend/ecosystem.config.cjs",
     "back:deploy": "yarn back:build && yarn back:start",
-    "back:test": "yarn workspace backend nest jest",
+    "back:test": "yarn workspace backend jest",
     "back:test:cov": "yarn workspace backend jest --coverage",
     "back:share": "yarn workspace backend tsc -w -p ../backend/tsconfig.share.json --emitDeclarationOnly"
   },
