@@ -5,8 +5,8 @@ import { ServerActionResult } from "@frontend/types/server-actions";
 import {
   CreateTransactionComplex,
   CreateTransactionDto,
-} from "@root/types/_dto/create-transaction.dto";
-import { PaymentMethod } from "@root/types/_entity/transaction.entity";
+} from "@dto/create-transaction.dto";
+import { PaymentMethod } from "@entity/transaction.entity";
 import { getServerSession } from "next-auth";
 import { ZodError, z } from "zod";
 
@@ -44,6 +44,25 @@ const CreateTransactionSchema = CreateTransactionDtoSchema.extend({
 }) satisfies z.ZodType<CreateTransactionComplex>;
 
 // **************************** Server Actions ****************************
+// todo: フォームからデータを取得する関数
+const extractFormData = <T,>(
+  formData: FormData,
+  fields: (keyof T)[],
+): Partial<T> => {
+  const result: Partial<T> = {};
+  fields.forEach((field) => {
+    const value = formData.get(field as string);
+    if (value !== null) {
+      result[field] = value as any;
+    }
+  });
+  return result;
+};
+
+// todo: バリデーション前のデータを作成する関数
+// todo: バリデーションを行う関数
+// todo: バリデーション後のデータを作成する関数
+
 export const createTransaction = async (
   prevState: {
     message: string | null;
