@@ -24,6 +24,7 @@
       "@backend/decorators/*": ["src/common/decorators/*"],
       "@backend/interfaces/*": ["src/common/interfaces/*"],
       "@backend/master/*": ["src/common/master/*"]
-    }
+    },
+    "types": ["node"]
   }
 }
