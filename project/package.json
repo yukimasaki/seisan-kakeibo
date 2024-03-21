@@ -14,7 +14,7 @@
     "front:test": "yarn workspace frontend jest",
     "front:test:cov": "yarn workspace frontend jest --coverage",
     "back:dev": "yarn workspace backend nest start --watch",
-    "back:build": "yarn workspace backend next build",
+    "back:build": "yarn workspace backend nest build",
     "back:start": "pm2 startOrRestart ./backend/ecosystem.config.cjs",
     "back:deploy": "yarn back:build && yarn back:start",
     "back:test": "yarn workspace backend jest",
